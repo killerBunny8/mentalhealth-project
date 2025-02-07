@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,10 +19,11 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class SignupActivity extends AppCompatActivity {
 
-    private EditText emailInput, passwordInput, confirmPasswordInput;
+    private EditText emailInput, passwordInput, confirmPasswordInput, usernameInput, firstNameInput, lastNameInput;
     private Button signupButton;
     private TextView loginRedirect;
     private loginHelper firebaselogin;
+    private Spinner genderInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,10 @@ public class SignupActivity extends AppCompatActivity {
         confirmPasswordInput = findViewById(R.id.confirmPasswordInput);
         signupButton = findViewById(R.id.signupButton);
         loginRedirect = findViewById(R.id.loginRedirect);
+        usernameInput = findViewById(R.id.usernameInput);
+        firstNameInput = findViewById(R.id.firstNameInput);
+        lastNameInput = findViewById(R.id.lastNameInput);
+        genderInput = findViewById(R.id.genderInput);
 
         // button click handler
         signupButton.setOnClickListener(new View.OnClickListener() {
@@ -54,6 +60,12 @@ public class SignupActivity extends AppCompatActivity {
                 String email = emailInput.getText().toString().trim();
                 String password = passwordInput.getText().toString().trim();
                 String confirmPassword = confirmPasswordInput.getText().toString().trim();
+                String username = usernameInput.getText().toString().trim();
+                String firstName = firstNameInput.getText().toString().trim();
+                String lastName = lastNameInput.getText().toString().trim();
+                String gender = genderInput.getSelectedItem().toString();
+
+                User user = new User(null, username, firstName, lastName, email, gender);
                 //send toast if passwords dont match
                 if (!password.equals(confirmPassword)) {
                     Toast.makeText(SignupActivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
@@ -61,7 +73,7 @@ public class SignupActivity extends AppCompatActivity {
                 }
 
                 // register user function
-                firebaselogin.registerUser(email, password, SignupActivity.this, new loginHelper.AuthCallback() {
+                firebaselogin.registerUser(email, password, user, SignupActivity.this, new loginHelper.AuthCallback() {
                     @Override
                     public void onSuccess(FirebaseUser user) { //success
                         Toast.makeText(SignupActivity.this, "Sign up successful!", Toast.LENGTH_SHORT).show();

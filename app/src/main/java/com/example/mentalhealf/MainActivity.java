@@ -29,11 +29,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+        View rootView = findViewById(android.R.id.content);
+        rootView.setForceDarkAllowed(false);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+
+
         /// initialise firebase login
         firebaselogin = new loginHelper();
 
@@ -45,27 +51,29 @@ public class MainActivity extends AppCompatActivity {
         resetPassRedirect = findViewById(R.id.resetpasswordredirect);
 
         // button click listener
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // gets details from the UI as a string
-                String email = emailInput.getText().toString().trim();
-                String password = passwordInput.getText().toString().trim();
-                // authenticates the user from the loginhelper class
-                firebaselogin.loginUser(email, password, MainActivity.this, new loginHelper.AuthCallback() {
-                    @Override
-                    public void onSuccess(FirebaseUser user) {
-                        Toast.makeText(MainActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
-                        // intent to next ectivity
-                    }
-                    // If login fails, returns a toast text
-                    @Override
-                    public void onFailure(Exception e) {
-                        Toast.makeText(MainActivity.this, "Login failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-
-                    }
-                });
+        loginButton.setOnClickListener(v-> {
+            // gets details from the UI as a string
+            String email = emailInput.getText().toString().trim();
+            String password = passwordInput.getText().toString().trim();
+            if (!email.contains("@")) {
+                firebaselogin.getUserEmail(email);
             }
+
+
+            // authenticates the user from the loginhelper class
+            firebaselogin.loginUser(email,password,MainActivity .this,new loginHelper.AuthCallback() {
+                @Override
+                public void onSuccess (FirebaseUser user){
+                Toast.makeText(MainActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
+                // intent to next ectivity
+            }
+                // If login fails, returns a toast text
+                @Override
+                public void onFailure (Exception e){
+                Toast.makeText(MainActivity.this, "Login failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+            });
         });
         // navigate to sigup page or reset password page
         registerRedirect.setOnClickListener(v -> {
@@ -74,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         });
         resetPassRedirect.setOnClickListener(v -> {
             Toast.makeText(MainActivity.this, "Redirecting to registration page", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(MainActivity.this, resetPasswordActivity.class));
+            startActivity(new Intent(MainActivity.this, ResetPasswordActivity.class));
         });
 
     }

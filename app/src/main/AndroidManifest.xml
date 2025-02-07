@@ -11,9 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MentalHealf"
+
         tools:targetApi="31">
         <activity
-            android:name=".resetPasswordActivity"
+            android:name=".ResetPasswordActivity"
             android:exported="false" />
         <activity
             android:name=".SignupActivity"

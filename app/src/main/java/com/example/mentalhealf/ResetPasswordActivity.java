@@ -1,9 +1,11 @@
 package com.example.mentalhealf;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -15,12 +17,13 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.firebase.auth.FirebaseAuth;
 
 
-public class resetPasswordActivity extends AppCompatActivity {
+public class ResetPasswordActivity extends AppCompatActivity {
 
     private EditText emailInput;
     private Button resetPasswordButton;
     private FirebaseAuth mAuth;
     private passwordHelper pwordHelper;
+    private TextView loginRedirect;
 
 
     @Override
@@ -38,6 +41,7 @@ public class resetPasswordActivity extends AppCompatActivity {
         //get fields from UI
         emailInput = findViewById(R.id.emailInput);
         resetPasswordButton = findViewById(R.id.resetPasswordButton);
+        loginRedirect = findViewById(R.id.loginRedirect);
         // init reset password class
         pwordHelper = new passwordHelper();
 
@@ -49,18 +53,25 @@ public class resetPasswordActivity extends AppCompatActivity {
                 String email = emailInput.getText().toString().trim();
 
                 // Use the helper class to reset the password
-                pwordHelper.resetPassword(email, resetPasswordActivity.this, new passwordHelper.ResetCallback() {
+                pwordHelper.resetPassword(email, ResetPasswordActivity.this, new passwordHelper.ResetCallback() {
                     @Override
                     public void onSuccess() { //success
-                        Toast.makeText(resetPasswordActivity.this, "Password reset email sent!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ResetPasswordActivity.this, "Password reset email sent!", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onFailure(Exception e) { //failure
-                        Toast.makeText(resetPasswordActivity.this, "Failed to send reset email: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ResetPasswordActivity.this, "Failed to send reset email: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
             };
         });
+
+        // login btn click
+        loginRedirect.setOnClickListener(v -> {
+            Toast.makeText(ResetPasswordActivity.this, "Redirecting to login page", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(ResetPasswordActivity.this, MainActivity.class));
+        });
+
     }
 }
