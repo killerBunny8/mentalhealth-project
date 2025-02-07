@@ -33,6 +33,7 @@ android {
 dependencies {
     implementation platform('com.google.firebase:firebase-bom:32.0.0')
     implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.android.gms:play-services-auth:20.7.0'
     implementation 'com.google.firebase:firebase-firestore:24.3.2'
     implementation libs.appcompat
     implementation libs.material
@@ -42,3 +43,4 @@ dependencies {
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
 }
+

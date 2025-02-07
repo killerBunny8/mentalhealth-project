@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "828206464495-aqnb8snv4593uphse6b1okhobu0ltrs4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mentalhealf",
+            "certificate_hash": "d33908cf379675dd1b1d8ded66da827b3a9ab839"
+          }
+        },
+        {
           "client_id": "828206464495-5pq4rbgi38en1kusbhfi0jbsbdi3r4tc.apps.googleusercontent.com",
           "client_type": 3
         }

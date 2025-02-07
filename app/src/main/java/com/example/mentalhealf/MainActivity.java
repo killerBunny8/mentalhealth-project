@@ -51,30 +51,67 @@ public class MainActivity extends AppCompatActivity {
         resetPassRedirect = findViewById(R.id.resetpasswordredirect);
 
         // button click listener
-        loginButton.setOnClickListener(v-> {
+        loginButton.setOnClickListener(v -> {
             // gets details from the UI as a string
             String email = emailInput.getText().toString().trim();
             String password = passwordInput.getText().toString().trim();
             if (!email.contains("@")) {
-                firebaselogin.getUserEmail(email);
-            }
+                firebaselogin.getUserEmail(email, new loginHelper.EmailCallback() {
+                    @Override
+                    public void onSuccess(String email) {
+                        // Proceed with login after retrieving email
+                        firebaselogin.loginUser(email, password, MainActivity.this, new loginHelper.AuthCallback() {
+                            @Override
+                            public void onSuccess(FirebaseUser user) {
+                                Toast.makeText(MainActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
+                                //next activity
+                            }
+                            @Override
+                            public void onFailure(Exception e) {
+                                Toast.makeText(MainActivity.this, "Login failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
 
+                    @Override
+                    public void onFailure(Exception e) {
+                        Toast.makeText(MainActivity.this, "Username not found: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
 
-            // authenticates the user from the loginhelper class
-            firebaselogin.loginUser(email,password,MainActivity .this,new loginHelper.AuthCallback() {
-                @Override
-                public void onSuccess (FirebaseUser user){
-                Toast.makeText(MainActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
-                // intent to next ectivity
-            }
-                // If login fails, returns a toast text
-                @Override
-                public void onFailure (Exception e){
-                Toast.makeText(MainActivity.this, "Login failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                firebaselogin.loginUser(email, password, MainActivity.this, new loginHelper.AuthCallback() {
+                    @Override
+                    public void onSuccess(FirebaseUser user) {
+                        Toast.makeText(MainActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
+                        //next activity
 
+                    }
+
+                    @Override
+                    public void onFailure(Exception e) {
+                        Toast.makeText(MainActivity.this, "Login failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
-            });
         });
+
+
+//            // authenticates the user from the loginhelper class
+//            firebaselogin.loginUser(email,password,MainActivity .this,new loginHelper.AuthCallback() {
+//                @Override
+//                public void onSuccess (FirebaseUser user){
+//                Toast.makeText(MainActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
+//                // intent to next ectivity
+//            }
+//                // If login fails, returns a toast text
+//                @Override
+//                public void onFailure (Exception e){
+//                Toast.makeText(MainActivity.this, "Login failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+//
+//            }
+//            });
+        //});
         // navigate to sigup page or reset password page
         registerRedirect.setOnClickListener(v -> {
             Toast.makeText(MainActivity.this, "Redirecting to registration page", Toast.LENGTH_SHORT).show();

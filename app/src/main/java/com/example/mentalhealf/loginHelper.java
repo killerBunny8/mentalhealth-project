@@ -81,7 +81,7 @@ public class loginHelper {
         void onSuccess(FirebaseUser user);
         void onFailure(Exception e);
     }
-    public void getUserEmail(String username){
+    public void getUserEmail(String username, EmailCallback callback){
         db.collection("users").whereEqualTo("username",username).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 QuerySnapshot querySnapshot = task.getResult();
@@ -90,13 +90,21 @@ public class loginHelper {
                 Log.d("EMAIL USERBANE 11111", "getUserEmail: "+ email);
                 Log.d("firebase", String.valueOf(task.getResult().getQuery()));
 
-
+                if (email != null) {
+                    callback.onSuccess(email);
+                } else {
+                    callback.onFailure(new Exception("Email not found for username."));
+                }
 
             }
             else {
                 Log.e("firebase", "Error getting data", task.getException());
             }
         });
+    }
+    public interface EmailCallback {
+        void onSuccess(String email);
+        void onFailure(Exception e);
     }
 
 }
