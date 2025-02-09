@@ -1,6 +1,7 @@
 package com.example.mentalhealf;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +10,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class HomeActivity extends AppCompatActivity {
+    private loginHelper firebaselogin;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,5 +23,28 @@ public class HomeActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        String email = getIntent().getStringExtra("user");
+        getUser(email);
+    }
+
+    public void getUser(String email){
+        firebaselogin = new loginHelper();
+        firebaselogin.getUserEmail(email, new loginHelper.EmailCallback() {
+            @Override
+            public void onSuccess(User user) {
+                Log.d("USER DETAILS", "onSuccess: "+ user.getFirstName());
+                //updateWelcome(user);
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+
+            }
+        });
+    }
+
+    public void updateWelcome(User user) {
+
     }
 }

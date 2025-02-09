@@ -1,6 +1,8 @@
 package com.example.mentalhealf;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     private String id, username, firstname,lastname,email,gender;
 
     private User(){

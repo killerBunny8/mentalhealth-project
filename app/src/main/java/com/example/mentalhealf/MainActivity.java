@@ -68,7 +68,9 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(FirebaseUser user) {
                             Toast.makeText(MainActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(MainActivity.this, HomeActivity.class));
+                            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                            intent.putExtra("user", email);
+                            startActivity(intent);
                         }
 
                         @Override
@@ -86,22 +88,6 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-
-//            // authenticates the user from the loginhelper class
-//            firebaselogin.loginUser(email,password,MainActivity .this,new loginHelper.AuthCallback() {
-//                @Override
-//                public void onSuccess (FirebaseUser user){
-//                Toast.makeText(MainActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
-//                // intent to next ectivity
-//            }
-//                // If login fails, returns a toast text
-//                @Override
-//                public void onFailure (Exception e){
-//                Toast.makeText(MainActivity.this, "Login failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-//
-//            }
-//            });
-        //});
         // navigate to sigup page or reset password page
         registerRedirect.setOnClickListener(v -> {
             Toast.makeText(MainActivity.this, "Redirecting to registration page", Toast.LENGTH_SHORT).show();
