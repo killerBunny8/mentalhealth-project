@@ -55,45 +55,35 @@ public class MainActivity extends AppCompatActivity {
             // gets details from the UI as a string
             String email = emailInput.getText().toString().trim();
             String password = passwordInput.getText().toString().trim();
-            if (!email.contains("@")) {
-                firebaselogin.getUserEmail(email, new loginHelper.EmailCallback() {
-                    @Override
-                    public void onSuccess(String email) {
-                        // Proceed with login after retrieving email
-                        firebaselogin.loginUser(email, password, MainActivity.this, new loginHelper.AuthCallback() {
-                            @Override
-                            public void onSuccess(FirebaseUser user) {
-                                Toast.makeText(MainActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
-                                //next activity
-                            }
-                            @Override
-                            public void onFailure(Exception e) {
-                                Toast.makeText(MainActivity.this, "Login failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onFailure(Exception e) {
-                        Toast.makeText(MainActivity.this, "Username not found: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-            } else {
-
-                firebaselogin.loginUser(email, password, MainActivity.this, new loginHelper.AuthCallback() {
-                    @Override
-                    public void onSuccess(FirebaseUser user) {
-                        Toast.makeText(MainActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
-                        //next activity
-
-                    }
-
-                    @Override
-                    public void onFailure(Exception e) {
-                        Toast.makeText(MainActivity.this, "Login failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+            if (email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(MainActivity.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                return;
             }
+            firebaselogin.getUserEmail(email, new loginHelper.EmailCallback() {
+                @Override
+                public void onSuccess(User user) {
+                    String email = user.getEmail();
+                    // Proceed with login after retrieving email
+                    firebaselogin.loginUser(email, password, MainActivity.this, new loginHelper.AuthCallback() {
+                        @Override
+                        public void onSuccess(FirebaseUser user) {
+                            Toast.makeText(MainActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(MainActivity.this, HomeActivity.class));
+                        }
+
+                        @Override
+                        public void onFailure(Exception e) {
+                            Toast.makeText(MainActivity.this, "Login failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
+                @Override
+                public void onFailure(Exception e) {
+                    Toast.makeText(MainActivity.this, "Username not found: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
         });
 
 

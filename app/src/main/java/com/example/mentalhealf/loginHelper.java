@@ -40,15 +40,14 @@ public class loginHelper {
             return;
         }
         // attemps to login with email and password
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(activity, task -> {
-                    if (task.isSuccessful()) { //if login is successful
-                        FirebaseUser user = mAuth.getCurrentUser(); // retreive current user.
-                        callback.onSuccess(user);
-                    } else { //if login failed
-                        callback.onFailure(task.getException());
-                    }
-                });
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(activity, task -> {
+            if (task.isSuccessful()) { //if login is successful
+                FirebaseUser user = mAuth.getCurrentUser(); // retreive current user.
+                callback.onSuccess(user);
+            } else { //if login failed
+                callback.onFailure(task.getException());
+            }
+        });
     }
     // Registers new user with email and password
     public void registerUser(String email, String password,User user, Activity activity, AuthCallback callback) {
@@ -58,23 +57,22 @@ public class loginHelper {
             return;
         }
         // creates yser with email and password
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(activity, task -> {
-                    if (task.isSuccessful()) {
-                        FirebaseUser user1 = mAuth.getCurrentUser();
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(activity, task -> {
+            if (task.isSuccessful()) {
+                FirebaseUser user1 = mAuth.getCurrentUser();
 
-                        if (user != null) {
-                            // Set user ID and save user details to Firestore
-                            user.setId(user.getid());
-                            db.collection("users").document(user1.getUid())
-                                    .set(user)
-                                    .addOnSuccessListener(aVoid -> callback.onSuccess(user1))
-                                    .addOnFailureListener(callback::onFailure);
-                        }
-                    } else {
-                        callback.onFailure(task.getException());
-                    }
-                });
+                if (user != null) {
+                    // Set user ID and save user details to Firestore
+                    user.setId(user.getid());
+                    db.collection("users").document(user1.getUid())
+                            .set(user)
+                            .addOnSuccessListener(aVoid -> callback.onSuccess(user1))
+                            .addOnFailureListener(callback::onFailure);
+                }
+            } else {
+                callback.onFailure(task.getException());
+            }
+        });
     }
     // handles function for success and fail for login and register
     public interface AuthCallback {
@@ -83,27 +81,35 @@ public class loginHelper {
     }
     public void getUserEmail(String username, EmailCallback callback){
         db.collection("users").whereEqualTo("username",username).get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                QuerySnapshot querySnapshot = task.getResult();
-                DocumentSnapshot document = querySnapshot.getDocuments().get(0);
-                String email = document.getString("email");
-                Log.d("EMAIL USERBANE 11111", "getUserEmail: "+ email);
+            if (task.isSuccessful() && task.getResult() != null && !task.getResult().isEmpty()) {
+                DocumentSnapshot document = task.getResult().getDocuments().get(0);
+                User user = document.toObject(User.class);
+                Log.d("EMAIL USERBANE 11111", "getUserEmail: "+ user.getFirstName());
                 Log.d("firebase", String.valueOf(task.getResult().getQuery()));
 
-                if (email != null) {
-                    callback.onSuccess(email);
-                } else {
-                    callback.onFailure(new Exception("Email not found for username."));
+                if (user != null) {
+                    callback.onSuccess(user);
+                    return;
                 }
-
             }
-            else {
-                Log.e("firebase", "Error getting data", task.getException());
-            }
+            db.collection("users").whereEqualTo("email",username).get().addOnCompleteListener(task1 -> {
+                if (task1.isSuccessful() && task1.getResult() != null && !task1.getResult().isEmpty()) {
+                    QuerySnapshot querySnapshot1 = task1.getResult();
+                    DocumentSnapshot document1 = querySnapshot1.getDocuments().get(0);
+                    User user = document1.toObject(User.class);
+                    Log.d("EMAIL USERBANE 11111", "getUserEmail: " + user.getFirstName());
+                    Log.d("firebase", String.valueOf(task.getResult().getQuery()));
+                    if (user != null) {
+                        callback.onSuccess(user);
+                        return;
+                    }
+                }
+                callback.onFailure(new Exception("User not found."));
+            });
         });
     }
     public interface EmailCallback {
-        void onSuccess(String email);
+        void onSuccess(User user);
         void onFailure(Exception e);
     }
 
