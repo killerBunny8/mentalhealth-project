@@ -62,8 +62,6 @@ public class moodLogHelper {
                 })
                 .addOnFailureListener(e -> callback.onFailure("Error retrieving mood logs: " + e.getMessage()));
     }
-
-    // Callback interface for retrieving mood logs
     public interface MoodLogListCallback {
         void onSuccess(List<Moodlog> moodLogs);
         void onFailure(String error);
