@@ -6,15 +6,13 @@
 ///////////////////////////////////////////////////////////////////////////
 
 package com.example.mentalhealf;
+//      com.example.mentalhealf
 
 import android.app.Activity;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -84,7 +82,8 @@ public class loginHelper {
             if (task.isSuccessful() && task.getResult() != null && !task.getResult().isEmpty()) {
                 DocumentSnapshot document = task.getResult().getDocuments().get(0);
                 User user = document.toObject(User.class);
-                Log.d("EMAIL USERBANE 11111", "getUserEmail: "+ user.getFirstName());
+                Log.d("EMAIL USERBANE 11111", "getUserEmail: "+ user.getid());
+
                 Log.d("firebase", String.valueOf(task.getResult().getQuery()));
 
                 if (user != null) {
@@ -112,5 +111,24 @@ public class loginHelper {
         void onSuccess(User user);
         void onFailure(Exception e);
     }
+
+    // Check if username exists
+    public void dupeUsername(String username, UsernameCheckCallback callback) {
+        db.collection("users").whereEqualTo("username", username).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult() != null) {
+                boolean isTaken = !task.getResult().isEmpty(); //No resilt, user doesnt exist
+                callback.onResult(isTaken);
+            } else {
+                callback.onFailure(task.getException()); //error means user is dound
+            }
+        }).addOnFailureListener(callback::onFailure);
+    }
+    // Username callback
+    public interface UsernameCheckCallback {
+        void onResult(boolean isTaken);
+        void onFailure(Exception e);
+
+    }
+
 
 }

@@ -9,15 +9,19 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
+    private FirebaseAuth mAuth;
+
 
     private EditText emailInput, passwordInput;
     private Button loginButton;
@@ -49,6 +53,19 @@ public class MainActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.loginButton);
         registerRedirect = findViewById(R.id.registerRedirect);
         resetPassRedirect = findViewById(R.id.resetpasswordredirect);
+
+        mAuth = FirebaseAuth.getInstance();
+
+        // Get the current user
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            Log.d("FirebaseUser", "User ID: " + userId);
+        } else {
+            Log.d("no cyrrentuser", "onCreate: " + "no user logged in");
+        }
+
 
         // button click listener
         loginButton.setOnClickListener(v -> {

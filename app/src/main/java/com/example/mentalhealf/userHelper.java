@@ -9,7 +9,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class userHelper {
 
-    private final FirebaseAuth mAuth;
+    private FirebaseAuth mAuth;
     private final FirebaseFirestore db;
 
     public userHelper() {

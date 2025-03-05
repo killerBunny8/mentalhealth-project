@@ -52,46 +52,82 @@ public class SignupActivity extends AppCompatActivity {
         lastNameInput = findViewById(R.id.lastNameInput);
         genderInput = findViewById(R.id.genderInput);
 
-        // button click handler
-        signupButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //get text from ui
-                String email = emailInput.getText().toString().trim();
-                String password = passwordInput.getText().toString().trim();
-                String confirmPassword = confirmPasswordInput.getText().toString().trim();
-                String username = usernameInput.getText().toString().trim();
-                String firstName = firstNameInput.getText().toString().trim();
-                String lastName = lastNameInput.getText().toString().trim();
-                String gender = genderInput.getSelectedItem().toString();
-
-                User user = new User(null, username, firstName, lastName, email, gender);
-                //send toast if passwords dont match
-                if (!password.equals(confirmPassword)) {
-                    Toast.makeText(SignupActivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                // register user function
-                firebaselogin.registerUser(email, password, user, SignupActivity.this, new loginHelper.AuthCallback() {
-                    @Override
-                    public void onSuccess(FirebaseUser user) { //success
-                        Toast.makeText(SignupActivity.this, "Sign up successful!", Toast.LENGTH_SHORT).show();
-                        // navigate to login
-                    }
-
-                    @Override
-                    public void onFailure(Exception e) { //failed and send toast to explaiun why
-                        Toast.makeText(SignupActivity.this, "Sign up failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
 
         // login btn click
+
+        signupButton.setOnClickListener(v ->{
+            signUp();
+        });
+
         loginRedirect.setOnClickListener(v -> {
             Toast.makeText(SignupActivity.this, "Redirecting to login page", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(SignupActivity.this, MainActivity.class));
         });
     }
+
+    private void signUp() {
+        String email = emailInput.getText().toString().trim();
+        String password = passwordInput.getText().toString().trim();
+        String confirmPassword = confirmPasswordInput.getText().toString().trim();
+        String username = usernameInput.getText().toString().trim();
+        String firstName = firstNameInput.getText().toString().trim();
+        String lastName = lastNameInput.getText().toString().trim();
+        String gender = genderInput.getSelectedItem().toString();
+
+        // Validate inputs
+        if (email.isEmpty() || password.isEmpty() || username.isEmpty() || firstName.isEmpty() || lastName.isEmpty()) {
+            Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (!password.equals(confirmPassword)) {
+            Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        User user = new User(null, username, firstName, lastName, email, gender);
+
+
+        // Proceed to check if username is available
+        dupeCheck(user, password);
+    }
+
+    public void dupeCheck(User user, String password){
+        String username = user.getUsername();
+        firebaselogin.dupeUsername(username, new loginHelper.UsernameCheckCallback() {
+            @Override
+            public void onResult(boolean isTaken) {
+                if (isTaken) {
+                    Toast.makeText(SignupActivity.this, "Username already taken!", Toast.LENGTH_SHORT).show();
+                    return; // ✅ Stops execution if username exists
+                }
+
+                // ✅ Only runs if username is available
+                registerUser(user, password);
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                Toast.makeText(SignupActivity.this, "Error checking username: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void registerUser(User user, String password) {
+        firebaselogin.registerUser(user.getEmail(), password, user, SignupActivity.this, new loginHelper.AuthCallback() {
+            @Override
+            public void onSuccess(FirebaseUser user) { // Success
+                Toast.makeText(SignupActivity.this, "Sign-up successful!", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(SignupActivity.this, MainActivity.class));
+            }
+
+            @Override
+            public void onFailure(Exception e) { // Failure
+                Toast.makeText(SignupActivity.this, "Sign-up failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+
+
 }

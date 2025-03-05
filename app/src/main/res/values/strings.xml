@@ -8,11 +8,28 @@
         <item>Other</item>
     </string-array>
     <string-array name="activities_spinner">
-        <item>Select your gender</item>
-        <item>Male</item>
-        <item>Female</item>
-        <item>Other</item>
+        <item>Current Activity</item>
+        <item>Walking</item>
+        <item>Running</item>
+        <item>Gym</item>
+        <item>Cycling</item>
+        <item>Meditation</item>
+        <item>Listening to Music</item>
+        <item>Reading</item>
+        <item>Watching TV/Movies</item>
+        <item>Cooking</item>
+        <item>Eating a Meal</item>
+        <item>Working</item>
+        <item>Studying</item>
+        <item>Praying</item>
+        <item>Talking to Family/Friends</item>
+        <item>Social Media</item>
+        <item>Calling</item>
+        <item>Gaming</item>
+
+
     </string-array>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
