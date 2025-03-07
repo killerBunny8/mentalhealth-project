@@ -1,5 +1,7 @@
 package com.example.mentalhealf;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -8,8 +10,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 
 public class moodLogHelper {
@@ -47,16 +51,24 @@ public class moodLogHelper {
         void onFailure(String error);
     }
 
-    public void getAllMoodLogs(@NonNull MoodLogListCallback callback) {
+    public void getAllMoodLogs(String selectedDate, @NonNull MoodLogListCallback callback) {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         String userId = currentUser.getUid();
+
+
+
         db.collection("users").document(userId).collection("moodLogs")
                 .orderBy("time").get().addOnSuccessListener(queryDocumentSnapshots -> {
-
                     List<Moodlog> moodLogs = new ArrayList<>();
+                    SimpleDateFormat selectedDate1 = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+
+
                     for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                         Moodlog moodlog = document.toObject(Moodlog.class);
-                        moodLogs.add(moodlog);
+                        String currentDate = selectedDate1.format(moodlog.getTime().toDate());
+                        if (currentDate.equals(selectedDate)){
+                            moodLogs.add(moodlog);
+                        }
                     }
                     callback.onSuccess(moodLogs);
                 })
@@ -66,5 +78,21 @@ public class moodLogHelper {
         void onSuccess(List<Moodlog> moodLogs);
         void onFailure(String error);
     }
+
+    public void updateMoodLog(String logId, String newDescription, int position, MoodLogUpdateCallback callback) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        String userId = currentUser.getUid();
+
+        db.collection("users").document(userId).collection("moodLogs").document(logId)
+                .update("description", newDescription)
+                .addOnSuccessListener(aVoid -> callback.onSuccess("Mood updated successfully!", position))
+                .addOnFailureListener(e -> callback.onFailure("Update failed: " + e.getMessage()));
+    }
+
+    public interface MoodLogUpdateCallback {
+        void onSuccess(String message, int position);
+        void onFailure(String error);
+    }
+
 
 }

@@ -1,7 +1,11 @@
 package com.example.mentalhealf;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.DatePicker;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -9,23 +13,30 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
-public class JournalActivity extends AppCompatActivity {
+public class JournalActivity extends AppCompatActivity implements MoodLogAdapter.onItemClickListener{
 
-    private FirebaseAuth mAuth;
-    private FirebaseFirestore db;
     private moodLogHelper moodLogHelper;
     private RecyclerView recyclerView;
     private MoodLogAdapter adapter;
     private List<Moodlog> moodLogsList;
+
+    private TextView datePick,updateJournal;
+    private String selectedDate;
+    DatePickerDialog datePickerDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +52,7 @@ public class JournalActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Initialise Firebase
-        mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
+        // Initialise moodlogHelper
         moodLogHelper = new moodLogHelper();
 
         // Initialise RecyclerView
@@ -52,15 +61,71 @@ public class JournalActivity extends AppCompatActivity {
 
         // Initialise list and adapter
         moodLogsList = new ArrayList<>();
-        adapter = new MoodLogAdapter(moodLogsList);
+        adapter = new MoodLogAdapter(moodLogsList, this);
         recyclerView.setAdapter(adapter);
 
+        // Initialise date elemends
+        datePick = findViewById(R.id.txtDatePickeer);
+        updateJournal = findViewById(R.id.updateLogs);
+
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        selectedDate = simpleDateFormat.format(Calendar.getInstance().getTime());
+        datePick.setText(selectedDate);
+
+        datePick.setOnClickListener(v -> {
+            showDatePicker();
+        });
+        updateJournal.setOnClickListener(v -> {
+            Log.d("Date", "onCreate: "+ selectedDate);
+            Toast.makeText(JournalActivity.this, "Showing logs for day: " + selectedDate, Toast.LENGTH_SHORT).show();
+            loadMoodLogs(selectedDate);
+
+
+        });
+
         // mood logs from Firestore
-        loadMoodLogs();
+        loadMoodLogs(selectedDate);
     }
 
-    private void loadMoodLogs() {
-        moodLogHelper.getAllMoodLogs(new moodLogHelper.MoodLogListCallback() {
+    @Override
+    public void onMoodUpdate(Moodlog moodlog, String updatedDescription, int position) {
+        moodLogHelper.updateMoodLog(moodlog.getId(), updatedDescription, position, new moodLogHelper.MoodLogUpdateCallback() {
+            @Override
+            public void onSuccess(String message, int position) {
+                Toast.makeText(JournalActivity.this, message, Toast.LENGTH_SHORT).show();
+                moodLogsList.get(position).setDescription(updatedDescription);
+                adapter.notifyItemChanged(position);
+            }
+
+            @Override
+            public void onFailure(String error) {
+                Toast.makeText(JournalActivity.this, error, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void showDatePicker() {
+//        DialogFragment datePicker = new FragmentDatePicker();
+//        datePicker.show(getSupportFragmentManager(), "datePicker");
+        final Calendar c = Calendar.getInstance();
+        int mYear = c.get(Calendar.YEAR); // current year
+        int mMonth = c.get(Calendar.MONTH); // current month
+        int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
+        // date picker dialog
+        datePickerDialog = new DatePickerDialog(this,
+                (view, year, monthOfYear, dayOfMonth) -> {
+                    // set day of month , month and year value in the edit text
+                    selectedDate = String.format("%02d/%02d/%d", dayOfMonth, monthOfYear+1, year);
+                    datePick.setText(selectedDate);
+
+
+                }, mYear, mMonth, mDay);
+        datePickerDialog.show();
+    }
+
+    private void loadMoodLogs(String selectedDate) {
+        moodLogHelper.getAllMoodLogs(selectedDate,new moodLogHelper.MoodLogListCallback() {
             @Override
             public void onSuccess(List<Moodlog> moodLogs) {
                 moodLogsList.clear();

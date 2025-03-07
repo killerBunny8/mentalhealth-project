@@ -72,40 +72,40 @@ public class loginHelper {
             }
         });
     }
+
+
+
     // handles function for success and fail for login and register
     public interface AuthCallback {
         void onSuccess(FirebaseUser user);
         void onFailure(Exception e);
     }
-    public void getUserEmail(String username, EmailCallback callback){
-        db.collection("users").whereEqualTo("username",username).get().addOnCompleteListener(task -> {
-            if (task.isSuccessful() && task.getResult() != null && !task.getResult().isEmpty()) {
-                DocumentSnapshot document = task.getResult().getDocuments().get(0);
-                User user = document.toObject(User.class);
-                Log.d("EMAIL USERBANE 11111", "getUserEmail: "+ user.getid());
-
-                Log.d("firebase", String.valueOf(task.getResult().getQuery()));
-
-                if (user != null) {
-                    callback.onSuccess(user);
-                    return;
-                }
-            }
-            db.collection("users").whereEqualTo("email",username).get().addOnCompleteListener(task1 -> {
-                if (task1.isSuccessful() && task1.getResult() != null && !task1.getResult().isEmpty()) {
-                    QuerySnapshot querySnapshot1 = task1.getResult();
-                    DocumentSnapshot document1 = querySnapshot1.getDocuments().get(0);
-                    User user = document1.toObject(User.class);
-                    Log.d("EMAIL USERBANE 11111", "getUserEmail: " + user.getFirstName());
-                    Log.d("firebase", String.valueOf(task.getResult().getQuery()));
-                    if (user != null) {
-                        callback.onSuccess(user);
-                        return;
+    public void getUserEmail(String username, EmailCallback callback) {
+        db.collection("users").whereEqualTo("username", username).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null && !task.getResult().isEmpty()) {
+                        DocumentSnapshot document = task.getResult().getDocuments().get(0);
+                        User user = document.toObject(User.class);
+                        if (user != null) {
+                            callback.onSuccess(user);
+                            return;
+                        }
                     }
-                }
-                callback.onFailure(new Exception("User not found."));
-            });
-        });
+                    db.collection("users").whereEqualTo("email", username).get()
+                            .addOnCompleteListener(task1 -> {
+                                if (task1.isSuccessful() && task1.getResult() != null && !task1.getResult().isEmpty()) {
+                                    DocumentSnapshot document1 = task1.getResult().getDocuments().get(0);
+                                    User user = document1.toObject(User.class);
+                                    if (user != null) {
+                                        callback.onSuccess(user);
+                                        return;
+                                    }
+                                }
+                                callback.onFailure(new Exception("User not found."));
+                            })
+                            .addOnFailureListener(callback::onFailure);
+                })
+                .addOnFailureListener(callback::onFailure);
     }
     public interface EmailCallback {
         void onSuccess(User user);
@@ -113,16 +113,31 @@ public class loginHelper {
     }
 
     // Check if username exists
+//    public void dupeUsername(String username, UsernameCheckCallback callback) {
+//        db.collection("users").whereEqualTo("username", username).get()
+//                .addOnCompleteListener(task -> {
+//            if (task.isSuccessful() && task.getResult() != null) {
+//                boolean isTaken = !task.getResult().isEmpty(); //No resilt, user doesnt exist
+//                callback.onResult(isTaken);
+//            } else {
+//                callback.onFailure(task.getException()); //error means user is dound
+//            }
+//        }).addOnFailureListener(callback::onFailure);
+//    }
+
     public void dupeUsername(String username, UsernameCheckCallback callback) {
-        db.collection("users").whereEqualTo("username", username).get().addOnCompleteListener(task -> {
-            if (task.isSuccessful() && task.getResult() != null) {
-                boolean isTaken = !task.getResult().isEmpty(); //No resilt, user doesnt exist
-                callback.onResult(isTaken);
-            } else {
-                callback.onFailure(task.getException()); //error means user is dound
-            }
-        }).addOnFailureListener(callback::onFailure);
+        db.collection("users").whereEqualTo("username", username).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        boolean isTaken = !task.getResult().isEmpty(); // If result is empty, username is available
+                        callback.onResult(isTaken);
+                    } else {
+                        callback.onFailure(task.getException()); // Handle Firestore errors
+                    }
+                }).addOnFailureListener(callback::onFailure);
     }
+
+
     // Username callback
     public interface UsernameCheckCallback {
         void onResult(boolean isTaken);

@@ -69,18 +69,18 @@ public class MainActivity extends AppCompatActivity {
 
         // button click listener
         loginButton.setOnClickListener(v -> {
-            // gets details from the UI as a string
             String email = emailInput.getText().toString().trim();
             String password = passwordInput.getText().toString().trim();
+
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(MainActivity.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
                 return;
             }
+
             firebaselogin.getUserEmail(email, new loginHelper.EmailCallback() {
                 @Override
                 public void onSuccess(User user) {
                     String email = user.getEmail();
-                    // Proceed with login after retrieving email
                     firebaselogin.loginUser(email, password, MainActivity.this, new loginHelper.AuthCallback() {
                         @Override
                         public void onSuccess(FirebaseUser user) {
@@ -102,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Username not found: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
-
         });
 
         // navigate to sigup page or reset password page
