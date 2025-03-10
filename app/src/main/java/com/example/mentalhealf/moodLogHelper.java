@@ -6,12 +6,15 @@ import androidx.annotation.NonNull;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.WriteBatch;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -62,13 +65,16 @@ public class moodLogHelper {
                     List<Moodlog> moodLogs = new ArrayList<>();
                     SimpleDateFormat selectedDate1 = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 
-
                     for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                         Moodlog moodlog = document.toObject(Moodlog.class);
+                        //Log.d("date", "getAllMoodLogs: "+ moodlog.getTime().toDate());
+
                         String currentDate = selectedDate1.format(moodlog.getTime().toDate());
-                        if (currentDate.equals(selectedDate)){
+                        if (currentDate.equals(selectedDate) || selectedDate.isEmpty()){
                             moodLogs.add(moodlog);
                         }
+                        // Log.d("date", "getAllMoodLogs: "+ moodLogs.size());
+
                     }
                     callback.onSuccess(moodLogs);
                 })
@@ -93,6 +99,43 @@ public class moodLogHelper {
         void onSuccess(String message, int position);
         void onFailure(String error);
     }
+
+    public void addMassMoodLogs(int count, MoodLogCallback callback) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser == null) {
+            callback.onFailure("User not authenticated.");
+            return;
+        }
+
+        String userId = currentUser.getUid();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        WriteBatch batch = db.batch();
+
+        long currentTimeMillis = System.currentTimeMillis();
+
+        for (int i = 0; i < count; i++) {
+            String logId = db.collection("users").document(userId).collection("moodLogs").document().getId();
+            int randomMood = (int) (Math.random() * 5) + 1;
+            String description = "Demo Log " + (i + 1);
+            String activity = i % 2 == 0 ? "working" : "exercising";
+
+            long offsetMillis = i * 12 * 60 * 60 * 1000; // Spread logs 3 hours apart
+            Timestamp moodTimestamp = new Timestamp(new Date(currentTimeMillis - offsetMillis));
+
+            Moodlog newMoodLog = new Moodlog(logId, randomMood, description, activity, moodTimestamp);
+            DocumentReference docRef = db.collection("users").document(userId)
+                    .collection("moodLogs").document(logId);
+            batch.set(docRef, newMoodLog);
+        }
+
+        // Commit batch operation
+        batch.commit()
+                .addOnSuccessListener(aVoid -> callback.onSuccess(count + " demo logs added successfully!"))
+                .addOnFailureListener(e -> callback.onFailure("Error adding logs: " + e.getMessage()));
+    }
+
+
+
 
 
 }

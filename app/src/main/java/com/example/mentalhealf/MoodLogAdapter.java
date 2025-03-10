@@ -96,7 +96,7 @@ public class MoodLogAdapter extends RecyclerView.Adapter<MoodLogAdapter.MoodLogV
             }
 
             txtMood.setText(moodText);
-            editDescription.setText(moodlog.getDescription());
+            editDescription.setText(moodlog.getDescription() + " You were "+ moodlog.getActivity());
         }
     }
 }

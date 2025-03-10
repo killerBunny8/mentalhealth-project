@@ -5,6 +5,89 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_colour"
     tools:context=".TrendsActivity">
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/chart"
+        android:layout_width="0dp"
+        android:layout_height="300dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnUpdateChart" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Trends"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView3"
+        android:name="com.example.mentalhealf.NavigationBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout="@layout/fragment_navigation_bar" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="88dp" />
+
+    <Spinner
+        android:id="@+id/timeLinespinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/rounded_inputbox"
+        android:entries="@array/trends_spinner"
+        android:minWidth="141dp"
+        android:minHeight="48dp"
+        android:padding="8dp"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="@+id/textView8"
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+    <Button
+        android:id="@+id/btnUpdateChart"
+        style="@style/GreenButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:text="Update"
+        app:layout_constraintBottom_toBottomOf="@+id/timeLinespinner"
+        app:layout_constraintEnd_toEndOf="@+id/textView8"
+        app:layout_constraintTop_toTopOf="@+id/timeLinespinner" />
+
+    <TextView
+        android:id="@+id/datePicktxt"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:background="@drawable/rounded_inputbox"
+        android:minWidth="141dp"
+        android:minHeight="48dp"
+        android:padding="8dp"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/timeLinespinner"
+        app:layout_constraintEnd_toStartOf="@+id/btnUpdateChart"
+        app:layout_constraintStart_toEndOf="@+id/timeLinespinner"
+        app:layout_constraintTop_toTopOf="@+id/timeLinespinner" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,7 +4,8 @@ import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.DatePicker;
+import android.widget.Button;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,12 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,13 +26,12 @@ import java.util.Locale;
 public class JournalActivity extends AppCompatActivity implements MoodLogAdapter.onItemClickListener{
 
     private moodLogHelper moodLogHelper;
-    private RecyclerView recyclerView;
     private MoodLogAdapter adapter;
     private List<Moodlog> moodLogsList;
 
-    private TextView datePick,updateJournal;
+    private TextView datePick;
+    private TextView txtViewNoLogs;
     private String selectedDate;
-    DatePickerDialog datePickerDialog;
 
 
     @Override
@@ -56,7 +52,7 @@ public class JournalActivity extends AppCompatActivity implements MoodLogAdapter
         moodLogHelper = new moodLogHelper();
 
         // Initialise RecyclerView
-        recyclerView = findViewById(R.id.journalView);
+        RecyclerView recyclerView = findViewById(R.id.journalView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Initialise list and adapter
@@ -66,23 +62,34 @@ public class JournalActivity extends AppCompatActivity implements MoodLogAdapter
 
         // Initialise date elemends
         datePick = findViewById(R.id.txtDatePickeer);
-        updateJournal = findViewById(R.id.updateLogs);
+        TextView updateJournal = findViewById(R.id.updateLogs);
 
+        Button addmass = findViewById(R.id.txtAddfakeLogs);
+        txtViewNoLogs = findViewById(R.id.txtViewNoLogs);
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         selectedDate = simpleDateFormat.format(Calendar.getInstance().getTime());
         datePick.setText(selectedDate);
 
-        datePick.setOnClickListener(v -> {
-            showDatePicker();
-        });
+        datePick.setOnClickListener(v -> showDatePicker());
         updateJournal.setOnClickListener(v -> {
             Log.d("Date", "onCreate: "+ selectedDate);
             Toast.makeText(JournalActivity.this, "Showing logs for day: " + selectedDate, Toast.LENGTH_SHORT).show();
             loadMoodLogs(selectedDate);
-
-
         });
+
+        addmass.setOnClickListener(v-> moodLogHelper.addMassMoodLogs(30, new moodLogHelper.MoodLogCallback() {
+            @Override
+            public void onSuccess(String message) {
+                Toast.makeText(JournalActivity.this, message, Toast.LENGTH_SHORT).show();
+                loadMoodLogs(selectedDate); // Refresh RecyclerView
+            }
+
+            @Override
+            public void onFailure(String error) {
+                Toast.makeText(JournalActivity.this, error, Toast.LENGTH_SHORT).show();
+            }
+        }));
 
         // mood logs from Firestore
         loadMoodLogs(selectedDate);
@@ -106,17 +113,17 @@ public class JournalActivity extends AppCompatActivity implements MoodLogAdapter
     }
 
     private void showDatePicker() {
-//        DialogFragment datePicker = new FragmentDatePicker();
-//        datePicker.show(getSupportFragmentManager(), "datePicker");
+
         final Calendar c = Calendar.getInstance();
         int mYear = c.get(Calendar.YEAR); // current year
         int mMonth = c.get(Calendar.MONTH); // current month
         int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
         // date picker dialog
-        datePickerDialog = new DatePickerDialog(this,
+        // set day of month , month and year value in the edit text
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
                 (view, year, monthOfYear, dayOfMonth) -> {
                     // set day of month , month and year value in the edit text
-                    selectedDate = String.format("%02d/%02d/%d", dayOfMonth, monthOfYear+1, year);
+                    selectedDate = String.format("%02d/%02d/%d", dayOfMonth, monthOfYear + 1, year);
                     datePick.setText(selectedDate);
 
 
@@ -131,6 +138,13 @@ public class JournalActivity extends AppCompatActivity implements MoodLogAdapter
                 moodLogsList.clear();
                 moodLogsList.addAll(moodLogs);
                 adapter.notifyDataSetChanged();
+
+                if (moodLogsList.isEmpty()) {
+                    txtViewNoLogs.setVisibility(View.VISIBLE);
+                } else {
+                    txtViewNoLogs.setVisibility(View.GONE);
+                }
+
             }
 
             @Override
@@ -139,4 +153,7 @@ public class JournalActivity extends AppCompatActivity implements MoodLogAdapter
             }
         });
     }
+
+
+
 }
