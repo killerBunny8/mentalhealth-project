@@ -4,6 +4,8 @@ import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,17 +22,26 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+
+import org.apache.commons.math3.stat.regression.SimpleRegression;
+
 
 public class TrendsActivity extends AppCompatActivity {
 
     private List<Moodlog> moodLogsList;
     private moodLogHelper moodLogHelper;
     private trendsChart trendsChart;
-    private String selectedDate, timeRnage;
-    private TextView datePick;
+    private String selectedDate, timeRange;
+    private TextView datePick, txtTrendInfo, txtTrendTime;
     private Button updateBtn;
+    private Spinner timeRangeSpinner;
+    private float averageMood;
+    private Switch avgData, avgLine;
+    private int movingLineLimit, windowSize;
 
 
 
@@ -48,6 +59,14 @@ public class TrendsActivity extends AppCompatActivity {
 
         moodLogHelper = new moodLogHelper();
         moodLogsList = new ArrayList<>();
+        movingLineLimit = 4;
+        windowSize = 3;
+
+        timeRangeSpinner = findViewById(R.id.timeLinespinner);
+
+        txtTrendInfo = findViewById(R.id.txtTrendInfo);
+        txtTrendTime = findViewById(R.id.txtTrendTime);
+        timeRange = "Day";
 
         datePick = findViewById(R.id.datePicktxt);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
@@ -56,16 +75,40 @@ public class TrendsActivity extends AppCompatActivity {
 
         datePick.setOnClickListener(v -> showDatePicker());
 
+        avgData = findViewById(R.id.switchShowAverage);
+        avgLine = findViewById(R.id.switchAverageLine);
         updateBtn = findViewById(R.id.btnUpdateChart);
 
         LineChart lineChart = findViewById(R.id.chart);
         trendsChart = new trendsChart(lineChart);
 
-        getMoodData(selectedDate);
+        getMoodData(selectedDate, "Day");
         updateBtn.setOnClickListener(v -> {
-            getMoodData(selectedDate);
+            timeRange = timeRangeSpinner.getSelectedItem().toString();
+            getMoodData(selectedDate, timeRange);
         });
 
+        avgData.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                if (moodLogsList.size() < windowSize || moodLogsList.size() == movingLineLimit) {
+                    avgData.setChecked(false);
+                    Toast.makeText(TrendsActivity.this, "Not enough data to display moving average.", Toast.LENGTH_SHORT).show();
+                } else {
+                    linearRegression(moodLogsList); // Calculate and display moving average
+                }
+            } else {
+                trendsChart.clearMovingAverageData(); // Hide moving average
+            }
+        });
+
+        avgLine.setOnCheckedChangeListener(((buttonView, isChecked) -> {
+            if (isChecked) {
+                trendsChart.addAverageLine(averageMood);
+            } else {
+                // If the switch is unchecked, hide the moving average
+                trendsChart.clearAverageLine();
+            }
+        }));
     }
 
     private void showDatePicker() {
@@ -87,69 +130,42 @@ public class TrendsActivity extends AppCompatActivity {
         datePickerDialog.show();
     }
 
-    private long convertDateToMillis(String dateStr) {
-        try {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-            Date date = simpleDateFormat.parse(dateStr);
-            return date != null ? date.getTime() : System.currentTimeMillis();
-        } catch (Exception e) {
-            Log.e("getmood7", "Error parsing date: " + e.getMessage());
-            return System.currentTimeMillis();
-        }
-    }
-
-    private long getStartTimeForRange(long selectedDateMillis, String timeRange) {
-        long startTimeMillis = selectedDateMillis;
-
-        if (timeRange.equals("Day")) {
-            startTimeMillis -= (24 * 60 * 60 * 1000);
-        } else if (timeRange.equals("Week")) {
-            startTimeMillis -= (7 * 24 * 60 * 60 * 1000);
-        } else if (timeRange.equals("Month")) {
-            startTimeMillis -= (30L * 24 * 60 * 60 * 1000);
-        } else if (timeRange.equals("Three Months")) {
-            startTimeMillis -= (3L * 30 * 24 * 60 * 60 * 1000);
-        }
-
-        return startTimeMillis;
-    }
-
-
-    private void getMoodData(String date, String timeRange) {
-        date = selectedDate;
+    private void getMoodData(String selectedDate, String timeRange) {
         List<Entry> moodEntries = new ArrayList<>();
-        // Test data
-//        moodEntries.add(new Entry(1, 2));
-//        moodEntries.add(new Entry(2, 4));
-//        moodEntries.add(new Entry(3, 1));
-//        moodEntries.add(new Entry(4, 2));
-//        moodEntries.add(new Entry(5, 3));
-        moodLogHelper.getAllMoodLogs(selectedDate, new moodLogHelper.MoodLogListCallback() {
+        Log.d("getmood_start", "Querying logs for date: " + selectedDate + ", Range: " + timeRange);
+        //  Query Firestore for logs in the selected time range
+        moodLogHelper.getMoodLogsByRange(selectedDate, timeRange, new moodLogHelper.MoodLogListCallback() {
             @Override
             public void onSuccess(List<Moodlog> moodLogs) {
                 if (moodLogs.isEmpty()) {
-                    Toast.makeText(TrendsActivity.this, "You have no logs.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TrendsActivity.this, "No logs in selected range.", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
                 moodLogsList.clear();
                 moodLogsList.addAll(moodLogs);
-
-                long selectedDateMillis = convertDateToMillis(selectedDate);
+                Log.d("getmood6", "Filtered logs count: " + moodLogs.size());
                 long firstTimestamp = moodLogs.get(0).getTime().toDate().getTime();
-
                 for (Moodlog moodlog : moodLogs) {
                     long timeInMillis = moodlog.getTime().toDate().getTime();
-                    float timeInHours = (timeInMillis - firstTimestamp) / (24f * 60 * 60 * 1000f);
-
+                    float timeInDays = (timeInMillis - firstTimestamp) / (24f * 60 * 60 * 1000f);
                     float moodLevel = moodlog.getFeeling();
-                    moodEntries.add(new Entry(timeInHours, moodLevel));
+                    moodEntries.add(new Entry(timeInDays, moodLevel));
                 }
-
                 if (!moodEntries.isEmpty()) {
+                    averageMood = getAvgMood(moodLogs);
+                    linearRegression(moodLogs);
                     trendsChart.setMoodData(moodEntries);
-                } else {
+
+                    //trendsChart.addAverageLine(averageMood);
+                    Log.d("AVGMODO", "onSuccess: "+ averageMood);
                 }
+                if (avgData.isChecked() && moodLogsList.size() != movingLineLimit) {
+                    linearRegression(moodLogs);
+                }
+                if (avgLine.isChecked()) {
+                    trendsChart.addAverageLine(averageMood);
+                }
+                //updateUI(selectedDate, timeRange, averageMood);
             }
 
             @Override
@@ -159,5 +175,119 @@ public class TrendsActivity extends AppCompatActivity {
         });
     }
 
+    private float getAvgMood(List<Moodlog> moodLogsList) {
+        if (moodLogsList.isEmpty()) return 0;
 
+        float sum = 0;
+        for (Moodlog moodlog : moodLogsList) {
+            sum += moodlog.getFeeling();
+        }
+        return sum / moodLogsList.size();
     }
+
+    private void linearRegression(List<Moodlog> moodLogsList) {
+        if (moodLogsList.isEmpty()) return;
+        averageMood = getAvgMood(moodLogsList);
+        SimpleRegression regression = new SimpleRegression();
+        long firstTimestamp = moodLogsList.get(0).getTime().toDate().getTime();
+        for (Moodlog moodlog : moodLogsList) {
+            long timeInMillis = moodlog.getTime().toDate().getTime();
+            float timeInDays = (timeInMillis - firstTimestamp) / (24f * 60 * 60 * 1000f);
+            float moodLevel = moodlog.getFeeling();
+            regression.addData(timeInDays, moodLevel);
+        }
+        double slope = regression.getSlope();
+        double intercept = regression.getIntercept();
+        List<Float> movingAverages = new ArrayList<>();
+        for (int i = 0; i < moodLogsList.size(); i++) {
+            if (i < windowSize - 1) {
+                movingAverages.add(null); // Not enough data points
+            } else {
+                float sum = 0;
+                for (int j = 0; j < windowSize; j++) {
+                    sum += moodLogsList.get(i - j).getFeeling();
+                }
+                movingAverages.add(sum / windowSize);
+            }
+        }
+        // Convert moving averages to Entry objects for the chart
+        List<Entry> movingAverageEntries = new ArrayList<>();
+        for (int i = 0; i < movingAverages.size(); i++) {
+            if (movingAverages.get(i) != null) {
+                long timeInMillis = moodLogsList.get(i).getTime().toDate().getTime();
+                float timeInDays = (timeInMillis - firstTimestamp) / (24f * 60 * 60 * 1000f);
+                movingAverageEntries.add(new Entry(timeInDays, movingAverages.get(i)));
+            }
+        }
+        // Add moving averages to the chart
+        if (avgData.isChecked() && moodLogsList.size() != movingLineLimit) {
+            trendsChart.addMovingAverageData(movingAverageEntries, moodLogsList.size(), windowSize);
+        }
+        // Update UI with regression and moving average results
+        updateUI(selectedDate, timeRange, averageMood, slope, intercept, movingAverages);
+    }
+
+    private void updateUI(String selectedDate, String timeRange, Float averageMood, Double slope, Double intercept, List<Float> movingAverages) {
+
+        String trendInfoText;
+        String trendTimeText = "Trends for " + selectedDate + " (" + timeRange + ")";
+
+        if (moodLogsList.isEmpty()) {
+            trendInfoText = "There are no logs available for the selected range. Please choose another day, increase the range, or add some logs from the Journal activity.";
+        } else if (moodLogsList.size() < 3) { // Adjust the threshold as needed
+            trendInfoText = "You have very few logs. Try logging your mood more often to see better trends. Please choose another day, increase the range, or add some logs from the Journal activity.";
+        } else {
+            if (averageMood < 2.5) {
+                trendInfoText = "Your average mood is low. Consider trying some self-meditation or relaxation techniques.";
+            } else if (averageMood < 4) {
+                trendInfoText = "Your average mood is moderate. Keep up the good work!";
+            } else {
+                trendInfoText = "Your average mood is high. Great job!";
+            }
+
+            // Add regression and moving average info
+            if (slope > 0) {
+                trendInfoText += "\n\nYour mood is improving over time. Keep it up!";
+            } else if (slope < 0) {
+                trendInfoText += "\n\nYour mood is declining. Consider trying activities that improve your mood.";
+            } else {
+                trendInfoText += "\n\nYour mood is stable.";
+            }
+
+            if (!timeRange.equals("Day")) {
+                List<Map.Entry<String, Integer>> topActivities = getTopActivities(moodLogsList, 3);
+                if (!topActivities.isEmpty()) {
+                    trendInfoText += "\n\nMost common activities:";
+                    for (int i = 0; i < topActivities.size(); i++) {
+                        Map.Entry<String, Integer> entry = topActivities.get(i);
+                        trendInfoText += "\n" + (i + 1) + ". " + entry.getKey() + " (" + entry.getValue() + " times)";
+                    }
+                    Log.d("TopActivities", "Number of activities: " + topActivities.size());
+                } else {
+                    trendInfoText += "\n\nNo activities logged in this range.";
+                }
+            }
+        }
+
+        txtTrendTime.setText(trendTimeText);
+        txtTrendInfo.setText(trendInfoText);
+    }
+
+    private List<Map.Entry<String, Integer>> getTopActivities(List<Moodlog> logs, int top) {
+        Map<String, Integer> activityAmount = new HashMap<>();
+
+        for (Moodlog log : logs) {
+            String activity = log.getActivity();
+            if (activity != null && !activity.isEmpty()) {
+                activityAmount.put(activity, activityAmount.getOrDefault(activity, 0) + 1);
+            }
+        }
+
+        List<Map.Entry<String, Integer>> sortedActivities = new ArrayList<>(activityAmount.entrySet());
+        sortedActivities.sort((a, b) -> b.getValue().compareTo(a.getValue()));
+        
+        return sortedActivities.subList(0, Math.min(top, sortedActivities.size()));
+    }
+
+
+}

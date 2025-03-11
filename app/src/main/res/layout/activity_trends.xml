@@ -11,13 +11,13 @@
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/chart"
         android:layout_width="0dp"
-        android:layout_height="300dp"
+        android:layout_height="340dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnUpdateChart" />
+        app:layout_constraintTop_toBottomOf="@+id/switchShowAverage" />
 
     <TextView
         android:id="@+id/textView8"
@@ -89,5 +89,47 @@
         app:layout_constraintEnd_toStartOf="@+id/btnUpdateChart"
         app:layout_constraintStart_toEndOf="@+id/timeLinespinner"
         app:layout_constraintTop_toTopOf="@+id/timeLinespinner" />
+
+    <TextView
+        android:id="@+id/txtTrendTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Trends"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/chart"
+        app:layout_constraintTop_toBottomOf="@+id/chart" />
+
+    <TextView
+        android:id="@+id/txtTrendInfo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="There are no trends available."
+        app:layout_constraintEnd_toEndOf="@+id/chart"
+        app:layout_constraintStart_toStartOf="@+id/txtTrendTime"
+        app:layout_constraintTop_toBottomOf="@+id/txtTrendTime" />
+
+    <Switch
+        android:id="@+id/switchShowAverage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:minHeight="48dp"
+        android:text="Show Averages:"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/btnUpdateChart"
+        app:layout_constraintTop_toBottomOf="@+id/btnUpdateChart" />
+
+    <Switch
+        android:id="@+id/switchAverageLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:text="Average Mood: "
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/switchShowAverage"
+        app:layout_constraintStart_toStartOf="@+id/timeLinespinner"
+        app:layout_constraintTop_toTopOf="@+id/switchShowAverage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
