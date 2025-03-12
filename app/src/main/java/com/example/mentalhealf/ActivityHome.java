@@ -1,10 +1,12 @@
 package com.example.mentalhealf;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,9 +18,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
-public class HomeActivity extends AppCompatActivity {
+public class ActivityHome extends AppCompatActivity {
     private loginHelper firebaselogin;
     private FirebaseAuth mAuth;
 
@@ -31,6 +32,7 @@ public class HomeActivity extends AppCompatActivity {
     private int selectMood = 0;
     private EditText explanation;
     private Spinner activitySpinner;
+    private ImageView iconMindfullness, iconMessages;
 
 
     @Override
@@ -59,6 +61,9 @@ public class HomeActivity extends AppCompatActivity {
         explanation = findViewById(R.id.inputMoodExplanation);
         activitySpinner= findViewById(R.id.activitySpinner);
 
+        iconMessages = findViewById(R.id.iconMessages);
+        iconMindfullness=findViewById(R.id.iconMindfullness);
+
         imgSad.setOnClickListener(v -> selectEmoji(imgSad, 1));
         imgAbitSad.setOnClickListener(v -> selectEmoji(imgAbitSad, 2));
         imgOkay.setOnClickListener(v -> selectEmoji(imgOkay, 3));
@@ -79,7 +84,7 @@ public class HomeActivity extends AppCompatActivity {
                 description = "No description given.";
             }
             if (activity.equals("Current Activity")) {
-                Toast.makeText(HomeActivity.this, "Please select an activity before logging.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ActivityHome.this, "Please select an activity before logging.", Toast.LENGTH_SHORT).show();
                 return;
             }
             logMood(selectMood, description, activity);
@@ -87,6 +92,11 @@ public class HomeActivity extends AppCompatActivity {
 
         });
 
+        iconMindfullness.setOnClickListener(v -> {
+            Intent mindfullness = new Intent(this, ActivityMindfullness.class);
+            Toast.makeText(this,"Navigating to the mindfullness.", Toast.LENGTH_SHORT).show();
+            startActivity(mindfullness);
+        });
 
     }
 
@@ -137,7 +147,7 @@ public class HomeActivity extends AppCompatActivity {
         moodLogHelper.logMood(selectMood, description, activity, new moodLogHelper.MoodLogCallback() {
                     @Override
                     public void onSuccess(String message) {
-                        Toast.makeText(HomeActivity.this, message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ActivityHome.this, message, Toast.LENGTH_SHORT).show();
                         //reset fields
                         explanation.setText("");
                         resetEmoji();
@@ -146,7 +156,7 @@ public class HomeActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(String error) {
-                        Toast.makeText(HomeActivity.this, "Error: " + error, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ActivityHome.this, "Error: " + error, Toast.LENGTH_SHORT).show();
                     }
 
                 }

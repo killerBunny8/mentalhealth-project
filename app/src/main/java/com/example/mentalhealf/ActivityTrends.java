@@ -19,9 +19,9 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 
 import java.text.SimpleDateFormat;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -29,14 +29,13 @@ import java.util.Map;
 
 import org.apache.commons.math3.stat.regression.SimpleRegression;
 
-
-public class TrendsActivity extends AppCompatActivity {
+public class ActivityTrends extends AppCompatActivity {
 
     private List<Moodlog> moodLogsList;
     private moodLogHelper moodLogHelper;
     private trendsChart trendsChart;
     private String selectedDate, timeRange;
-    private TextView datePick, txtTrendInfo, txtTrendTime;
+    private TextView datePick, txtTrendInfo, txtTrendTime, txtBestAct, txtMostCommon;
     private Button updateBtn;
     private Spinner timeRangeSpinner;
     private float averageMood;
@@ -66,7 +65,12 @@ public class TrendsActivity extends AppCompatActivity {
 
         txtTrendInfo = findViewById(R.id.txtTrendInfo);
         txtTrendTime = findViewById(R.id.txtTrendTime);
+        txtMostCommon = findViewById(R.id.txtMostCommon);
+        txtBestAct = findViewById(R.id.txtBestAct);
         timeRange = "Day";
+
+        txtMostCommon.setVisibility(TextView.GONE);
+        txtBestAct.setVisibility(TextView.GONE);
 
         datePick = findViewById(R.id.datePicktxt);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
@@ -92,7 +96,7 @@ public class TrendsActivity extends AppCompatActivity {
             if (isChecked) {
                 if (moodLogsList.size() < windowSize || moodLogsList.size() == movingLineLimit) {
                     avgData.setChecked(false);
-                    Toast.makeText(TrendsActivity.this, "Not enough data to display moving average.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ActivityTrends.this, "Not enough data to display moving average.", Toast.LENGTH_SHORT).show();
                 } else {
                     linearRegression(moodLogsList); // Calculate and display moving average
                 }
@@ -138,7 +142,7 @@ public class TrendsActivity extends AppCompatActivity {
             @Override
             public void onSuccess(List<Moodlog> moodLogs) {
                 if (moodLogs.isEmpty()) {
-                    Toast.makeText(TrendsActivity.this, "No logs in selected range.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ActivityTrends.this, "No logs in selected range.", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 moodLogsList.clear();
@@ -231,6 +235,8 @@ public class TrendsActivity extends AppCompatActivity {
 
         String trendInfoText;
         String trendTimeText = "Trends for " + selectedDate + " (" + timeRange + ")";
+        String mostCommon= "Most common activities:";
+        String bestActivity = "You felt the best while: ";
 
         if (moodLogsList.isEmpty()) {
             trendInfoText = "There are no logs available for the selected range. Please choose another day, increase the range, or add some logs from the Journal activity.";
@@ -255,22 +261,42 @@ public class TrendsActivity extends AppCompatActivity {
             }
 
             if (!timeRange.equals("Day")) {
+                txtMostCommon.setVisibility(TextView.VISIBLE);
+                txtBestAct.setVisibility(TextView.VISIBLE);
                 List<Map.Entry<String, Integer>> topActivities = getTopActivities(moodLogsList, 3);
+
+                List<Map.Entry<String, Double>> bestActivities = getBestActivity(moodLogsList, 3);
                 if (!topActivities.isEmpty()) {
-                    trendInfoText += "\n\nMost common activities:";
+
                     for (int i = 0; i < topActivities.size(); i++) {
                         Map.Entry<String, Integer> entry = topActivities.get(i);
-                        trendInfoText += "\n" + (i + 1) + ". " + entry.getKey() + " (" + entry.getValue() + " times)";
+                        mostCommon += "\n" + (i + 1) + ". " + entry.getKey() + " (" + entry.getValue() + " times)";
                     }
                     Log.d("TopActivities", "Number of activities: " + topActivities.size());
                 } else {
-                    trendInfoText += "\n\nNo activities logged in this range.";
+                    mostCommon += "\n\nNo activities logged in this range.";
                 }
+
+                if (!bestActivities.isEmpty()) {
+                    for (int i = 0; i < bestActivities.size(); i++) {
+                        Map.Entry<String, Double> bestActivityEntry = bestActivities.get(i);
+                        bestActivity += "\n" + (i + 1) + ". " + bestActivityEntry.getKey() + " (Avg Mood: " + String.format("%.2f", bestActivityEntry.getValue()) + "/5)";
+                    }
+                } else {
+                    bestActivity += "\n\nNo activities logged in this range.";
+                }
+            } else {
+                txtMostCommon.setVisibility(TextView.GONE);
+                txtBestAct.setVisibility(TextView.GONE);
             }
         }
 
+
+
         txtTrendTime.setText(trendTimeText);
         txtTrendInfo.setText(trendInfoText);
+        txtMostCommon.setText((mostCommon));
+        txtBestAct.setText(bestActivity);
     }
 
     private List<Map.Entry<String, Integer>> getTopActivities(List<Moodlog> logs, int top) {
@@ -288,6 +314,29 @@ public class TrendsActivity extends AppCompatActivity {
         
         return sortedActivities.subList(0, Math.min(top, sortedActivities.size()));
     }
+    private List<Map.Entry<String, Double>> getBestActivity(List<Moodlog> moodLogs, int top) {
+        Map<String, List<Integer>> activityMoodMap = new HashMap<>();
+        for (Moodlog moodlog : moodLogs) {
+            String activity = moodlog.getActivity();
+            int feeling = moodlog.getFeeling();
+
+            if (!activityMoodMap.containsKey(activity)) {
+                activityMoodMap.put(activity, new ArrayList<>());
+            }
+            activityMoodMap.get(activity).add(feeling);
+        }
+        List<Map.Entry<String, Double>> activityAverages = new ArrayList<>();
+        for (Map.Entry<String, List<Integer>> entry : activityMoodMap.entrySet()) {
+            String activity = entry.getKey();
+            List<Integer> moods = entry.getValue();
+
+            double average = moods.stream().mapToInt(Integer::intValue).average().orElse(0.0);
+            activityAverages.add(new AbstractMap.SimpleEntry<>(activity, average));
+        }
+        activityAverages.sort((a, b) -> Double.compare(b.getValue(), a.getValue()));
+        return activityAverages.subList(0, Math.min(top, activityAverages.size()));
+    }
+
 
 
 }

@@ -21,7 +21,7 @@ public class oldfumction {
 //            @Override
 //            public void onSuccess(List<Moodlog> moodLogs) {
 //                if (moodLogs.isEmpty()) {
-//                    Toast.makeText(TrendsActivity.this, "You have no logs.", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(ActivityTrends.this, "You have no logs.", Toast.LENGTH_SHORT).show();
 //                    return;
 //                }
 //
@@ -57,7 +57,7 @@ public class oldfumction {
 //                Log.d("getmood6", "Filtered logs count: " + filteredLogs.size());
 //
 //                if (filteredLogs.isEmpty()) {
-//                    Toast.makeText(TrendsActivity.this, "No logs in selected range.", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(ActivityTrends.this, "No logs in selected range.", Toast.LENGTH_SHORT).show();
 //                    return;
 //                }
 //                long firstTimestamp = filteredLogs.get(0).getTime().toDate().getTime();

@@ -6,15 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_colour"
-    tools:context=".TrendsActivity">
+    tools:context=".ActivityTrends">
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/chart"
         android:layout_width="0dp"
         android:layout_height="340dp"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
+        android:minWidth="380dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/switchShowAverage" />
@@ -92,12 +91,15 @@
 
     <TextView
         android:id="@+id/txtTrendTime"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="-8dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="-8dp"
         android:text="Trends"
         android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="@+id/chart"
+        app:layout_constraintEnd_toEndOf="@+id/switchShowAverage"
+        app:layout_constraintStart_toStartOf="@+id/switchAverageLine"
         app:layout_constraintTop_toBottomOf="@+id/chart" />
 
     <TextView
@@ -131,5 +133,33 @@
         app:layout_constraintBottom_toBottomOf="@+id/switchShowAverage"
         app:layout_constraintStart_toStartOf="@+id/timeLinespinner"
         app:layout_constraintTop_toTopOf="@+id/switchShowAverage" />
+
+    <TextView
+        android:id="@+id/txtMostCommon"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="txt"
+        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintStart_toStartOf="@+id/txtTrendInfo"
+        app:layout_constraintTop_toBottomOf="@+id/txtTrendInfo" />
+
+    <TextView
+        android:id="@+id/txtBestAct"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="@+id/txtTrendInfo"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toTopOf="@+id/txtMostCommon" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

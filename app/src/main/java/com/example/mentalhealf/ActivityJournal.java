@@ -23,7 +23,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-public class JournalActivity extends AppCompatActivity implements MoodLogAdapter.onItemClickListener{
+public class ActivityJournal extends AppCompatActivity implements MoodLogAdapter.onItemClickListener{
 
     private moodLogHelper moodLogHelper;
     private MoodLogAdapter adapter;
@@ -74,20 +74,20 @@ public class JournalActivity extends AppCompatActivity implements MoodLogAdapter
         datePick.setOnClickListener(v -> showDatePicker());
         updateJournal.setOnClickListener(v -> {
             Log.d("Date", "onCreate: "+ selectedDate);
-            Toast.makeText(JournalActivity.this, "Showing logs for day: " + selectedDate, Toast.LENGTH_SHORT).show();
+            Toast.makeText(ActivityJournal.this, "Showing logs for day: " + selectedDate, Toast.LENGTH_SHORT).show();
             loadMoodLogs(selectedDate);
         });
 
         addmass.setOnClickListener(v-> moodLogHelper.addMassMoodLogs(30, new moodLogHelper.MoodLogCallback() {
             @Override
             public void onSuccess(String message) {
-                Toast.makeText(JournalActivity.this, message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ActivityJournal.this, message, Toast.LENGTH_SHORT).show();
                 loadMoodLogs(selectedDate); // Refresh RecyclerView
             }
 
             @Override
             public void onFailure(String error) {
-                Toast.makeText(JournalActivity.this, error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ActivityJournal.this, error, Toast.LENGTH_SHORT).show();
             }
         }));
 
@@ -100,14 +100,14 @@ public class JournalActivity extends AppCompatActivity implements MoodLogAdapter
         moodLogHelper.updateMoodLog(moodlog.getId(), updatedDescription, position, new moodLogHelper.MoodLogUpdateCallback() {
             @Override
             public void onSuccess(String message, int position) {
-                Toast.makeText(JournalActivity.this, message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ActivityJournal.this, message, Toast.LENGTH_SHORT).show();
                 moodLogsList.get(position).setDescription(updatedDescription);
                 adapter.notifyItemChanged(position);
             }
 
             @Override
             public void onFailure(String error) {
-                Toast.makeText(JournalActivity.this, error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ActivityJournal.this, error, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -149,7 +149,7 @@ public class JournalActivity extends AppCompatActivity implements MoodLogAdapter
 
             @Override
             public void onFailure(String error) {
-                Toast.makeText(JournalActivity.this, error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ActivityJournal.this, error, Toast.LENGTH_SHORT).show();
             }
         });
     }

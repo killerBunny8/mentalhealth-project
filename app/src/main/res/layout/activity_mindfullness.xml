@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_colour"
+    tools:context=".ActivityMindfullness">
+
+    <ImageView
+        android:id="@+id/iconMindfullness"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@mipmap/mindfullness"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView4"
+        android:name="com.example.mentalhealf.NavigationBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout="@layout/fragment_navigation_bar" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="80dp"
+        android:text="Mindfullness"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/iconMindfullness"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iconMindfullness"
+        app:layout_constraintTop_toTopOf="@+id/iconMindfullness" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="Take a moment for yourself."
+        android:textAlignment="center"
+        android:textColor="#28A206"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iconMindfullness" />
+
+    <Button
+        android:id="@+id/btnExercise"
+        style="@style/GreenButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:backgroundTint="#028BEC"
+        android:minWidth="100dp"
+        android:minHeight="105dp"
+        android:text="Exercise"
+        app:layout_constraintStart_toStartOf="@+id/textView10"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+    <Button
+        android:id="@+id/btnYoga"
+        style="@style/GreenButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#028BEC"
+        android:minWidth="100dp"
+        android:minHeight="105dp"
+        android:text="Yoga"
+        app:layout_constraintBottom_toBottomOf="@+id/btnMetta"
+        app:layout_constraintEnd_toEndOf="@+id/textView10"
+        app:layout_constraintTop_toTopOf="@+id/btnMetta" />
+
+    <Button
+        android:id="@+id/btnMetta"
+        style="@style/GreenButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#02EC87"
+        android:minWidth="100dp"
+        android:minHeight="105dp"
+        android:text="Metta\nMeditation"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/btnExercise"
+        app:layout_constraintEnd_toStartOf="@+id/btnYoga"
+        app:layout_constraintStart_toEndOf="@+id/btnExercise"
+        app:layout_constraintTop_toTopOf="@+id/btnExercise" />
+
+    <Button
+        android:id="@+id/button8"
+        style="@style/GreenButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#02EC87"
+        android:minWidth="100dp"
+        android:minHeight="105dp"
+        android:text="Mantra\nMeditation"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnGuidedMed"
+        app:layout_constraintEnd_toEndOf="@+id/btnExercise"
+        app:layout_constraintStart_toStartOf="@+id/btnExercise"
+        app:layout_constraintTop_toBottomOf="@+id/btnExercise" />
+
+    <Button
+        android:id="@+id/btnBoxBreathing"
+        style="@style/GreenButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#02EC87"
+        android:minWidth="100dp"
+        android:minHeight="105dp"
+        android:text="Box\nBreathing"
+        app:layout_constraintBottom_toBottomOf="@+id/btnGratitude"
+        app:layout_constraintEnd_toStartOf="@+id/btnGratitude"
+        app:layout_constraintStart_toEndOf="@+id/btnGuidedMed"
+        app:layout_constraintTop_toTopOf="@+id/btnGratitude" />
+
+    <Button
+        android:id="@+id/btnAttentionMeditation"
+        style="@style/GreenButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#02EC87"
+        android:minWidth="100dp"
+        android:minHeight="105dp"
+        android:text="Attention\nMeditation"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnGratitude"
+        app:layout_constraintEnd_toEndOf="@+id/btnYoga"
+        app:layout_constraintStart_toStartOf="@+id/btnYoga"
+        app:layout_constraintTop_toBottomOf="@+id/btnYoga" />
+
+    <Button
+        android:id="@+id/btnGuidedMed"
+        style="@style/GreenButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#028BEC"
+        android:minWidth="100dp"
+        android:minHeight="105dp"
+        android:text="Guided\nMeditation"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/btnBoxBreathing"
+        app:layout_constraintEnd_toEndOf="@+id/button8"
+        app:layout_constraintStart_toStartOf="@+id/button8"
+        app:layout_constraintTop_toTopOf="@+id/btnBoxBreathing" />
+
+    <Button
+        android:id="@+id/btnGratitude"
+        style="@style/GreenButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#028BEC"
+        android:minWidth="100dp"
+        android:minHeight="105dp"
+        android:text="Gratitude\nMeditation"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@+id/btnAttentionMeditation"
+        app:layout_constraintTop_toTopOf="@+id/guideline4" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="489dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

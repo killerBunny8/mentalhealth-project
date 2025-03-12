@@ -19,7 +19,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class MainActivity extends AppCompatActivity {
+public class ActivityMain extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
 
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
             String password = passwordInput.getText().toString().trim();
 
             if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(MainActivity.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ActivityMain.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -81,37 +81,37 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(User user) {
                     String email = user.getEmail();
-                    firebaselogin.loginUser(email, password, MainActivity.this, new loginHelper.AuthCallback() {
+                    firebaselogin.loginUser(email, password, ActivityMain.this, new loginHelper.AuthCallback() {
                         @Override
                         public void onSuccess(FirebaseUser user) {
-                            Toast.makeText(MainActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                            Toast.makeText(ActivityMain.this, "Login successful!", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(ActivityMain.this, ActivityHome.class);
                             intent.putExtra("user", email);
                             startActivity(intent);
                         }
 
                         @Override
                         public void onFailure(Exception e) {
-                            Toast.makeText(MainActivity.this, "Login failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ActivityMain.this, "Login failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
 
                 @Override
                 public void onFailure(Exception e) {
-                    Toast.makeText(MainActivity.this, "Username not found: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ActivityMain.this, "Username not found: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         });
 
         // navigate to sigup page or reset password page
         registerRedirect.setOnClickListener(v -> {
-            Toast.makeText(MainActivity.this, "Redirecting to registration page", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(MainActivity.this, SignupActivity.class));
+            Toast.makeText(ActivityMain.this, "Redirecting to registration page", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(ActivityMain.this, ActivitySignup.class));
         });
         resetPassRedirect.setOnClickListener(v -> {
-            Toast.makeText(MainActivity.this, "Redirecting to registration page", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(MainActivity.this, ResetPasswordActivity.class));
+            Toast.makeText(ActivityMain.this, "Redirecting to registration page", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(ActivityMain.this, ActivityResetPassword.class));
         });
 
     }

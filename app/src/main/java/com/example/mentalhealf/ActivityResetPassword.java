@@ -17,7 +17,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.firebase.auth.FirebaseAuth;
 
 
-public class ResetPasswordActivity extends AppCompatActivity {
+public class ActivityResetPassword extends AppCompatActivity {
 
     private EditText emailInput;
     private Button resetPasswordButton;
@@ -53,15 +53,15 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 String email = emailInput.getText().toString().trim();
 
                 // Use the helper class to reset the password
-                pwordHelper.resetPassword(email, ResetPasswordActivity.this, new passwordHelper.ResetCallback() {
+                pwordHelper.resetPassword(email, ActivityResetPassword.this, new passwordHelper.ResetCallback() {
                     @Override
                     public void onSuccess() { //success
-                        Toast.makeText(ResetPasswordActivity.this, "Password reset email sent!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ActivityResetPassword.this, "Password reset email sent!", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onFailure(Exception e) { //failure
-                        Toast.makeText(ResetPasswordActivity.this, "Failed to send reset email: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ActivityResetPassword.this, "Failed to send reset email: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
             };
@@ -69,8 +69,8 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
         // login btn click
         loginRedirect.setOnClickListener(v -> {
-            Toast.makeText(ResetPasswordActivity.this, "Redirecting to login page", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(ResetPasswordActivity.this, MainActivity.class));
+            Toast.makeText(ActivityResetPassword.this, "Redirecting to login page", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(ActivityResetPassword.this, ActivityMain.class));
         });
 
     }

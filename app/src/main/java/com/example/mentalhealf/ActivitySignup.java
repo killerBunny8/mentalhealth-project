@@ -2,7 +2,6 @@ package com.example.mentalhealf;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -17,7 +16,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseUser;
 
-public class SignupActivity extends AppCompatActivity {
+public class ActivitySignup extends AppCompatActivity {
 
     private EditText emailInput, passwordInput, confirmPasswordInput, usernameInput, firstNameInput, lastNameInput;
     private Button signupButton;
@@ -60,8 +59,8 @@ public class SignupActivity extends AppCompatActivity {
         });
 
         loginRedirect.setOnClickListener(v -> {
-            Toast.makeText(SignupActivity.this, "Redirecting to login page", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(SignupActivity.this, MainActivity.class));
+            Toast.makeText(ActivitySignup.this, "Redirecting to login page", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(ActivitySignup.this, ActivityMain.class));
         });
     }
 
@@ -97,7 +96,7 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onResult(boolean isTaken) {
                 if (isTaken) {
-                    Toast.makeText(SignupActivity.this, "Username already taken!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ActivitySignup.this, "Username already taken!", Toast.LENGTH_SHORT).show();
                     return; // ✅ Stops execution if username exists
                 }
 
@@ -107,22 +106,22 @@ public class SignupActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Exception e) {
-                Toast.makeText(SignupActivity.this, "Error checking username: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ActivitySignup.this, "Error checking username: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     public void registerUser(User user, String password) {
-        firebaselogin.registerUser(user.getEmail(), password, user, SignupActivity.this, new loginHelper.AuthCallback() {
+        firebaselogin.registerUser(user.getEmail(), password, user, ActivitySignup.this, new loginHelper.AuthCallback() {
             @Override
             public void onSuccess(FirebaseUser user) { // Success
-                Toast.makeText(SignupActivity.this, "Sign-up successful!", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(SignupActivity.this, MainActivity.class));
+                Toast.makeText(ActivitySignup.this, "Sign-up successful!", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(ActivitySignup.this, ActivityMain.class));
             }
 
             @Override
             public void onFailure(Exception e) { // Failure
-                Toast.makeText(SignupActivity.this, "Sign-up failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ActivitySignup.this, "Sign-up failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

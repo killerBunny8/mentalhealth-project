@@ -6,7 +6,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +15,6 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.zip.Inflater;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -113,8 +110,8 @@ public class NavigationBar extends Fragment {
 
         ImageView imgHome = view.findViewById(R.id.nav_home);
         imgHome.setOnClickListener(v -> {
-            if (!currentActivity.equals(HomeActivity.class)) {
-                Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
+            if (!currentActivity.equals(ActivityHome.class)) {
+                Intent homeIntent = new Intent(getActivity(), ActivityHome.class);
                 homeIntent.putExtra("user", userEmail);
 
                 startActivity(homeIntent);
@@ -126,8 +123,8 @@ public class NavigationBar extends Fragment {
 
         ImageView imgLog = view.findViewById(R.id.nav_log);
         imgLog.setOnClickListener(v -> {
-            if (!currentActivity.equals(JournalActivity.class)) {
-                Intent journalIntent = new Intent(getActivity(), JournalActivity.class);
+            if (!currentActivity.equals(ActivityJournal.class)) {
+                Intent journalIntent = new Intent(getActivity(), ActivityJournal.class);
                 journalIntent.putExtra("user", userEmail);
 
                 startActivity(journalIntent);
@@ -138,8 +135,8 @@ public class NavigationBar extends Fragment {
 
         ImageView imgStats = view.findViewById(R.id.nav_stats);
         imgStats.setOnClickListener(v -> {
-            if (!currentActivity.equals(TrendsActivity.class)) {
-                Intent trendsIntent = new Intent(getActivity(), TrendsActivity.class);
+            if (!currentActivity.equals(ActivityTrends.class)) {
+                Intent trendsIntent = new Intent(getActivity(), ActivityTrends.class);
                 trendsIntent.putExtra("user", userEmail);
 
                 startActivity(trendsIntent);
@@ -150,8 +147,8 @@ public class NavigationBar extends Fragment {
 
         ImageView imgProfile = view.findViewById(R.id.nav_profile);
         imgProfile.setOnClickListener(v -> {
-            if (!currentActivity.equals(SettingsActivity.class)) {
-                Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
+            if (!currentActivity.equals(ActivitySettings.class)) {
+                Intent settingsIntent = new Intent(getActivity(), ActivitySettings.class);
                 settingsIntent.putExtra("user", userEmail);
                 startActivity(settingsIntent);
             } else {
