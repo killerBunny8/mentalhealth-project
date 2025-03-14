@@ -25,6 +25,7 @@ public class ActivityMindfullness extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        //initialise UI stuffs
         btnExercise = findViewById(R.id.btnExercise);
         btnYoga = findViewById(R.id.btnYoga);
         btnMetta = findViewById(R.id.btnMetta);

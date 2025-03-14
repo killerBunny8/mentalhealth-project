@@ -26,6 +26,7 @@ public class ActivityPostMeditation extends AppCompatActivity {
     private Button btnFinish;
     private EditText descriptionm;
     private int selectMood = 0;
+    private String formattedTime;
 
 
     @Override
@@ -46,25 +47,29 @@ public class ActivityPostMeditation extends AppCompatActivity {
 
         txtSumamryH = findViewById(R.id.textView17);
         txtSummaryD = findViewById(R.id.txtSummaryInfo);
+        descriptionm = findViewById(R.id.inputMoodExplanation2);
         getSummary(meditationType,duration,startTime);
         imgSad = findViewById(R.id.imgSad);
         imgAbitSad = findViewById(R.id.imgAbitSad);
         imgOkay = findViewById(R.id.imgOkay);
         imgGood = findViewById(R.id.imgGood);
         imgGreat = findViewById(R.id.imgGreat);
+        btnFinish = findViewById(R.id.btnFinishWalk);
 
         imgSad.setOnClickListener(v -> selectEmoji(imgSad, 1));
         imgAbitSad.setOnClickListener(v -> selectEmoji(imgAbitSad, 2));
         imgOkay.setOnClickListener(v -> selectEmoji(imgOkay, 3));
         imgGood.setOnClickListener(v -> selectEmoji(imgGood, 4));
         imgGreat.setOnClickListener(v -> selectEmoji(imgGreat, 5));
+
+        btnFinish.setOnClickListener(v -> logMoodAndMeditation(selectMood, meditationType, duration, formattedTime));
     }
     private void getSummary(String meditationType,String duration,Timestamp startTime){
         Date startDate = startTime.toDate();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
 
-        String formattedTime = simpleDateFormat.format(startDate);
-        String summaryText = "Meditation Type: " + meditationType + "\n"
+        formattedTime = simpleDateFormat.format(startDate);
+        String summaryText = descriptionm.getText().toString() +" while "+ meditationType + "\n"
                 + "Duration: " + duration + "\n"
                 + "Start Time: " + formattedTime;
 
@@ -96,7 +101,8 @@ public class ActivityPostMeditation extends AppCompatActivity {
     private void logMoodAndMeditation(int selectedMood, String meditationType, String duration, String startTime) {
         moodLogHelper moodHelper = new moodLogHelper();
 
-        String description = "Meditation Type: " + meditationType + "\n"
+
+        String description = meditationType + "\n"
                 + "Duration: " + duration + "\n"
                 + "Start Time: " + startTime;
 
@@ -104,6 +110,8 @@ public class ActivityPostMeditation extends AppCompatActivity {
             @Override
             public void onSuccess(String message) {
                 Toast.makeText(ActivityPostMeditation.this, message, Toast.LENGTH_SHORT).show();
+                descriptionm.setText("");
+                resetEmoji();
             }
 
             @Override

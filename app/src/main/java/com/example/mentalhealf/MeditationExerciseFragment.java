@@ -130,10 +130,12 @@ public class MeditationExerciseFragment extends Fragment {
         Timestamp startTime = Timestamp.now();
 
         Intent intent = new Intent(requireContext(), ActivityPostMeditation.class);
-        intent.putExtra("MEDITATION_TYPE", meditationType);
+        intent.putExtra("MEDITATION_TYPE", "Walk for: "+ meditationType);
         intent.putExtra("DURATION", duration);
         intent.putExtra("START_TIME", startTime);
+
         startActivity(intent);
+        requireActivity().finish();
     }
 
     private void startTimer() {
@@ -223,8 +225,12 @@ public class MeditationExerciseFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+
         if (countDownTimer != null) {
             countDownTimer.cancel();
+        }
+        if (freestyleTime != null) {
+            freestyleTime.cancel();
         }
     }
 
