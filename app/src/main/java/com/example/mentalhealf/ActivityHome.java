@@ -28,8 +28,13 @@ public class ActivityHome extends AppCompatActivity {
     private User user;
     private Button logmood;
 
-    private TextView imgSad, imgAbitSad, imgOkay, imgGood, imgGreat, greetingText;
-    private int selectMood = 0;
+//    private static TextView imgSad;
+//    private static TextView imgAbitSad;
+//    private static TextView imgOkay;
+//    private static TextView imgGood;
+//    private static TextView imgGreat;
+    private TextView greetingText,imgSad, imgAbitSad, imgOkay, imgGood, imgGreat;
+    private static int selectMood = 0;
     private EditText explanation;
     private Spinner activitySpinner;
     private ImageView iconMindfullness, iconMessages;
@@ -94,7 +99,7 @@ public class ActivityHome extends AppCompatActivity {
 
         iconMindfullness.setOnClickListener(v -> {
             Intent mindfullness = new Intent(this, ActivityMindfullness.class);
-            Toast.makeText(this,"Navigating to the mindfullness.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Navigating to the Mindfulness.", Toast.LENGTH_SHORT).show();
             startActivity(mindfullness);
         });
 
@@ -119,7 +124,7 @@ public class ActivityHome extends AppCompatActivity {
         greetingText.setText("Hello "+ user.getFirstName() + ", How Are You Feeling Today?");
     }
 
-    private void selectEmoji(TextView emoji, int moodVal){
+    public void selectEmoji(TextView emoji, int moodVal){
         resetEmoji();
         emoji.setTextSize(64);
         selectMood = moodVal;

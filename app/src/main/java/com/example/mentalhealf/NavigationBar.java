@@ -113,8 +113,9 @@ public class NavigationBar extends Fragment {
             if (!currentActivity.equals(ActivityHome.class)) {
                 Intent homeIntent = new Intent(getActivity(), ActivityHome.class);
                 homeIntent.putExtra("user", userEmail);
-
                 startActivity(homeIntent);
+                // getActivity().finish();
+
             } else {
                 Toast.makeText(getActivity(), "You are on already this page", Toast.LENGTH_SHORT).show();
             }
@@ -126,8 +127,9 @@ public class NavigationBar extends Fragment {
             if (!currentActivity.equals(ActivityJournal.class)) {
                 Intent journalIntent = new Intent(getActivity(), ActivityJournal.class);
                 journalIntent.putExtra("user", userEmail);
-
                 startActivity(journalIntent);
+                getActivity().finish();
+
             } else {
                 Toast.makeText(getActivity(), "You are on already this page", Toast.LENGTH_SHORT).show();
             }
@@ -138,8 +140,9 @@ public class NavigationBar extends Fragment {
             if (!currentActivity.equals(ActivityTrends.class)) {
                 Intent trendsIntent = new Intent(getActivity(), ActivityTrends.class);
                 trendsIntent.putExtra("user", userEmail);
-
                 startActivity(trendsIntent);
+                getActivity().finish();
+
             } else {
                 Toast.makeText(getActivity(), "You are already on this page", Toast.LENGTH_SHORT).show();
             }
@@ -151,6 +154,8 @@ public class NavigationBar extends Fragment {
                 Intent settingsIntent = new Intent(getActivity(), ActivitySettings.class);
                 settingsIntent.putExtra("user", userEmail);
                 startActivity(settingsIntent);
+                getActivity().finish();
+
             } else {
                 Toast.makeText(getActivity(), "You are already on this page", Toast.LENGTH_SHORT).show();
             }
