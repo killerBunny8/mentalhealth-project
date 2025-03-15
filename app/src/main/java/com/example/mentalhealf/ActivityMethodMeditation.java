@@ -53,15 +53,18 @@ public class ActivityMethodMeditation extends AppCompatActivity {
 
         if (meditationType.equals("Exercise")) {
             fragment = new MeditationExerciseFragment();
-        } else if ("Metta Meditation".equals(meditationType)) {
-            fragment = new MeditationMettaFragment(); // Assuming you have a MettaMeditationFragment
+        } else if (meditationType.equals("Metta Meditation")) {
+            fragment = new MeditationMettaFragment();
+        } else if (meditationType.equals("Mantra Meditation")) {
+            fragment = new MeditationMantraFragment();
+        }
 
-            //fragment.setTransitionName("com.example.mentalhealf.MeditationMettaFragment");
+        //fragment.setTransitionName("com.example.mentalhealf.MeditationMettaFragment");
         //} else if ("Walking".equals(meditationType)) {
             //fragment = new WalkingFragment();
        // } else if ("Metta".equals(meditationType)) {
        //     fragment = new MettaMeditationFragment();
-        }
+        //}
         if (fragment != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
