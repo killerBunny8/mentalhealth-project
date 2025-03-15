@@ -18,29 +18,27 @@ import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link MeditationMantraFragment#newInstance} factory method to
+ * Use the {@link MeditationBoxBreathFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MeditationMantraFragment extends Fragment {
+public class MeditationBoxBreathFragment extends Fragment {
     private int step = 0;
     private String txtStep;
     private TextView txtSteps;
-    private Button btnMantraNext;
+    private Button btnNext;
     private Timestamp startTime, endTime;
     private CountDownTimer countDownTimer;
     private boolean isTimerRunning = false;
-
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-    public MeditationMantraFragment() {
+    public MeditationBoxBreathFragment() {
         // Required empty public constructor
     }
 
@@ -50,11 +48,11 @@ public class MeditationMantraFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment MeditationMantraFragment.
+     * @return A new instance of fragment MeditationBoxBreathFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MeditationMantraFragment newInstance(String param1, String param2) {
-        MeditationMantraFragment fragment = new MeditationMantraFragment();
+    public static MeditationBoxBreathFragment newInstance(String param1, String param2) {
+        MeditationBoxBreathFragment fragment = new MeditationBoxBreathFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -74,20 +72,18 @@ public class MeditationMantraFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_meditation_mantra, container, false);
+        View view = inflater.inflate(R.layout.fragment_meditation_box_breath, container, false);
         txtSteps = view.findViewById(R.id.txtSteps);
-        btnMantraNext = view.findViewById(R.id.btnMantraNext);
+        btnNext = view.findViewById(R.id.btnNext);
 
-        btnMantraNext.setOnClickListener(v -> {
+        btnNext.setOnClickListener(v -> {
             step += 1;
             mantraSteps(step);
             startTimer();
         });
-
         // Inflate the layout for this fragment
         return view;
     }
-
     private void mantraSteps(int step) {
         if (step == 1){
             txtStep = "Sit comfortably with your back straight. Relax and take a few deep breaths.";
@@ -111,7 +107,7 @@ public class MeditationMantraFragment extends Fragment {
         } else if (step == 7) {
             txtStep = "Spend a few moments with yourself and and check in with yourself.";
             txtSteps.setText(txtStep);
-            btnMantraNext.setText("Finish");
+            btnNext.setText("Finish");
         }else if (step == 8) {
             step = 0;
             Intent intent = new Intent(requireContext(), ActivityPostMeditation.class);
@@ -131,18 +127,18 @@ public class MeditationMantraFragment extends Fragment {
         }
     }
     private void startTimer() {
-        btnMantraNext.setEnabled(false);
+        btnNext.setEnabled(false);
         isTimerRunning = true;
 
         countDownTimer = new CountDownTimer(5000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                btnMantraNext.setText("Next (" + millisUntilFinished / 1000 + "s)");
+                btnNext.setText("Next (" + millisUntilFinished / 1000 + "s)");
             }
             @Override
             public void onFinish() {
-                btnMantraNext.setEnabled(true);
-                btnMantraNext.setText("Next");
+                btnNext.setEnabled(true);
+                btnNext.setText("Next");
                 isTimerRunning = false;
             }
         }.start();
