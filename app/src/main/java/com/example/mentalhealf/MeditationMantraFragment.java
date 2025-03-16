@@ -93,25 +93,41 @@ public class MeditationMantraFragment extends Fragment {
             txtStep = "Sit comfortably with your back straight. Relax and take a few deep breaths.";
             startTime = Timestamp.now();
             txtSteps.setText(txtStep);
+            UiAnimations.fadeInAnimation(txtSteps);
+
         } else if (step == 2) {
             txtStep = "Choose a mantra that resonates with you.\n a. I am calm.\nb. I am present.\nc. I’m not anxious.\n d. I’m not angry.\n e. Or any which resonate with you.";
             txtSteps.setText(txtStep);
+            UiAnimations.fadeInAnimation(txtSteps);
+
         } else if (step == 3) {
             txtStep = "Silently repeat your mantra in your mind. Focus on the sound and vibration.";
             txtSteps.setText(txtStep);
+            UiAnimations.fadeInAnimation(txtSteps);
+
         } else if (step == 4) {
             txtStep = "If your mind wanders, gently bring your focus back to the mantra.";
             txtSteps.setText(txtStep);
+            UiAnimations.fadeInAnimation(txtSteps);
+
         } else if (step == 5) {
             txtStep = "Continue repeating the mantra for a few minutes. Let it fill your mind and body. You may close your eyes.";
             txtSteps.setText(txtStep);
+            UiAnimations.fadeInAnimation(txtSteps);
+
         } else if (step == 6) {
             txtStep = "When you're ready, slowly open your eyes and return to the present moment.";
             txtSteps.setText(txtStep);
+            UiAnimations.fadeInAnimation(txtSteps);
+
         } else if (step == 7) {
             txtStep = "Spend a few moments with yourself and and check in with yourself.";
             txtSteps.setText(txtStep);
+            UiAnimations.fadeInAnimation(txtSteps);
+
             btnMantraNext.setText("Finish");
+            UiAnimations.fadeInAnimation(btnMantraNext);
+
         }else if (step == 8) {
             step = 0;
             Intent intent = new Intent(requireContext(), ActivityPostMeditation.class);

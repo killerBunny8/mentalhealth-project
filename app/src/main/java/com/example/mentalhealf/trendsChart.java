@@ -153,7 +153,10 @@ public class trendsChart extends AppCompatActivity{
 
         LineData lineData = lineChart.getData();
         if (lineData != null) {
+
             lineData.addDataSet(movingAverage);
+
+
             lineChart.setData(lineData);
             lineChart.invalidate();
         }

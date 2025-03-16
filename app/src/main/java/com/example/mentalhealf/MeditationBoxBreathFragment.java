@@ -23,12 +23,14 @@ import java.util.Locale;
  */
 public class MeditationBoxBreathFragment extends Fragment {
     private int step = 0;
-    private String txtStep;
-    private TextView txtSteps;
+    private String txtStep,txtStep1;
+    private TextView txtSteps,txtClockSecond, txtTimer;
     private Button btnNext;
     private Timestamp startTime, endTime;
     private CountDownTimer countDownTimer;
     private boolean isTimerRunning = false;
+    private long totalTimeElapsed = 0;
+    private int breathingPhase = 0;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -59,7 +61,6 @@ public class MeditationBoxBreathFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,41 +75,35 @@ public class MeditationBoxBreathFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_meditation_box_breath, container, false);
         txtSteps = view.findViewById(R.id.txtSteps);
-        btnNext = view.findViewById(R.id.btnNext);
+        txtClockSecond = view.findViewById(R.id.txtClockSecond);
+        txtTimer = view.findViewById(R.id.txtTimer);
 
+        btnNext = view.findViewById(R.id.btnNext);
+        btnNext.setText("Ready?");
+        txtSteps.setText("To get started, click the button below.");
         btnNext.setOnClickListener(v -> {
             step += 1;
-            mantraSteps(step);
+            breathSteps(step);
             startTimer();
         });
         // Inflate the layout for this fragment
         return view;
     }
-    private void mantraSteps(int step) {
+    private void breathSteps(int step) {
         if (step == 1){
-            txtStep = "Sit comfortably with your back straight. Relax and take a few deep breaths.";
+            txtStep = "Sit comfortably with your back straight. Relax and prepare yourself to begin.";
             startTime = Timestamp.now();
             txtSteps.setText(txtStep);
+            UiAnimations.fadeInAnimation(txtSteps);
+            txtStep1 = ("Start Box Breathing");
         } else if (step == 2) {
-            txtStep = "Choose a mantra that resonates with you.\n a. I am calm.\nb. I am present.\nc. I’m not anxious.\n d. I’m not angry.\n e. Or any which resonate with you.";
-            txtSteps.setText(txtStep);
-        } else if (step == 3) {
-            txtStep = "Silently repeat your mantra in your mind. Focus on the sound and vibration.";
-            txtSteps.setText(txtStep);
-        } else if (step == 4) {
-            txtStep = "If your mind wanders, gently bring your focus back to the mantra.";
-            txtSteps.setText(txtStep);
-        } else if (step == 5) {
-            txtStep = "Continue repeating the mantra for a few minutes. Let it fill your mind and body. You may close your eyes.";
-            txtSteps.setText(txtStep);
-        } else if (step == 6) {
-            txtStep = "When you're ready, slowly open your eyes and return to the present moment.";
-            txtSteps.setText(txtStep);
-        } else if (step == 7) {
-            txtStep = "Spend a few moments with yourself and and check in with yourself.";
-            txtSteps.setText(txtStep);
-            btnNext.setText("Finish");
-        }else if (step == 8) {
+            txtStep1 = ("Finish Box Breathing");
+            //txtTimer.setVisibility(View.VISIBLE);
+            txtTimer.setText(" ");
+            txtClockSecond.setVisibility(View.VISIBLE);
+            txtSteps.setTextSize(20);
+            startBoxTimer();
+        }else if (step == 3) {
             step = 0;
             Intent intent = new Intent(requireContext(), ActivityPostMeditation.class);
             Timestamp endTime = Timestamp.now();
@@ -118,7 +113,7 @@ public class MeditationBoxBreathFragment extends Fragment {
             int seconds = durationInSeconds % 60;
 
             String durationFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
-            intent.putExtra("MEDITATION_TYPE", "Mantra Meditation");
+            intent.putExtra("MEDITATION_TYPE", "Meditation - " + "Box Breathing");
             intent.putExtra("DURATION", durationFormatted);
             intent.putExtra("START_TIME", startTime);
 
@@ -129,19 +124,62 @@ public class MeditationBoxBreathFragment extends Fragment {
     private void startTimer() {
         btnNext.setEnabled(false);
         isTimerRunning = true;
-
+        txtTimer.setVisibility(View.VISIBLE);
         countDownTimer = new CountDownTimer(5000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                btnNext.setText("Next (" + millisUntilFinished / 1000 + "s)");
+                btnNext.setText("Inactive for " + millisUntilFinished / 1000 + "s.");
             }
             @Override
             public void onFinish() {
                 btnNext.setEnabled(true);
-                btnNext.setText("Next");
+                btnNext.setText(txtStep1);
                 isTimerRunning = false;
             }
         }.start();
+    }
+    private void startBoxTimer(){
+        countDownTimer = new CountDownTimer(4000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                updateTotalTime();
+                totalTimeElapsed += 1000;
+                int secondsRemaining = (int)Math.round((millisUntilFinished / 1000.0));
+                txtClockSecond.setText(String.valueOf(  secondsRemaining + " seconds left"));
+                switch (breathingPhase) {
+                    case 0:
+                        txtSteps.setText("Breathe In");
+                        UiAnimations.increaseTextSize(txtSteps,1000);
+
+                        break;
+                    case 1:
+                        txtSteps.setText("Hold");
+                        break;
+                    case 2:
+                        txtSteps.setText("Breathe Out");
+                        UiAnimations.decreaseTextSize(txtSteps,1000);
+                        break;
+                    case 3:
+                        txtSteps.setText("Hold");
+                        break;
+                }
+            }
+
+            @Override
+            public void onFinish() {
+
+                //updateTotalTime();
+                breathingPhase = (breathingPhase + 1) % 4;
+
+                startBoxTimer();
+            }
+        }.start();
+    }
+    private void updateTotalTime() {
+        int totalSeconds = (int) (totalTimeElapsed / 1000);
+        int minutes = totalSeconds / 60;
+        int seconds = totalSeconds % 60;
+        txtTimer.setText(String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds));
     }
     @Override
     public void onDestroy() {
