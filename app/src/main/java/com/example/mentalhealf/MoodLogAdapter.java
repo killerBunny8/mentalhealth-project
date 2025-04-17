@@ -58,7 +58,7 @@ public class MoodLogAdapter extends RecyclerView.Adapter<MoodLogAdapter.MoodLogV
     }
 
     public static class MoodLogViewHolder extends RecyclerView.ViewHolder {
-        TextView txtTimeLog, txtMood;
+        TextView txtTimeLog, txtMood, txtActivity;
         EditText editDescription;
         Button btnUpdate;
 
@@ -69,6 +69,7 @@ public class MoodLogAdapter extends RecyclerView.Adapter<MoodLogAdapter.MoodLogV
             txtMood = itemView.findViewById(R.id.txtMoodd);
             editDescription = itemView.findViewById(R.id.textView11);
             btnUpdate = itemView.findViewById(R.id.btnUpdate);
+            txtActivity = itemView.findViewById(R.id.txtActivity);
 
         }
 
@@ -96,7 +97,9 @@ public class MoodLogAdapter extends RecyclerView.Adapter<MoodLogAdapter.MoodLogV
             }
 
             txtMood.setText(moodText);
-            editDescription.setText(moodlog.getDescription() + " You were "+ moodlog.getActivity());
+            editDescription.setText(moodlog.getDescription());
+            txtActivity.setText("Activity: " + moodlog.getActivity());
+            editDescription.setText(moodlog.getDescription());
         }
     }
 }
