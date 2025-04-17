@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -108,58 +109,52 @@ public class NavigationBar extends Fragment {
             }
         });
 
-        ImageView imgHome = view.findViewById(R.id.nav_home);
-        imgHome.setOnClickListener(v -> {
+        LinearLayout navHome = view.findViewById(R.id.nav_home);
+        navHome.setOnClickListener(v -> {
             if (!currentActivity.equals(ActivityHome.class)) {
                 Intent homeIntent = new Intent(getActivity(), ActivityHome.class);
                 homeIntent.putExtra("user", userEmail);
                 startActivity(homeIntent);
-                // getActivity().finish();
-
             } else {
-                Toast.makeText(getActivity(), "You are on already this page", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "You are already on this page", Toast.LENGTH_SHORT).show();
             }
-
         });
 
-        ImageView imgLog = view.findViewById(R.id.nav_log);
-        imgLog.setOnClickListener(v -> {
+        LinearLayout navLog = view.findViewById(R.id.nav_log);
+        navLog.setOnClickListener(v -> {
             if (!currentActivity.equals(ActivityJournal.class)) {
                 Intent journalIntent = new Intent(getActivity(), ActivityJournal.class);
                 journalIntent.putExtra("user", userEmail);
                 startActivity(journalIntent);
                 getActivity().finish();
-
             } else {
-                Toast.makeText(getActivity(), "You are on already this page", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "You are already on this page", Toast.LENGTH_SHORT).show();
             }
         });
-
-        ImageView imgStats = view.findViewById(R.id.nav_stats);
-        imgStats.setOnClickListener(v -> {
+        LinearLayout navStats = view.findViewById(R.id.nav_stats);
+        navStats.setOnClickListener(v -> {
             if (!currentActivity.equals(ActivityTrends.class)) {
                 Intent trendsIntent = new Intent(getActivity(), ActivityTrends.class);
                 trendsIntent.putExtra("user", userEmail);
                 startActivity(trendsIntent);
                 getActivity().finish();
-
             } else {
                 Toast.makeText(getActivity(), "You are already on this page", Toast.LENGTH_SHORT).show();
             }
         });
 
-        ImageView imgProfile = view.findViewById(R.id.nav_profile);
-        imgProfile.setOnClickListener(v -> {
+        LinearLayout navProfile = view.findViewById(R.id.nav_profile);
+        navProfile.setOnClickListener(v -> {
             if (!currentActivity.equals(ActivitySettings.class)) {
                 Intent settingsIntent = new Intent(getActivity(), ActivitySettings.class);
                 settingsIntent.putExtra("user", userEmail);
                 startActivity(settingsIntent);
                 getActivity().finish();
-
             } else {
                 Toast.makeText(getActivity(), "You are already on this page", Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
     private void getUser(UserCallback callback) {
