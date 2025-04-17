@@ -5,6 +5,266 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_colour"
     tools:context=".ActivitySettings">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/settingsScroll"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:padding="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNav"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Profile Title -->
+            <TextView
+                android:id="@+id/profileTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Profile"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <!-- Name -->
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name: John Doe"
+                app:layout_constraintTop_toBottomOf="@id/profileTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="16dp" />
+
+            <!-- Email -->
+            <TextView
+                android:id="@+id/email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email: Example123@email.com"
+                app:layout_constraintTop_toBottomOf="@id/name"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="8dp" />
+
+            <!-- Password -->
+            <TextView
+                android:id="@+id/password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Password:"
+                app:layout_constraintTop_toBottomOf="@id/email"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="8dp" />
+
+            <!-- Change Password -->
+            <TextView
+                android:id="@+id/changePassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Change Password"
+                android:textColor="#0288D1"
+                app:layout_constraintTop_toBottomOf="@id/password"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="4dp" />
+
+            <!-- Reminders Title -->
+            <TextView
+                android:id="@+id/remindersTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reminders"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/changePassword"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="24dp" />
+
+            <!-- Log Mood Buttons -->
+            <TextView
+                android:id="@+id/logMoodLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Log Mood:"
+                app:layout_constraintTop_toBottomOf="@id/remindersTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="16dp" />
+
+            <Button android:id="@+id/btnOnce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Once a day"
+                app:layout_constraintTop_toBottomOf="@id/logMoodLabel"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="8dp" />
+
+            <Button android:id="@+id/btnTwice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Twice a day"
+                app:layout_constraintTop_toTopOf="@id/btnOnce"
+                app:layout_constraintStart_toEndOf="@id/btnOnce"
+                android:layout_marginStart="8dp" />
+
+            <Button android:id="@+id/btnThrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thrice a day"
+                app:layout_constraintTop_toTopOf="@id/btnOnce"
+                app:layout_constraintStart_toEndOf="@id/btnTwice"
+                android:layout_marginStart="8dp" />
+
+            <!-- Affirmations Toggle -->
+            <TextView
+                android:id="@+id/affirmationsLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Affirmations:"
+                app:layout_constraintTop_toBottomOf="@id/btnOnce"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="16dp" />
+
+            <Button
+                android:id="@+id/btnAffirmOn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="On"
+                app:layout_constraintTop_toBottomOf="@id/affirmationsLabel"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="8dp" />
+
+            <Button
+                android:id="@+id/btnAffirmOff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Off"
+                app:layout_constraintTop_toTopOf="@id/btnAffirmOn"
+                app:layout_constraintStart_toEndOf="@id/btnAffirmOn"
+                android:layout_marginStart="8dp" />
+
+            <!-- Privacy Policy Title -->
+            <TextView
+                android:id="@+id/privacyPolicyTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Privacy Policy"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/btnAffirmOn"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="32dp" />
+
+            <!-- Privacy Description -->
+            <TextView
+                android:id="@+id/privacyPolicyDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="What we collect: Mood logs, Notes, Timestamps and account details.\n\nWhy we collect it: To help you track moods, trends and reminders.\n\nHow we protect it: All data is securely encrypted and securely stored in adherence with local standards.\n\nYou can view, export, or delete your data anytime."
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/privacyPolicyTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="8dp" />
+
+            <!-- View Policy Link -->
+            <TextView
+                android:id="@+id/privacyPolicyLink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="View Full Privacy Policy"
+                android:textColor="#0288D1"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/privacyPolicyDescription"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="8dp" />
+
+            <!-- Delete & Download Title -->
+            <TextView
+                android:id="@+id/deleteSectionTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete account or Download"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/privacyPolicyLink"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="24dp" />
+
+            <!-- Confirm Password Input -->
+            <EditText
+                android:id="@+id/deletePasswordInput"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="Confirm Password"
+                android:background="@drawable/rounded_inputbox"
+                android:padding="12dp"
+                app:layout_constraintTop_toBottomOf="@id/deleteSectionTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="8dp" />
+
+            <!-- Buttons: Delete & Download -->
+            <Button
+                android:id="@+id/deleteAccountButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Confirm Delete"
+                android:backgroundTint="#E57373"
+                android:textColor="@android:color/white"
+                app:layout_constraintTop_toBottomOf="@id/deletePasswordInput"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/downloadDataButton"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp" />
+
+            <Button
+                android:id="@+id/downloadDataButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Download data"
+                android:backgroundTint="#90CAF9"
+                android:textColor="@android:color/white"
+                app:layout_constraintTop_toTopOf="@id/deleteAccountButton"
+                app:layout_constraintStart_toEndOf="@id/deleteAccountButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="8dp" />
+
+            <!-- Logout Button -->
+            <Button
+                android:id="@+id/logoutButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="LogOut"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="40dp"
+                android:backgroundTint="#4CAF50"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                app:layout_constraintTop_toBottomOf="@id/deleteAccountButton"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/bottomNav"
+        android:name="com.example.mentalhealf.NavigationBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout="@layout/fragment_navigation_bar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
