@@ -14,36 +14,35 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class ActivityMindfullness extends AppCompatActivity {
-    private Button btnExercise,btnYoga, btnMetta,btnMantra,btnBoxBreathing,btnAttentionMeditation,btnGuidedMed,btnGratitude;
+    private Button btnExercise, btnMetta,btnMantra,btnBoxBreathing,btnAttentionMed,btnViewHistory;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mindfullness);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setNavigationBarColor(ContextCompat.getColor(this, android.R.color.black));
-        }
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, android.R.color.black));
+
 
         //initialise UI stuffs
         btnExercise = findViewById(R.id.btnExercise);
-        btnYoga = findViewById(R.id.btnYoga);
         btnMetta = findViewById(R.id.btnMetta);
         btnMantra = findViewById(R.id.button8);
         btnBoxBreathing = findViewById(R.id.btnBoxBreathing);
-        btnAttentionMeditation = findViewById(R.id.btnAttentionMeditation);
-        btnGuidedMed = findViewById(R.id.btnGuidedMed);
-        btnGratitude = findViewById(R.id.btnGratitude);
+        btnAttentionMed = findViewById(R.id.btnGuidedMed);
+        btnViewHistory = findViewById(R.id.btnViewHistory);
 
         // Set click listeners
         btnExercise.setOnClickListener(v -> openMethodMeditation("Exercise"));
-        btnYoga.setOnClickListener(v -> openMethodMeditation("Yoga"));
         btnMetta.setOnClickListener(v -> openMethodMeditation("Metta Meditation"));
         btnMantra.setOnClickListener(v -> openMethodMeditation("Mantra Meditation"));
         btnBoxBreathing.setOnClickListener(v -> openMethodMeditation("Box Breathing"));
-        btnAttentionMeditation.setOnClickListener(v -> openMethodMeditation("Attention Meditation"));
-        btnGuidedMed.setOnClickListener(v -> openMethodMeditation("Guided Meditation"));
-        btnGratitude.setOnClickListener(v -> openMethodMeditation("Gratitude Meditation"));
+        btnAttentionMed.setOnClickListener(v -> openMethodMeditation("Attention Meditation"));
+        btnViewHistory.setOnClickListener(v -> {
+            Intent intent = new Intent(this, ActivityMeditationHistory.class);
+            Toast.makeText(this,"You are going to the History page.", Toast.LENGTH_SHORT).show();
+            startActivity(intent);
+        });
 
 
     }

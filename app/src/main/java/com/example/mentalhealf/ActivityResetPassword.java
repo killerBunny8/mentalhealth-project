@@ -32,9 +32,8 @@ public class ActivityResetPassword extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setNavigationBarColor(ContextCompat.getColor(this, android.R.color.black));
-        }
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, android.R.color.black));
+
 
         // init firebase
         mAuth = FirebaseAuth.getInstance();

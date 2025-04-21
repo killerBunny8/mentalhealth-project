@@ -26,8 +26,6 @@
         <item>Social Media</item>
         <item>Calling</item>
         <item>Gaming</item>
-
-
     </string-array>
 
     <string-array name="trends_spinner">
@@ -46,6 +44,13 @@
         <item> 30 Minutes </item>
         <item> Freestyle </item>
     </string-array>
+
+    <string-array name="feedback_types">
+        <item>Bug Report</item>
+        <item>Feature Request</item>
+        <item>General Feedback</item>
+    </string-array>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -91,6 +96,82 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+
+    <string name="privacy_policy_text"><![CDATA[
+Privacy Policy & Disclaimer\n\n
+Last updated: April 21, 2025\n\n
+This Privacy Policy describes our policies and procedures on the collection, use, and disclosure of your information when you use the Service and tells you about your privacy rights and how the law protects you.\n\n
+We use your personal data to provide and improve the Service. By using the Service, you agree to the collection and use of information in accordance with this Privacy Policy.\n\n
+---\n\n
+DEFINITIONS\n\n
+• Account – a unique account created for you to access our Service.\n
+• Application – refers to MentalHealf.\n
+• Company – refers to MentalHealf, also referred to as We, Us, or Our.\n
+• Country – United Kingdom\n
+• Device – any device that can access the Service (e.g. mobile phone, tablet).\n
+• Personal Data – information that identifies an individual.\n
+• Service – the MentalHealf application.\n
+• Service Provider – third-party individuals or companies who help provide the Service.\n
+• Usage Data – data collected automatically when using the app.\n
+• You – the user of the Service.\n\n
+---\n\n
+COLLECTION OF DATA\n\n
+We may collect the following data:\n
+• Email address (when creating or using your account)\n
+• Usage Data (e.g., session duration, screen visits)\n
+• Mood log data, including descriptions you enter\n
+• Technical info like device type and IP address\n\n
+When accessing via mobile, we may collect device ID, OS, browser type, and diagnostic data.\n\n
+---\n\n
+USE OF PERSONAL DATA\n\n
+We use your data to:\n
+• Provide and maintain the Service\n
+• Manage your account\n
+• Contact you about important updates\n
+• Improve the user experience\n
+• Analyze usage and fix issues\n
+• Send promotional info (unless opted out)\n
+• Respond to your requests\n\n
+---\n\n
+SHARING OF DATA\n\n
+We may share your data:\n
+• With service providers (e.g., Firebase)\n
+• With partners to improve app features\n
+• In a business transfer or merger\n
+• With your consent\n
+• When required by law\n\n
+We do not sell your personal data.\n\n
+---\n\n
+DATA RETENTION\n\n
+We retain data as long as needed for the purposes outlined in this policy, including legal obligations.\n
+Usage Data may be kept longer for analytics or security.\n\n
+---\n\n
+DATA SECURITY\n\n
+We use safeguards to protect your data. However, no system is 100% secure.\n\n
+---\n\n
+CHILDREN’S PRIVACY\n\n
+MentalHealf is not intended for users under 13. We do not knowingly collect data from children.\n
+If we discover data from a child without consent, we will delete it.\n\n
+---\n\n
+LINKS TO OTHER SITES\n\n
+Our app may contain links to other sites. We are not responsible for their privacy policies.\n\n
+---\n\n
+YOUR RIGHTS\n\n
+You may:\n
+• View, update, or delete your data via Settings\n
+• Request access to or correction of personal data\n
+• Contact us for help\n\n
+Note: Some data may be retained for legal compliance.\n\n
+---\n\n
+AGREEMENT\n\n
+By using MentalHealf, you agree to this Privacy Policy. If you do not agree, please stop using the app.\n\n
+---\n\n
+CONTACT\n\n
+If you have any questions, contact us at:\n
+📧 mrpablo128@pm.me
+]]></string>
+
+
 
 
 </resources>

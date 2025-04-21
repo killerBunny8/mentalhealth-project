@@ -1,13 +1,13 @@
 package com.example.mentalhealf;
 
+import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -23,13 +23,9 @@ public class ActivityMethodMeditation extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_method_meditation);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, android.R.color.black));
+
 
         txtMethodType = findViewById(R.id.txtMethodType);
         Button btnExit = findViewById(R.id.btnExit);
@@ -62,7 +58,7 @@ public class ActivityMethodMeditation extends AppCompatActivity {
         }else if (meditationType.equals("Box Breathing")) {
             fragment = new MeditationBoxBreathFragment();
         }else if (meditationType.equals("Attention Meditation")) {
-            fragment = new MeditationMantraFragment();
+            fragment = new MeditationAttentionFragment();
         }else if (meditationType.equals("Guided Meditation")) {
             fragment = new MeditationMantraFragment();
         }else if (meditationType.equals("Gratitude Meditation")) {

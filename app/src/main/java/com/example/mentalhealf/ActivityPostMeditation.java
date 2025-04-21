@@ -35,9 +35,8 @@ public class ActivityPostMeditation extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_meditation);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setNavigationBarColor(ContextCompat.getColor(this, android.R.color.black));
-        }
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, android.R.color.black));
+
 
 
         Intent intent = getIntent();
@@ -69,7 +68,7 @@ public class ActivityPostMeditation extends AppCompatActivity {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
 
         formattedTime = simpleDateFormat.format(startDate);
-        String summaryText = descriptionm.getText().toString() +" while "+ meditationType + "\n"
+        String summaryText = "While "+ meditationType + "\n"
                 + "Duration: " + duration + "\n"
                 + "Start Time: " + formattedTime;
 
@@ -112,6 +111,7 @@ public class ActivityPostMeditation extends AppCompatActivity {
                 Toast.makeText(ActivityPostMeditation.this, message, Toast.LENGTH_SHORT).show();
                 descriptionm.setText("");
                 resetEmoji();
+                finishAct();
             }
 
             @Override
@@ -119,5 +119,10 @@ public class ActivityPostMeditation extends AppCompatActivity {
                 Toast.makeText(ActivityPostMeditation.this, error, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    private void finishAct(){
+        Intent intent = new Intent(this, ActivityHome.class);
+        Toast.makeText(this,"You are going to the home page.", Toast.LENGTH_SHORT).show();
+        startActivity(intent);
     }
 }

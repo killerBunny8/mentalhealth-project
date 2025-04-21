@@ -34,12 +34,7 @@ public class ActivityMain extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setNavigationBarColor(ContextCompat.getColor(this, android.R.color.black));
-        }
-
-
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, android.R.color.black));
         /// initialise firebase login
         firebaselogin = new loginHelper();
 

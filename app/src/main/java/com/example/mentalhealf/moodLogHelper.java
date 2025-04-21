@@ -202,8 +202,9 @@ public class moodLogHelper {
             String logId = db.collection("users").document(userId).collection("moodLogs").document().getId();
             int randomMood = (int) (Math.random() * 5) + 1;
             String description = "Demo Log " + (i + 1);
-            // String activity = i % 2 == 0 ? "working" : "exercising";
-            String activity = "Jumping";
+            String activity = i % 2 == 0 ? "working" : "exercising";
+
+            // String activity = "Jumping";
 
             long offsetMillis = i * 12 * 60 * 60 * 1000; // Spread logs 3 hours apart
             Timestamp moodTimestamp = new Timestamp(new Date(currentTimeMillis - offsetMillis));

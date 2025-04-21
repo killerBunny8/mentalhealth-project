@@ -34,7 +34,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="80dp"
-        android:text="Mindfullness"
+        android:text="Mindfulness"
         android:textAlignment="center"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -71,26 +71,14 @@
         style="@style/GreenButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
         android:backgroundTint="#028BEC"
         android:minWidth="100dp"
         android:minHeight="105dp"
         android:text="Walking"
-        app:layout_constraintStart_toStartOf="@+id/textView10"
-        app:layout_constraintTop_toBottomOf="@+id/textView10" />
-
-    <Button
-        android:id="@+id/btnYoga"
-        style="@style/GreenButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#028BEC"
-        android:minWidth="100dp"
-        android:minHeight="105dp"
-        android:text="Yoga"
-        app:layout_constraintBottom_toBottomOf="@+id/btnMetta"
-        app:layout_constraintEnd_toEndOf="@+id/textView10"
-        app:layout_constraintTop_toTopOf="@+id/btnMetta" />
+        app:layout_constraintBottom_toBottomOf="@+id/btnBoxBreathing"
+        app:layout_constraintEnd_toStartOf="@+id/btnMetta"
+        app:layout_constraintStart_toEndOf="@+id/btnBoxBreathing"
+        app:layout_constraintTop_toTopOf="@+id/btnBoxBreathing" />
 
     <Button
         android:id="@+id/btnMetta"
@@ -103,8 +91,7 @@
         android:text="Metta\nMeditation"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/btnExercise"
-        app:layout_constraintEnd_toStartOf="@+id/btnYoga"
-        app:layout_constraintStart_toEndOf="@+id/btnExercise"
+        app:layout_constraintEnd_toEndOf="@+id/textView10"
         app:layout_constraintTop_toTopOf="@+id/btnExercise" />
 
     <Button
@@ -112,44 +99,28 @@
         style="@style/GreenButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#02EC87"
+        android:backgroundTint="#028BEC"
         android:minWidth="100dp"
         android:minHeight="105dp"
         android:text="Mantra\nMeditation"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/btnGuidedMed"
-        app:layout_constraintEnd_toEndOf="@+id/btnExercise"
-        app:layout_constraintStart_toStartOf="@+id/btnExercise"
-        app:layout_constraintTop_toBottomOf="@+id/btnExercise" />
+        app:layout_constraintBottom_toTopOf="@+id/guideline4"
+        app:layout_constraintEnd_toEndOf="@+id/btnMetta"
+        app:layout_constraintStart_toStartOf="@+id/btnMetta"
+        app:layout_constraintTop_toBottomOf="@+id/btnMetta" />
 
     <Button
         android:id="@+id/btnBoxBreathing"
         style="@style/GreenButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
         android:backgroundTint="#02EC87"
         android:minWidth="100dp"
         android:minHeight="105dp"
         android:text="Box\nBreathing"
-        app:layout_constraintBottom_toBottomOf="@+id/btnGratitude"
-        app:layout_constraintEnd_toStartOf="@+id/btnGratitude"
-        app:layout_constraintStart_toEndOf="@+id/btnGuidedMed"
-        app:layout_constraintTop_toTopOf="@+id/btnGratitude" />
-
-    <Button
-        android:id="@+id/btnAttentionMeditation"
-        style="@style/GreenButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#02EC87"
-        android:minWidth="100dp"
-        android:minHeight="105dp"
-        android:text="Attention\nMeditation"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/btnGratitude"
-        app:layout_constraintEnd_toEndOf="@+id/btnYoga"
-        app:layout_constraintStart_toStartOf="@+id/btnYoga"
-        app:layout_constraintTop_toBottomOf="@+id/btnYoga" />
+        app:layout_constraintStart_toStartOf="@+id/textView10"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
     <Button
         android:id="@+id/btnGuidedMed"
@@ -159,26 +130,11 @@
         android:backgroundTint="#028BEC"
         android:minWidth="100dp"
         android:minHeight="105dp"
-        android:text="Guided\nMeditation"
+        android:text="Attention\nMeditation"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/btnBoxBreathing"
-        app:layout_constraintEnd_toEndOf="@+id/button8"
-        app:layout_constraintStart_toStartOf="@+id/button8"
-        app:layout_constraintTop_toTopOf="@+id/btnBoxBreathing" />
-
-    <Button
-        android:id="@+id/btnGratitude"
-        style="@style/GreenButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#028BEC"
-        android:minWidth="100dp"
-        android:minHeight="105dp"
-        android:text="Gratitude\nMeditation"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@+id/btnAttentionMeditation"
-        app:layout_constraintStart_toStartOf="@+id/btnAttentionMeditation"
-        app:layout_constraintTop_toTopOf="@+id/guideline4" />
+        app:layout_constraintBottom_toTopOf="@+id/guideline4"
+        app:layout_constraintStart_toStartOf="@+id/btnBoxBreathing"
+        app:layout_constraintTop_toBottomOf="@+id/btnBoxBreathing" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline4"
@@ -192,10 +148,9 @@
         style="@style/GreenButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:text="History"
-        app:layout_constraintEnd_toEndOf="@+id/btnGratitude"
+        app:layout_constraintEnd_toEndOf="@+id/button8"
         app:layout_constraintStart_toStartOf="@+id/btnGuidedMed"
-        app:layout_constraintTop_toBottomOf="@+id/btnBoxBreathing" />
+        app:layout_constraintTop_toTopOf="@+id/guideline4" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

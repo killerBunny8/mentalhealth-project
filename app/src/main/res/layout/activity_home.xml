@@ -1,40 +1,81 @@
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_colour"
+    android:scrollbars="vertical"
     tools:context=".ActivityHome">
 
-    <ImageView
-        android:id="@+id/iconMindfullness"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mindfulnessContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:contentDescription="Mindfulness"
-        android:src="@mipmap/mindfullness"
-        android:background="?attr/selectableItemBackground"
-        android:padding="8dp"
-        android:scaleType="centerInside"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView
-        android:id="@+id/iconMessages"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginTop="16dp"
+        <ImageView
+            android:id="@+id/iconMindfullness"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="Mindfulness"
+            android:padding="8dp"
+            android:scaleType="centerInside"
+            android:src="@mipmap/mindfullness"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/labelMindfulness"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mindfulness"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@id/iconMindfullness"
+            app:layout_constraintStart_toStartOf="@id/iconMindfullness"
+            app:layout_constraintTop_toBottomOf="@id/iconMindfullness" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Feedback Icon with Label -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/feedbackContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:contentDescription="Messages"
-        android:src="@mipmap/review"
-        android:background="?attr/selectableItemBackground"
-        android:padding="8dp"
-        android:scaleType="centerInside"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iconMessages"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="Feedback"
+            android:padding="8dp"
+            android:scaleType="centerInside"
+            android:src="@mipmap/review"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/labelMessages"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Feedback"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@id/iconMessages"
+            app:layout_constraintStart_toStartOf="@id/iconMessages"
+            app:layout_constraintTop_toBottomOf="@id/iconMessages" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <!-- Greeting -->
@@ -42,87 +83,92 @@
         android:id="@+id/greetingText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="4dp"
         android:text="Hey [Name] 👋 How are you feeling today?"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="22sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@+id/iconMindfullness"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/mindfulnessContainer" />
 
     <!-- Mood Emojis in Card -->
     <androidx.cardview.widget.CardView
         android:id="@+id/moodCard"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="16dp"
+        app:cardBackgroundColor="@android:color/white"
         app:cardCornerRadius="24dp"
         app:cardElevation="6dp"
-        app:cardBackgroundColor="@android:color/white"
-        app:layout_constraintTop_toBottomOf="@id/greetingText"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginHorizontal="16dp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/greetingText">
 
         <LinearLayout
             android:id="@+id/emojiRow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:gravity="center"
+            android:orientation="horizontal"
             android:padding="16dp">
 
-            <TextView android:id="@+id/imgSad"
+            <TextView
+                android:id="@+id/imgSad"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:clickable="true"
+                android:foreground="?attr/selectableItemBackground"
                 android:text="☹️"
                 android:textAlignment="center"
-                android:textSize="48sp"
-                android:clickable="true"
-                android:foreground="?attr/selectableItemBackground" />
+                android:textSize="48sp" />
 
-            <TextView android:id="@+id/imgAbitSad"
+            <TextView
+                android:id="@+id/imgAbitSad"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:clickable="true"
+                android:foreground="?attr/selectableItemBackground"
                 android:text="😕"
                 android:textAlignment="center"
-                android:textSize="48sp"
-                android:clickable="true"
-                android:foreground="?attr/selectableItemBackground" />
+                android:textSize="48sp" />
 
-            <TextView android:id="@+id/imgOkay"
+            <TextView
+                android:id="@+id/imgOkay"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:clickable="true"
+                android:foreground="?attr/selectableItemBackground"
                 android:text="😐"
                 android:textAlignment="center"
-                android:textSize="48sp"
-                android:clickable="true"
-                android:foreground="?attr/selectableItemBackground" />
+                android:textSize="48sp" />
 
-            <TextView android:id="@+id/imgGood"
+            <TextView
+                android:id="@+id/imgGood"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:clickable="true"
+                android:foreground="?attr/selectableItemBackground"
                 android:text="🙂"
                 android:textAlignment="center"
-                android:textSize="48sp"
-                android:clickable="true"
-                android:foreground="?attr/selectableItemBackground" />
+                android:textSize="48sp" />
 
-            <TextView android:id="@+id/imgGreat"
+            <TextView
+                android:id="@+id/imgGreat"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:clickable="true"
+                android:foreground="?attr/selectableItemBackground"
                 android:text="😁"
                 android:textAlignment="center"
-                android:textSize="48sp"
-                android:clickable="true"
-                android:foreground="?attr/selectableItemBackground" />
+                android:textSize="48sp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -131,20 +177,20 @@
         android:id="@+id/moodInputWrapper"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/moodCard"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginHorizontal="24dp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/moodCard">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/inputMoodExplanation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="100dp"
+            android:gravity="start|top"
             android:hint="Why do you feel like this?"
             android:inputType="textMultiLine"
-            android:gravity="start|top"
+            android:minHeight="100dp"
             android:padding="12dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -153,13 +199,13 @@
         android:id="@+id/activitySpinner"
         android:layout_width="0dp"
         android:layout_height="50dp"
+        android:layout_marginHorizontal="48dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/rounded_inputbox"
-        app:layout_constraintTop_toBottomOf="@id/moodInputWrapper"
-        app:layout_constraintStart_toStartOf="parent"
+        android:entries="@array/activities_spinner"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginHorizontal="48dp"
-        android:entries="@array/activities_spinner" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/moodInputWrapper" />
 
     <!-- Log Mood Button -->
     <Button
@@ -167,16 +213,47 @@
         style="@style/GreenButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
         android:layout_marginTop="24dp"
+        android:backgroundTint="@color/green_button_background"
         android:text="Log Mood"
         android:textAllCaps="false"
-        android:textSize="16sp"
-        android:backgroundTint="@color/green_button_background"
         android:textColor="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/activitySpinner"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginHorizontal="32dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activitySpinner" />
+
+    <!-- Daily Affirmation Section -->
+    <TextView
+        android:id="@+id/affirmationText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/rounded_inputbox"
+        android:padding="16dp"
+        android:text="You are doing your best. And that is enough."
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView24" />
+
+    <Button
+        android:id="@+id/btnNewAffirmation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/green_button_background"
+        android:text="Refresh"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/affirmationText" />
+
 
     <!-- Navigation Bar -->
     <androidx.fragment.app.FragmentContainerView
@@ -186,8 +263,19 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         tools:layout="@layout/fragment_navigation_bar" />
+
+    <TextView
+        android:id="@+id/textView24"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:text="Affirmations"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logMoodButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
