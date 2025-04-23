@@ -29,7 +29,7 @@ public class ActivityMethodMeditation extends AppCompatActivity {
 
         txtMethodType = findViewById(R.id.txtMethodType);
         Button btnExit = findViewById(R.id.btnExit);
-        Button btnFinish = findViewById(R.id.btnFinish);
+        //Button btnFinish = findViewById(R.id.btnFinish);
 
 
         meditationType = getIntent().getStringExtra("MEDITATION_TYPE");
@@ -41,7 +41,7 @@ public class ActivityMethodMeditation extends AppCompatActivity {
             Toast.makeText(this,"You are returning to the Mindfulness page.", Toast.LENGTH_SHORT);
             finish();
         });
-        btnFinish.setOnClickListener(v -> finish());
+        //btnFinish.setOnClickListener(v -> finish());
     }
 
     private void loadFragment(String meditation) {

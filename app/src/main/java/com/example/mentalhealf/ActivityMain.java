@@ -1,6 +1,7 @@
 package com.example.mentalhealf;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -29,12 +30,23 @@ public class ActivityMain extends AppCompatActivity {
     private Button loginButton;
     private TextView registerRedirect, resetPassRedirect;
     private loginHelper firebaselogin;
+    private SharedPreferences prefs;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getWindow().setNavigationBarColor(ContextCompat.getColor(this, android.R.color.black));
+        prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+
+       // login check
+        if (prefs.getBoolean("isLoggedIn", false)) {
+            startActivity(new Intent(ActivityMain.this, ActivityHome.class));
+            finish();
+        }
+
+
         /// initialise firebase login
         firebaselogin = new loginHelper();
 
@@ -76,6 +88,11 @@ public class ActivityMain extends AppCompatActivity {
                         @Override
                         public void onSuccess(FirebaseUser user) {
                             Toast.makeText(ActivityMain.this, "Login successful!", Toast.LENGTH_SHORT).show();
+                            SharedPreferences.Editor editor = prefs.edit();
+                            editor.putBoolean("isLoggedIn", true);
+                            editor.putString("userEmail", email);
+                            editor.apply();
+
                             Intent intent = new Intent(ActivityMain.this, ActivityHome.class);
                             intent.putExtra("user", email);
                             startActivity(intent);

@@ -154,21 +154,22 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="8dp" />
 
-            <Button android:id="@+id/btnTwice"
+            <Button
+                android:id="@+id/btnTwice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Twice a day"
-                app:layout_constraintTop_toTopOf="@id/btnOnce"
+                app:layout_constraintEnd_toStartOf="@+id/btnThrice"
                 app:layout_constraintStart_toEndOf="@id/btnOnce"
-                android:layout_marginStart="8dp" />
+                app:layout_constraintTop_toTopOf="@id/btnOnce" />
 
-            <Button android:id="@+id/btnThrice"
+            <Button
+                android:id="@+id/btnThrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Thrice a day"
-                app:layout_constraintTop_toTopOf="@id/btnOnce"
-                app:layout_constraintStart_toEndOf="@id/btnTwice"
-                android:layout_marginStart="8dp" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/btnOnce" />
 
             <!-- Affirmations Toggle -->
 

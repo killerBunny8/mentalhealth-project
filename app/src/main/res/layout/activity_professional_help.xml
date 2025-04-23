@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_colour"
+    tools:context=".ActivityProfessionalHelp">
+
+    <TextView
+        android:id="@+id/textView26"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Professional Help"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/helpMessage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="24dp"
+        android:text="If you're struggling, it's important to talk to someone you trust — a friend, family member, or mental health professional. You're not alone.\n\n This application is not a substitute for professional help. The links below will take you to different sites which can provide additional support."
+        android:textAlignment="center"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView26" />
+
+    <Button
+        android:id="@+id/btnMind"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Visit Mind UK"
+        app:layout_constraintEnd_toEndOf="@+id/helpMessage"
+        app:layout_constraintStart_toStartOf="@+id/helpMessage"
+        app:layout_constraintTop_toBottomOf="@id/helpMessage" />
+
+    <Button
+        android:id="@+id/btnSamtan"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Contact Samaritans"
+        app:layout_constraintEnd_toEndOf="@+id/btnMind"
+        app:layout_constraintStart_toStartOf="@+id/btnMind"
+        app:layout_constraintTop_toBottomOf="@id/btnMind" />
+
+    <Button
+        android:id="@+id/btnNHS"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="NHS Mental Health"
+        app:layout_constraintEnd_toEndOf="@+id/btnSamtan"
+        app:layout_constraintStart_toStartOf="@+id/btnSamtan"
+        app:layout_constraintTop_toBottomOf="@id/btnSamtan" />
+
+
+    <Button
+        android:id="@+id/btnBack"
+        style="@style/GreenButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

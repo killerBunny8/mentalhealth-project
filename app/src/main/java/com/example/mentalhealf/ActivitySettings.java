@@ -1,6 +1,7 @@
 package com.example.mentalhealf;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -142,6 +143,8 @@ public class ActivitySettings extends AppCompatActivity {
 
     private void logout() {
         FirebaseAuth.getInstance().signOut();
+        SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        prefs.edit().clear().apply();
         Toast.makeText(this, "Logged out successfully", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(this, ActivityMain.class));
         finish();

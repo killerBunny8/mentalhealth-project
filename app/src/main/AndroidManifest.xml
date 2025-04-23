@@ -20,6 +20,9 @@
         android:theme="@style/Theme.MentalHealf"
         tools:targetApi="31">
         <activity
+            android:name=".ActivityProfessionalHelp"
+            android:exported="false" />
+        <activity
             android:name=".ActivityPrivacy"
             android:exported="false" />
         <activity

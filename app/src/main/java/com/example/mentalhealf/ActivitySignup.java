@@ -1,7 +1,6 @@
 package com.example.mentalhealf;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,12 +8,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseUser;
 
@@ -22,7 +17,7 @@ public class ActivitySignup extends AppCompatActivity {
 
     private EditText emailInput, passwordInput, confirmPasswordInput, usernameInput, firstNameInput, lastNameInput;
     private Button signupButton;
-    private TextView loginRedirect;
+    private TextView loginRedirect, privacyPolicy;
     private loginHelper firebaselogin;
     private Spinner genderInput;
 
@@ -44,6 +39,7 @@ public class ActivitySignup extends AppCompatActivity {
         firstNameInput = findViewById(R.id.firstNameInput);
         lastNameInput = findViewById(R.id.lastNameInput);
         genderInput = findViewById(R.id.genderInput);
+        privacyPolicy =  findViewById(R.id.privacyPolicyLink1);
 
 
         // login btn click
@@ -55,6 +51,10 @@ public class ActivitySignup extends AppCompatActivity {
         loginRedirect.setOnClickListener(v -> {
             Toast.makeText(ActivitySignup.this, "Redirecting to login page", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(ActivitySignup.this, ActivityMain.class));
+        });
+        privacyPolicy.setOnClickListener(v -> {
+            Toast.makeText(ActivitySignup.this, "Redirecting to login page", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(ActivitySignup.this, ActivityPrivacy.class));
         });
     }
 

@@ -14,7 +14,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class ActivityMindfullness extends AppCompatActivity {
-    private Button btnExercise, btnMetta,btnMantra,btnBoxBreathing,btnAttentionMed,btnViewHistory;
+    private Button btnExercise, btnMetta,btnMantra,btnBoxBreathing,btnAttentionMed,btnViewHistory,btnExtHelp;
 
 
     @Override
@@ -31,6 +31,7 @@ public class ActivityMindfullness extends AppCompatActivity {
         btnBoxBreathing = findViewById(R.id.btnBoxBreathing);
         btnAttentionMed = findViewById(R.id.btnGuidedMed);
         btnViewHistory = findViewById(R.id.btnViewHistory);
+        btnExtHelp = findViewById(R.id.btnExtHelp);
 
         // Set click listeners
         btnExercise.setOnClickListener(v -> openMethodMeditation("Exercise"));
@@ -43,7 +44,11 @@ public class ActivityMindfullness extends AppCompatActivity {
             Toast.makeText(this,"You are going to the History page.", Toast.LENGTH_SHORT).show();
             startActivity(intent);
         });
-
+        btnExtHelp.setOnClickListener( v -> {
+            Intent intent = new Intent(this, ActivityProfessionalHelp.class);
+            Toast.makeText(this,"You are going to the Additinal Help page.", Toast.LENGTH_SHORT).show();
+            startActivity(intent);
+        });
 
     }
 

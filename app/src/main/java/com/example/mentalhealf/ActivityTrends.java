@@ -1,6 +1,7 @@
 package com.example.mentalhealf;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -244,6 +245,14 @@ public class ActivityTrends extends AppCompatActivity {
         } else {
             if (averageMood < 2.5) {
                 trendInfoText = "Your average mood is low. Consider trying some self-meditation or relaxation techniques.";
+                new androidx.appcompat.app.AlertDialog.Builder(this)
+                        .setTitle("Need Support?")
+                        .setMessage("Your average mood has been quite low. Would you like to check out some professional mental health support resources?")
+                        .setPositiveButton("Yes", (dialog, which) -> {
+                            startActivity(new Intent(ActivityTrends.this, ActivityProfessionalHelp.class));
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
             } else if (averageMood < 4) {
                 trendInfoText = "Your average mood is moderate. Keep up the good work!";
             } else {

@@ -153,4 +153,17 @@
         app:layout_constraintStart_toStartOf="@+id/btnGuidedMed"
         app:layout_constraintTop_toTopOf="@+id/guideline4" />
 
+    <Button
+        android:id="@+id/btnExtHelp"
+        style="@style/MeditationButtons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="100dp"
+        android:minHeight="105dp"
+        android:text="Additional\nHelp"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/btnGuidedMed"
+        app:layout_constraintEnd_toStartOf="@+id/button8"
+        app:layout_constraintStart_toEndOf="@+id/btnGuidedMed" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
