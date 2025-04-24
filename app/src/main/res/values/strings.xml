@@ -9,23 +9,23 @@
     </string-array>
     <string-array name="activities_spinner">
         <item>Current Activity</item>
-        <item>Walking</item>
-        <item>Running</item>
-        <item>Gym</item>
-        <item>Cycling</item>
-        <item>Meditation</item>
-        <item>Listening to Music</item>
-        <item>Reading</item>
-        <item>Watching TV/Movies</item>
-        <item>Cooking</item>
-        <item>Eating a Meal</item>
-        <item>Working</item>
-        <item>Studying</item>
-        <item>Praying</item>
-        <item>Talking to Family/Friends</item>
-        <item>Social Media</item>
         <item>Calling</item>
+        <item>Cooking</item>
+        <item>Cycling</item>
+        <item>Eating a Meal</item>
         <item>Gaming</item>
+        <item>Gym</item>
+        <item>Listening to Music</item>
+        <item>Meditation</item>
+        <item>Praying</item>
+        <item>Reading</item>
+        <item>Running</item>
+        <item>Social Media</item>
+        <item>Studying</item>
+        <item>Talking to Family/Friends</item>
+        <item>Walking</item>
+        <item>Watching TV/Movies</item>
+        <item>Working</item>
     </string-array>
 
     <string-array name="trends_spinner">
