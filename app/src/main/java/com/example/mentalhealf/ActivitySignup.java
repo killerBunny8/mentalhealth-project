@@ -80,7 +80,7 @@ public class ActivitySignup extends AppCompatActivity {
         User user = new User(null, username, firstName, lastName, email, gender);
 
 
-        // Proceed to check if username is available
+        // check if username is available
         dupeCheck(user, password);
     }
 
@@ -91,10 +91,10 @@ public class ActivitySignup extends AppCompatActivity {
             public void onResult(boolean isTaken) {
                 if (isTaken) {
                     Toast.makeText(ActivitySignup.this, "Username already taken!", Toast.LENGTH_SHORT).show();
-                    return; // ✅ Stops execution if username exists
+                    return; // Stops if username exists
                 }
 
-                // ✅ Only runs if username is available
+                // Only runs if username is available
                 registerUser(user, password);
             }
 

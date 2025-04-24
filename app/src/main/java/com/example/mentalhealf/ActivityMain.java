@@ -47,11 +47,8 @@ public class ActivityMain extends AppCompatActivity {
             startActivity(new Intent(ActivityMain.this, ActivityHome.class));
             finish();
         }
-
-
         /// initialise firebase login
         firebaselogin = new loginHelper();
-
         // variables that link to ui elements
         emailInput = findViewById(R.id.emailInput);
         passwordInput = findViewById(R.id.passwordInput);

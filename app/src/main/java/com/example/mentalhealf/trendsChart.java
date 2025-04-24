@@ -43,18 +43,6 @@ public class trendsChart extends AppCompatActivity{
         xAxis.setLabelCount(7, true);
         xAxis.setGranularityEnabled(true);
 
-
-//        xAxis.setValueFormatter(new ValueFormatter() {
-//            @Override
-//            public String getFormattedValue(float value) {
-//                int totalHours = (int) (value * 24 * 60);
-//                int days = totalHours / (24 * 60);
-//                int hours = (totalHours % (24* 60)) /60 ;
-//                int minutes = totalHours % 60 ;
-//
-//                return String.format(Locale.getDefault(), "%02d:%02d:%02d", days, hours, minutes);
-//            }
-//        });
         lineChart.getXAxis().setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
@@ -189,7 +177,7 @@ public class trendsChart extends AppCompatActivity{
     }
     public void clearAverageLine() {
         YAxis yAxis = lineChart.getAxisLeft();
-        yAxis.removeAllLimitLines(); // Remove all limit lines (including the average mood line)
+        yAxis.removeAllLimitLines(); // Remove all limit lines
         lineChart.invalidate(); // Refresh the chart
     }
 }

@@ -66,7 +66,7 @@ public class ActivityMeditationHistory extends AppCompatActivity {
 
                     adapter.notifyDataSetChanged();
 
-                    // Show/hide empty state
+                    // Show/hide empty
                     txtViewNoLogs.setVisibility(meditationLogs.isEmpty() ? View.VISIBLE : View.GONE);
                 })
                 .addOnFailureListener(e -> {

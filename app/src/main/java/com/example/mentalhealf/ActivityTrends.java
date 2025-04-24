@@ -259,7 +259,7 @@ public class ActivityTrends extends AppCompatActivity {
                 trendInfoText = "Your average mood is high. Great job!";
             }
 
-            // Add regression and moving average info
+            // Add regression and moving average
             if (slope > 0) {
                 trendInfoText += "\n\nYour mood is improving over time. Keep it up!";
             } else if (slope < 0) {

@@ -46,10 +46,7 @@ public class reminders {
         intent.putExtra("title", title);
         intent.putExtra("message", message);
 
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                context,
-                requestCode, // Unique for each reminder
-                intent,
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
         );
 
