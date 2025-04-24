@@ -24,7 +24,7 @@ public class reminders {
         cancelReminder();
         switch (frequency) {
             case ONCE_DAILY:
-                setSingleReminder(17, 00, reminderTitle, reminderMessage, 1);
+                setSingleReminder(12, 00, reminderTitle, reminderMessage, 1);
                 break;
             case TWICE_DAILY:
                 setSingleReminder(9, 0, reminderTitle + " (Morning)", reminderMessage, 1);

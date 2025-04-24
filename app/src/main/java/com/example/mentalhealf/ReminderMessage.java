@@ -12,7 +12,7 @@ import androidx.core.app.NotificationCompat;
 
 public class ReminderMessage extends BroadcastReceiver {
     private static final String CHANNEL_ID = "mental_health_reminder_channel";
-    private static int notificationId = 0; // To ensure unique IDs
+    private static int notificationId = 0;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -22,7 +22,7 @@ public class ReminderMessage extends BroadcastReceiver {
         createNotificationChannel(context);
 
         Notification notification = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.mipmap.mindfullness) // Make sure this exists in your drawable folder
+                .setSmallIcon(R.mipmap.mindfullness)
                 .setContentTitle(title != null ? title : "Mental Health Reminder")
                 .setContentText(message != null ? message : "Time to check in with yourself!")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
