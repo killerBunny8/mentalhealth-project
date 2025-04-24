@@ -34,7 +34,7 @@ public class ActivityMeditationHistory extends AppCompatActivity {
 
         // Initialize views
         meditationRecycler = findViewById(R.id.meditationRecycler);
-        //txtViewNoLogs = findViewById(R.id.txtViewNoLogs);
+        txtViewNoLogs = findViewById(R.id.txtViewNoLogs);
 
         // Set up RecyclerView
         meditationRecycler.setLayoutManager(new LinearLayoutManager(this));
@@ -67,11 +67,11 @@ public class ActivityMeditationHistory extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
 
                     // Show/hide empty state
-                    //txtViewNoLogs.setVisibility(meditationLogs.isEmpty() ? View.VISIBLE : View.GONE);
+                    txtViewNoLogs.setVisibility(meditationLogs.isEmpty() ? View.VISIBLE : View.GONE);
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(this, "Error loading meditation history", Toast.LENGTH_SHORT).show();
-                    //txtViewNoLogs.setVisibility(View.VISIBLE);
+                    txtViewNoLogs.setVisibility(View.VISIBLE);
                 });
     }
 }

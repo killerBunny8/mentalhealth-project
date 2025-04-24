@@ -14,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Button;
@@ -31,6 +32,7 @@ public class ActivityMain extends AppCompatActivity {
     private TextView registerRedirect, resetPassRedirect;
     private loginHelper firebaselogin;
     private SharedPreferences prefs;
+    private CheckBox saveLogin;
 
 
     @Override
@@ -56,6 +58,7 @@ public class ActivityMain extends AppCompatActivity {
         loginButton = findViewById(R.id.loginButton);
         registerRedirect = findViewById(R.id.registerRedirect);
         resetPassRedirect = findViewById(R.id.resetpasswordredirect);
+        saveLogin= findViewById(R.id.checkBoxSaveLogin);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -88,10 +91,13 @@ public class ActivityMain extends AppCompatActivity {
                         @Override
                         public void onSuccess(FirebaseUser user) {
                             Toast.makeText(ActivityMain.this, "Login successful!", Toast.LENGTH_SHORT).show();
-                            SharedPreferences.Editor editor = prefs.edit();
-                            editor.putBoolean("isLoggedIn", true);
-                            editor.putString("userEmail", email);
-                            editor.apply();
+                            if (saveLogin.isChecked()){
+                                SharedPreferences.Editor editor = prefs.edit();
+                                editor.putBoolean("isLoggedIn", true);
+                                editor.putString("userEmail", email);
+                                editor.apply();
+                            }
+
 
                             Intent intent = new Intent(ActivityMain.this, ActivityHome.class);
                             intent.putExtra("user", email);

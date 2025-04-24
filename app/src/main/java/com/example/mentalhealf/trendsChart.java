@@ -39,16 +39,26 @@ public class trendsChart extends AppCompatActivity{
         xAxis.setGranularity(1f);
         xAxis.setTextSize(12f);
         xAxis.setYOffset(10f);
+        xAxis.setAxisMinimum(0f);
+        xAxis.setLabelCount(7, true);
+        xAxis.setGranularityEnabled(true);
 
-        xAxis.setValueFormatter(new ValueFormatter() {
+
+//        xAxis.setValueFormatter(new ValueFormatter() {
+//            @Override
+//            public String getFormattedValue(float value) {
+//                int totalHours = (int) (value * 24 * 60);
+//                int days = totalHours / (24 * 60);
+//                int hours = (totalHours % (24* 60)) /60 ;
+//                int minutes = totalHours % 60 ;
+//
+//                return String.format(Locale.getDefault(), "%02d:%02d:%02d", days, hours, minutes);
+//            }
+//        });
+        lineChart.getXAxis().setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
-                int totalHours = (int) (value * 24 * 60);
-                int days = totalHours / (24 * 60);
-                int hours = (totalHours % (24* 60)) /60 ;
-                int minutes = totalHours % 60 ;
-
-                return String.format(Locale.getDefault(), "%02d:%02d:%02d", days, hours, minutes);
+                return String.format(Locale.getDefault(), "day %d", Math.round(value));
             }
         });
 
@@ -85,10 +95,12 @@ public class trendsChart extends AppCompatActivity{
 
         lineChart.getXAxis().setDrawGridLines(false);
         lineChart.getAxisLeft().setDrawGridLines(false);
+        lineChart.setVisibleXRangeMaximum(7f);
 
-        lineChart.setTouchEnabled(false);
-        lineChart.setDragEnabled(false);
-        lineChart.setScaleEnabled(false);
+
+        lineChart.setTouchEnabled(true);
+        lineChart.setDragEnabled(true);
+        lineChart.setScaleEnabled(true);
         lineChart.setPinchZoom(false);
 
         lineChart.animateX(1000);
@@ -113,8 +125,11 @@ public class trendsChart extends AppCompatActivity{
         }
 
         LineData lineData = new LineData(dataSet);
+
         lineChart.setData(lineData);
         lineChart.invalidate();
+        lineChart.setVisibleXRangeMaximum(7f);
+
     }
 
     public void addAverageLine(float averageMood) {
@@ -149,10 +164,12 @@ public class trendsChart extends AppCompatActivity{
         movingAverage.setValueTextColor(Color.BLACK);
         movingAverage.setDrawValues(false);
         movingAverage.setDrawCircles(false);
+        movingAverage.setMode(LineDataSet.Mode.CUBIC_BEZIER);
 
 
         LineData lineData = lineChart.getData();
         if (lineData != null) {
+            lineData.removeDataSet(movingAverage);
 
             lineData.addDataSet(movingAverage);
 
