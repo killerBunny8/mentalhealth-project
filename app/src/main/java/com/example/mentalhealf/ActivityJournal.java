@@ -90,9 +90,10 @@ public class ActivityJournal extends AppCompatActivity implements MoodLogAdapter
         // mood logs from Firestore
         loadMoodLogs(selectedDate);
     }
-
+    //function that updates moodlog descriptionp
     @Override
     public void onMoodUpdate(Moodlog moodlog, String updatedDescription, int position) {
+        //function from moodloghelper
         moodLogHelper.updateMoodLog(moodlog.getId(), updatedDescription, position, new moodLogHelper.MoodLogUpdateCallback() {
             @Override
             public void onSuccess(String message, int position) {
@@ -107,26 +108,23 @@ public class ActivityJournal extends AppCompatActivity implements MoodLogAdapter
             }
         });
     }
-
+    //function whuich shows date dialog and updates the textview
     private void showDatePicker() {
-
         final Calendar c = Calendar.getInstance();
         int mYear = c.get(Calendar.YEAR); // current year
         int mMonth = c.get(Calendar.MONTH); // current month
         int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
         // date picker dialog
-        // set day of month , month and year value in the edit text
+        // set date in the edit text
         DatePickerDialog datePickerDialog = new DatePickerDialog(this,
                 (view, year, monthOfYear, dayOfMonth) -> {
-                    // set day of month , month and year value in the edit text
+                    // set day, month and year value in the edit text
                     selectedDate = String.format("%02d/%02d/%d", dayOfMonth, monthOfYear + 1, year);
                     datePick.setText(selectedDate);
-
-
                 }, mYear, mMonth, mDay);
         datePickerDialog.show();
     }
-
+    //loads moodlogs from date string
     private void loadMoodLogs(String selectedDate) {
         moodLogHelper.getAllMoodLogs(selectedDate,new moodLogHelper.MoodLogListCallback() {
             @Override
@@ -140,9 +138,7 @@ public class ActivityJournal extends AppCompatActivity implements MoodLogAdapter
                 } else {
                     txtViewNoLogs.setVisibility(View.GONE);
                 }
-
             }
-
             @Override
             public void onFailure(String error) {
                 Toast.makeText(ActivityJournal.this, error, Toast.LENGTH_SHORT).show();

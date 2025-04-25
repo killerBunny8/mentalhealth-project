@@ -61,7 +61,6 @@ public class ActivityMain extends AppCompatActivity {
 
         // Get the current user
         FirebaseUser currentUser = mAuth.getCurrentUser();
-
         if (currentUser != null) {
             String userId = currentUser.getUid();
             Log.d("FirebaseUser", "User ID: " + userId);
@@ -72,30 +71,30 @@ public class ActivityMain extends AppCompatActivity {
 
         // button click listener
         loginButton.setOnClickListener(v -> {
+            //get text from layout
             String email = emailInput.getText().toString().trim();
             String password = passwordInput.getText().toString().trim();
-
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(ActivityMain.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
                 return;
             }
-
+            //login helper function to login
             firebaselogin.getUserEmail(email, new loginHelper.EmailCallback() {
                 @Override
                 public void onSuccess(User user) {
                     String email = user.getEmail();
+                    //calls function form loginhelper
                     firebaselogin.loginUser(email, password, ActivityMain.this, new loginHelper.AuthCallback() {
                         @Override
                         public void onSuccess(FirebaseUser user) {
                             Toast.makeText(ActivityMain.this, "Login successful!", Toast.LENGTH_SHORT).show();
-                            if (saveLogin.isChecked()){
+                            if (saveLogin.isChecked()){// if the checkbox is on, save login in shared preferences.
                                 SharedPreferences.Editor editor = prefs.edit();
                                 editor.putBoolean("isLoggedIn", true);
                                 editor.putString("userEmail", email);
                                 editor.apply();
                             }
-
-
+                            //go to next activity
                             Intent intent = new Intent(ActivityMain.this, ActivityHome.class);
                             intent.putExtra("user", email);
                             startActivity(intent);
@@ -121,7 +120,7 @@ public class ActivityMain extends AppCompatActivity {
             startActivity(new Intent(ActivityMain.this, ActivitySignup.class));
         });
         resetPassRedirect.setOnClickListener(v -> {
-            Toast.makeText(ActivityMain.this, "Redirecting to registration page", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ActivityMain.this, "Redirecting to reset password page", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(ActivityMain.this, ActivityResetPassword.class));
         });
 

@@ -33,7 +33,6 @@ public class ActivityHome extends AppCompatActivity {
     private EditText explanation;
     private Spinner activitySpinner;
     private ImageView iconMindfullness, iconMessages;
-    private String affirmations;
 
 
     @Override
@@ -41,35 +40,31 @@ public class ActivityHome extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         getWindow().setNavigationBarColor(ContextCompat.getColor(this, android.R.color.black));
-
-
-
+        //get user to display name on layout
         String email = getIntent().getStringExtra("user");
         getUser(email);
-
+        // define layout componants
         logmood = findViewById(R.id.logMoodButton);
-
         greetingText = findViewById(R.id.greetingText);
         imgSad = findViewById(R.id.imgSad);
         imgAbitSad = findViewById(R.id.imgAbitSad);
         imgOkay = findViewById(R.id.imgOkay);
         imgGood = findViewById(R.id.imgGood);
         imgGreat = findViewById(R.id.imgGreat);
-
         explanation = findViewById(R.id.inputMoodExplanation);
         activitySpinner= findViewById(R.id.activitySpinner);
-
         iconMessages = findViewById(R.id.iconMessages);
         iconMindfullness=findViewById(R.id.iconMindfullness);
         affirmationText = findViewById(R.id.affirmationText);
         btnNewAffirmation = findViewById(R.id.btnNewAffirmation);
 
+        //Set onclick listeners for mood
         imgSad.setOnClickListener(v -> selectEmoji(imgSad, 1));
         imgAbitSad.setOnClickListener(v -> selectEmoji(imgAbitSad, 2));
         imgOkay.setOnClickListener(v -> selectEmoji(imgOkay, 3));
         imgGood.setOnClickListener(v -> selectEmoji(imgGood, 4));
         imgGreat.setOnClickListener(v -> selectEmoji(imgGreat, 5));
-
+        //set onclick lsitener with basic checks
         logmood.setOnClickListener(v -> {
             if (selectMood== 0 ) {
                 Toast.makeText(this, "No mood selected, please choose one to logMood", Toast.LENGTH_SHORT).show();
@@ -91,21 +86,21 @@ public class ActivityHome extends AppCompatActivity {
 
 
         });
-
+        //onclick listener which takes you to mindfulness page
         iconMindfullness.setOnClickListener(v -> {
             Intent mindfullness = new Intent(this, ActivityMindfullness.class);
             Toast.makeText(this,"Navigating to the Mindfulness.", Toast.LENGTH_SHORT).show();
             startActivity(mindfullness);
         });
+        //onclick listener which takes you to feedback page
         iconMessages.setOnClickListener(v -> {
             Intent feedback = new Intent(this, ActivityFeedback.class);
             Toast.makeText(this,"Navigating to the Feedback.", Toast.LENGTH_SHORT).show();
             startActivity(feedback);
         });
         setAffirmations();
-
     }
-
+    //function which sets
     private void setAffirmations() {
         String[] affirmations = {
                 "Asking for help is a sign of self-respect and self-awareness.",
@@ -215,7 +210,7 @@ public class ActivityHome extends AppCompatActivity {
             affirmationText.setText(affirmations[random.nextInt(affirmations.length)]);
         });
     }
-
+    //function that helps with greeting message
     private void getUser(String email){
         firebaselogin = new loginHelper();
         firebaselogin.getUserEmail(email, new loginHelper.EmailCallback() {
@@ -234,13 +229,14 @@ public class ActivityHome extends AppCompatActivity {
     private void updateWelcome(User user) {
         greetingText.setText("Hello "+ user.getFirstName() + ", How Are You Feeling Today?");
     }
-
+    //enlarges selected emoji after resetting them all to old font size.
     public void selectEmoji(TextView emoji, int moodVal){
         resetEmoji();
         emoji.setTextSize(64);
         selectMood = moodVal;
 
     }
+    //sets fontsize of all emojis the same, while also resetting the int value
     private void resetEmoji() {
         imgSad.setBackgroundColor(Color.TRANSPARENT);
         imgAbitSad.setBackgroundColor(Color.TRANSPARENT);
@@ -255,11 +251,11 @@ public class ActivityHome extends AppCompatActivity {
         imgGreat.setTextSize(48);
         selectMood = 0;
     }
-
+    //function that logs mood, has neccesary paramters
     private void logMood(int selectMood, String description, String activity) {
+        //new instance of moodloghelper
         moodLogHelper = new moodLogHelper();
-
-
+        //function from moodloghelper
         moodLogHelper.logMood(selectMood, description, activity, new moodLogHelper.MoodLogCallback() {
                     @Override
                     public void onSuccess(String message) {
