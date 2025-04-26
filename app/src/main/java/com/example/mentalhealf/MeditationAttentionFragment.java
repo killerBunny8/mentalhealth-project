@@ -83,6 +83,7 @@ public class MeditationAttentionFragment extends Fragment {
         });
         return view;
     }
+    //fucntiom responsible for updating page when button is clicked 
     private void attentionSteps(int step) {
         if (step == 1) {
             txtSteps.setText("Sit in an upright, dignified posture. Let your hands rest on your thighs or knees.");
@@ -108,8 +109,9 @@ public class MeditationAttentionFragment extends Fragment {
         }
     }
 
-
+    // Finish meditation function
     private void finishMeditation() {
+        // Gets imformation to pass through intent
         Timestamp endTime = Timestamp.now();
         long durationMillis = endTime.toDate().getTime() - startTime.toDate().getTime();
         int seconds = (int) (durationMillis / 1000);
@@ -121,9 +123,9 @@ public class MeditationAttentionFragment extends Fragment {
         intent.putExtra("START_TIME", startTime);
 
         startActivity(intent);
-        requireActivity().finish();
+        requireActivity().finish();//remove from pop stack
     }
-
+    // Ends timer 
     private void startTimer() {
         super.onDestroy();
         if (countDownTimer != null) {
