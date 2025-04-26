@@ -58,9 +58,6 @@ public class moodLogHelper {
     public void getAllMoodLogs(String selectedDate, @NonNull MoodLogListCallback callback) {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         String userId = currentUser.getUid();
-
-
-
         db.collection("users").document(userId).collection("moodLogs")
                 .orderBy("time").get().addOnSuccessListener(queryDocumentSnapshots -> {
                     List<Moodlog> moodLogs = new ArrayList<>();

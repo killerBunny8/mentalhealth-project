@@ -51,7 +51,7 @@ public class ActivityMindfullness extends AppCompatActivity {
         });
 
     }
-
+    // function that opens next page with correct fragment
     private void openMethodMeditation(String meditationType) {
         Intent intent = new Intent(this, ActivityMethodMeditation.class);
         intent.putExtra("MEDITATION_TYPE", meditationType);

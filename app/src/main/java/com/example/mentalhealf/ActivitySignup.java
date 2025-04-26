@@ -26,7 +26,7 @@ public class ActivitySignup extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         getWindow().setNavigationBarColor(ContextCompat.getColor(this, android.R.color.black));
-        // Initialize helper
+        // Initialise helper
         firebaselogin = new loginHelper();
 
         // Link ui elements

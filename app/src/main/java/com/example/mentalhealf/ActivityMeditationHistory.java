@@ -32,11 +32,11 @@ public class ActivityMeditationHistory extends AppCompatActivity {
         getWindow().setNavigationBarColor(ContextCompat.getColor(this, android.R.color.black));
 
 
-        // Initialize views
+        // Initialise views
         meditationRecycler = findViewById(R.id.meditationRecycler);
         txtViewNoLogs = findViewById(R.id.txtViewNoLogs);
 
-        // Set up RecyclerView
+        // Set up Recyclerview
         meditationRecycler.setLayoutManager(new LinearLayoutManager(this));
         adapter = new MeditationHistoryAdapter(meditationLogs);
         meditationRecycler.setAdapter(adapter);
@@ -44,21 +44,20 @@ public class ActivityMeditationHistory extends AppCompatActivity {
         // Load all meditation logs
         loadMeditationLogs();
     }
-
+    // Function to load all logs
     private void loadMeditationLogs() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();//user id to get the logs from the correct user
+        //firebase query to collect logs
         db.collection("users").document(userId).collection("moodLogs")
-                .whereEqualTo("activity", "Meditation")
-                .get()
+                .whereEqualTo("activity", "Meditation").get()
                 .addOnSuccessListener(querySnapshot -> {
-                    meditationLogs.clear();
+                    meditationLogs.clear(); //clear previous list
                     for (QueryDocumentSnapshot doc : querySnapshot) {
                         Moodlog log = doc.toObject(Moodlog.class);
-                        meditationLogs.add(log);
+                        meditationLogs.add(log); //add logs to list
                     }
-                    meditationLogs.sort((a, b) -> {
+                    meditationLogs.sort((a, b) -> {// sorts them out early to late
                         if (a.getTime() == null || b.getTime() == null) return 0;
                         return b.getTime().toDate().compareTo(a.getTime().toDate());
                     });

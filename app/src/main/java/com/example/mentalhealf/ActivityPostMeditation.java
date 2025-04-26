@@ -36,33 +36,39 @@ public class ActivityPostMeditation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_meditation);
         getWindow().setNavigationBarColor(ContextCompat.getColor(this, android.R.color.black));
-
-
-
+        //intent
         Intent intent = getIntent();
         String meditationType = intent.getStringExtra("MEDITATION_TYPE");
         String duration = intent.getStringExtra("DURATION");
         Timestamp startTime = intent.getParcelableExtra("START_TIME");
-
+        // init layout components to variable
         txtSumamryH = findViewById(R.id.textView17);
         txtSummaryD = findViewById(R.id.txtSummaryInfo);
         descriptionm = findViewById(R.id.inputMoodExplanation2);
-        getSummary(meditationType,duration,startTime);
+        getSummary(meditationType, duration, startTime);
         imgSad = findViewById(R.id.imgSad);
         imgAbitSad = findViewById(R.id.imgAbitSad);
         imgOkay = findViewById(R.id.imgOkay);
         imgGood = findViewById(R.id.imgGood);
         imgGreat = findViewById(R.id.imgGreat);
         btnFinish = findViewById(R.id.btnFinishWalk);
-
+        //set onclick listener for mood, same as homepage
         imgSad.setOnClickListener(v -> selectEmoji(imgSad, 1));
         imgAbitSad.setOnClickListener(v -> selectEmoji(imgAbitSad, 2));
         imgOkay.setOnClickListener(v -> selectEmoji(imgOkay, 3));
         imgGood.setOnClickListener(v -> selectEmoji(imgGood, 4));
         imgGreat.setOnClickListener(v -> selectEmoji(imgGreat, 5));
 
-        btnFinish.setOnClickListener(v -> logMoodAndMeditation(selectMood, meditationType, duration, formattedTime));
+        //log mood witha  check to ensure a mood is atleast selected
+        btnFinish.setOnClickListener(v -> {
+            if (selectMood == 0) {
+                Toast.makeText(ActivityPostMeditation.this, "Please select a mood before finishing.", Toast.LENGTH_SHORT).show();
+            } else {
+                logMoodAndMeditation(selectMood, meditationType, duration, formattedTime);
+            }
+        });
     }
+    //function to display breif summary
     private void getSummary(String meditationType,String duration,Timestamp startTime){
         Date startDate = startTime.toDate();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
@@ -77,19 +83,16 @@ public class ActivityPostMeditation extends AppCompatActivity {
         txtSummaryD.setVisibility(View.VISIBLE);
         txtSumamryH.setVisibility(View.VISIBLE);
     }
+    //select emoji similar to homepage
     public void selectEmoji(TextView emoji, int moodVal){
         resetEmoji();
         emoji.setTextSize(64);
         selectMood = moodVal;
 
     }
-    private void resetEmoji() {
-        imgSad.setBackgroundColor(Color.TRANSPARENT);
-        imgAbitSad.setBackgroundColor(Color.TRANSPARENT);
-        imgOkay.setBackgroundColor(Color.TRANSPARENT);
-        imgGood.setBackgroundColor(Color.TRANSPARENT);
-        imgGreat.setBackgroundColor(Color.TRANSPARENT);
+    //reset emoji similar to homepage
 
+    private void resetEmoji() {
         imgSad.setTextSize(48);
         imgAbitSad.setTextSize(48);
         imgOkay.setTextSize(48);
@@ -97,6 +100,7 @@ public class ActivityPostMeditation extends AppCompatActivity {
         imgGreat.setTextSize(48);
         selectMood = 0;
     }
+    //fucnction to logmood into firestore
     private void logMoodAndMeditation(int selectedMood, String meditationType, String duration, String startTime) {
         moodLogHelper moodHelper = new moodLogHelper();
 
@@ -120,9 +124,11 @@ public class ActivityPostMeditation extends AppCompatActivity {
             }
         });
     }
+    //navigates to different page
     private void finishAct(){
         Intent intent = new Intent(this, ActivityHome.class);
         Toast.makeText(this,"You are going to the home page.", Toast.LENGTH_SHORT).show();
         startActivity(intent);
+        finish();
     }
 }

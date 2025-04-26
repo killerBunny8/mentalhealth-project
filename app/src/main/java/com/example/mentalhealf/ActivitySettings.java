@@ -28,14 +28,14 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 public class ActivitySettings extends AppCompatActivity {
-    TextView emailText, changePassword, privacyPolicy;
+    private TextView emailText, changePassword, privacyPolicy;
 
-    EditText editFirstName, editLastName,deletePassword;
-    Button btnUpdateName,btnOnce, btnTwice, btnThrice, btndeleteAccount, btnDownload,btnLogout;
+    private EditText editFirstName, editLastName,deletePassword;
+    private Button btnUpdateName,btnOnce, btnTwice, btnThrice, btndeleteAccount, btnDownload,btnLogout;
 
-    FirebaseAuth mAuth;
-    FirebaseFirestore db;
-    FirebaseUser user;
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
+    private FirebaseUser user;
     private reminders reminderManager;
 
 
@@ -45,7 +45,7 @@ public class ActivitySettings extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         getWindow().setNavigationBarColor(ContextCompat.getColor(this, android.R.color.black));
-
+        // init layout components to variable
         editFirstName = findViewById(R.id.editFirstName);
         editLastName = findViewById(R.id.editLastName);
         btnUpdateName = findViewById(R.id.btnUpdateName);
@@ -59,14 +59,17 @@ public class ActivitySettings extends AppCompatActivity {
         btnDownload = findViewById(R.id.downloadDataButton);
         btnLogout = findViewById(R.id.logoutButton);
         privacyPolicy = findViewById(R.id.privacyPolicyLink);
-
+        //init reminders
         reminderManager = new reminders(this);
-
+        //init firestore
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         user = mAuth.getCurrentUser();
+        //call function to load username into edittext
         loadUserName();
+        loadSelectedReminder();
 
+        //btnclick to update name
         btnUpdateName.setOnClickListener(v -> {
             String firstName = editFirstName.getText().toString().trim();
             String lastName = editLastName.getText().toString().trim();
@@ -77,19 +80,26 @@ public class ActivitySettings extends AppCompatActivity {
                 updateName();
             }
         });
+        //function which sends email to change password
         changePassword.setOnClickListener(v -> {
             changePword();
         });
+        //btn to set reminders
         btnOnce.setOnClickListener(v -> {
+            highlightSelectedButton(btnOnce);
+            saveSelectedReminder(1);
             reminderManager.setReminders(
                     1,
                     "Mental Health Check",
                     "Time to check in with yourself!"
             );
-            testNotification();
+            testNotification(); //function to show notification
         });
 
+        // onclick of two a day notif
         btnTwice.setOnClickListener(v -> {
+            highlightSelectedButton(btnTwice);
+            saveSelectedReminder(2);
             reminderManager.setReminders(
                     2,
                     "Mental Health Check",
@@ -97,8 +107,10 @@ public class ActivitySettings extends AppCompatActivity {
             );
             testNotification();
         });
-
+        // onclick of three a day notif
         btnThrice.setOnClickListener(v -> {
+            highlightSelectedButton(btnThrice);
+            saveSelectedReminder(3);
             reminderManager.setReminders(
                     3,
                     "Mental Health Check",
@@ -106,12 +118,14 @@ public class ActivitySettings extends AppCompatActivity {
             );
             testNotification();
         });
+        //delete account
         btndeleteAccount.setOnClickListener(v -> {
             String password = deletePassword.getText().toString().trim();
             if (password.isEmpty()) {
                 Toast.makeText(this, "Please enter your password to confirm", Toast.LENGTH_SHORT).show();
             } else {
                 //deleteAccount(password);
+                //alert box to double check deleting account
                 new AlertDialog.Builder(this)
                         .setTitle("Confirm Deletion")
                         .setMessage("Are you sure you want to permanently delete your account? this action can not be undone.")
@@ -122,25 +136,58 @@ public class ActivitySettings extends AppCompatActivity {
                         .show();
             }
         });
+        //download moodlogs btn
         btnDownload.setOnClickListener(v -> {
             String password = deletePassword.getText().toString().trim();
             if (password.isEmpty()) {
                 Toast.makeText(this, "Please enter your password to confirm", Toast.LENGTH_SHORT).show();
             } else {
                 downloadUserData(password);
-
             }
         });
+        //logout btn
         btnLogout.setOnClickListener(v -> {
             logout();
         });
+        //view privcacy policy
         privacyPolicy.setOnClickListener(v -> {
             Toast.makeText(ActivitySettings.this, "Redirecting to login page", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(ActivitySettings.this, ActivityPrivacy.class));
         });
 
     }
+    //function which  loads the chosen reminder oncreate()
+    private void loadSelectedReminder() {
+        SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        int selectedReminder = prefs.getInt("SelectedReminder", 0);
 
+        if (selectedReminder == 1) {
+            highlightSelectedButton(btnOnce);
+        } else if (selectedReminder == 2) {
+            highlightSelectedButton(btnTwice);
+        } else if (selectedReminder == 3) {
+            highlightSelectedButton(btnThrice);
+        }
+    }
+    //function which saves setting of notif status
+    private void saveSelectedReminder(int reminderOption) {
+        SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt("SelectedReminder", reminderOption);
+        editor.apply();
+    }
+    //ciews the chosen notif button
+    private void highlightSelectedButton(Button selectedButton) {
+        // Reset buttons
+        btnOnce.setBackgroundColor(ContextCompat.getColor(this, android.R.color.darker_gray));
+        btnTwice.setBackgroundColor(ContextCompat.getColor(this, android.R.color.darker_gray));
+        btnThrice.setBackgroundColor(ContextCompat.getColor(this, android.R.color.darker_gray));
+
+        // change colour of butotn
+        selectedButton.setBackgroundColor(ContextCompat.getColor(this, R.color.purplebtn));
+    }
+
+    //logs out and removes account from shared preferences
     private void logout() {
         FirebaseAuth.getInstance().signOut();
         SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
@@ -149,7 +196,7 @@ public class ActivitySettings extends AppCompatActivity {
         startActivity(new Intent(this, ActivityMain.class));
         finish();
     }
-
+    //function to update name
     private void updateName() {
         String firstName = editFirstName.getText().toString().trim();
         String lastName = editLastName.getText().toString().trim();
@@ -168,6 +215,7 @@ public class ActivitySettings extends AppCompatActivity {
             Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
         }
     }
+    //function to load username
     private void loadUserName() {
         if (user != null) {
             String uid = user.getUid();
@@ -193,6 +241,7 @@ public class ActivitySettings extends AppCompatActivity {
             );
         }
     }
+    //function which sends email to change password
     private void changePword(){
         if (user != null) {
             //String email = changePassword.getText().toString();
@@ -209,6 +258,7 @@ public class ActivitySettings extends AppCompatActivity {
             Toast.makeText(this, "No user logged in", Toast.LENGTH_SHORT).show();
         }
     }
+    //sends out a test notification
     private void testNotification() {
         Intent intent = new Intent(this, ReminderMessage.class);
         intent.putExtra("title", "Test Notification");
@@ -217,7 +267,7 @@ public class ActivitySettings extends AppCompatActivity {
 
         sendBroadcast(intent);
     }
-
+    // deletes account data, authentication and also stored data after authenticating
     private void deleteAccount(String password){
         String email = user.getEmail();
 
@@ -241,6 +291,7 @@ public class ActivitySettings extends AppCompatActivity {
                         Toast.makeText(this, "Re-authentication failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
 
     }
+    //downlaods all moodlog data after authenticating account
     private void downloadUserData(String password) {
 
         String email = user.getEmail();
@@ -254,12 +305,13 @@ public class ActivitySettings extends AppCompatActivity {
                             .addOnSuccessListener(querySnapshot -> {
                                 StringBuilder data = new StringBuilder();
                                 SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy - HH:mm", Locale.getDefault());
-                                for (var doc : querySnapshot) {
+                                for (var doc : querySnapshot) { //for every moodlog this happens
                                     String activity = doc.getString("activity");
                                     String description = doc.getString("description");
                                     Long feeling = doc.getLong("feeling");
                                     Timestamp timestamp = doc.getTimestamp("time");
                                     String moodEmoji;
+                                    // transforms the feeling into their emojis for consistency
                                     if (feeling == null) {
                                         moodEmoji = "🤔";
                                     } else if (feeling == 1) {
@@ -275,14 +327,14 @@ public class ActivitySettings extends AppCompatActivity {
                                     } else {
                                         moodEmoji = "🤔";
                                     }
-
+                                    //appends to a document
                                     data.append("Date: ").append(sdf.format(timestamp.toDate()))
                                             .append("\nMood: ").append(moodEmoji)
                                             .append("\nActivity: ").append(activity)
                                             .append("\nDescription: ").append(description)
                                             .append("\n\n");
                                 }
-
+                                //calls function to save to file
                                 saveTextToFile(data.toString());
                             })
                             .addOnFailureListener(e ->
@@ -292,11 +344,11 @@ public class ActivitySettings extends AppCompatActivity {
                 .addOnFailureListener(e ->
                         Toast.makeText(this, "Re-authentication failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
-
+    //defines name and location of where to esave file.
     private void saveTextToFile(String content) {
         try {
             String fileName = "my_mood_logs.txt";
-            File downloads = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+            File downloads = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS); //location of save
 
             File file = new File(downloads, fileName);
             FileOutputStream fos = new FileOutputStream(file);

@@ -21,12 +21,13 @@ public class ActivityProfessionalHelp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_professional_help);
         getWindow().setNavigationBarColor(ContextCompat.getColor(this, android.R.color.black));
-
+        // init layout components to variable
         btnMind = findViewById(R.id.btnMind);
         btnSamartian = findViewById(R.id.btnSamtan);
         btnNHS = findViewById(R.id.btnNHS);
         btnBack = findViewById(R.id.btnBack);
 
+        //onlclicknlisteners to open website
         btnMind.setOnClickListener(v -> {
             openWebsite("https://www.mind.org.uk");
         });
@@ -37,10 +38,9 @@ public class ActivityProfessionalHelp extends AppCompatActivity {
             openWebsite("https://www.nhs.uk/mental-health");
         });
 
-        btnBack.setOnClickListener(v -> finish());
-
-
+        btnBack.setOnClickListener(v -> finish()); //closes abd removes activity from stack
     }
+    // funciton to open website
     private void openWebsite(String url) {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         startActivity(browserIntent);

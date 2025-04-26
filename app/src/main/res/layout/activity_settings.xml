@@ -146,13 +146,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="16dp" />
 
-            <Button android:id="@+id/btnOnce"
+            <Button
+                android:id="@+id/btnOnce"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="Once a day"
-                app:layout_constraintTop_toBottomOf="@id/logMoodLabel"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="8dp" />
+                app:layout_constraintTop_toBottomOf="@id/logMoodLabel" />
 
             <Button
                 android:id="@+id/btnTwice"

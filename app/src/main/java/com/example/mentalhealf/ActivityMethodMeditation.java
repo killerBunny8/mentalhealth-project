@@ -25,13 +25,12 @@ public class ActivityMethodMeditation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_method_meditation);
         getWindow().setNavigationBarColor(ContextCompat.getColor(this, android.R.color.black));
-
-
+        //initialise layout variables
         txtMethodType = findViewById(R.id.txtMethodType);
         Button btnExit = findViewById(R.id.btnExit);
         //Button btnFinish = findViewById(R.id.btnFinish);
 
-
+        //get intent data for framgment manager
         meditationType = getIntent().getStringExtra("MEDITATION_TYPE");
         if (meditationType != null) {
             txtMethodType.setText(meditationType);
@@ -43,27 +42,21 @@ public class ActivityMethodMeditation extends AppCompatActivity {
         });
         //btnFinish.setOnClickListener(v -> finish());
     }
-
+    //fragment manageer changes fragment depending on the intent value
     private void loadFragment(String meditation) {
         Fragment fragment = null;
-
-        if (meditationType.equals("Exercise")) {
+        if (meditation.equals("Exercise")) {
             fragment = new MeditationExerciseFragment();
-        } else if (meditationType.equals("Metta Meditation")) {
+        } else if (meditation.equals("Metta Meditation")) {
             fragment = new MeditationMettaFragment();
-        } else if (meditationType.equals("Mantra Meditation")) {
+        } else if (meditation.equals("Mantra Meditation")) {
             fragment = new MeditationMantraFragment();
-        }else if (meditationType.equals("Yoga")) {
-            fragment = new MeditationMantraFragment();
-        }else if (meditationType.equals("Box Breathing")) {
+        }else if (meditation.equals("Box Breathing")) {
             fragment = new MeditationBoxBreathFragment();
-        }else if (meditationType.equals("Attention Meditation")) {
+        }else if (meditation.equals("Attention Meditation")) {
             fragment = new MeditationAttentionFragment();
-        }else if (meditationType.equals("Guided Meditation")) {
-            fragment = new MeditationMantraFragment();
-        }else if (meditationType.equals("Gratitude Meditation")) {
-            fragment = new MeditationMantraFragment();
         }
+        //if fragment is valid, change to the selected one.
         if (fragment != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
