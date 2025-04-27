@@ -244,7 +244,7 @@ public class ActivityTrends extends AppCompatActivity {
         } else if (moodLogsList.size() < 3) {
             trendInfoText = "You have very few logs. Try logging your mood more often to see better trends. Please choose another day, increase the range, or add some logs from the Journal activity.";
         } else {
-            if (averageMood < 2.5) {
+            if (averageMood < 2.6) {
                 trendInfoText = "Your average mood is low. Consider trying some self-meditation or relaxation techniques.";
                 new androidx.appcompat.app.AlertDialog.Builder(this)
                         .setTitle("Need Support?")
