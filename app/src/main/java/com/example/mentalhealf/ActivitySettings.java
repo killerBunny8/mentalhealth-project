@@ -151,7 +151,7 @@ public class ActivitySettings extends AppCompatActivity {
         });
         //view privcacy policy
         privacyPolicy.setOnClickListener(v -> {
-            Toast.makeText(ActivitySettings.this, "Redirecting to login page", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ActivitySettings.this, "Redirecting to privacy page", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(ActivitySettings.this, ActivityPrivacy.class));
         });
 
@@ -176,7 +176,7 @@ public class ActivitySettings extends AppCompatActivity {
         editor.putInt("SelectedReminder", reminderOption);
         editor.apply();
     }
-    //ciews the chosen notif button
+    //views the chosen notif button
     private void highlightSelectedButton(Button selectedButton) {
         // Reset buttons
         btnOnce.setBackgroundColor(ContextCompat.getColor(this, android.R.color.darker_gray));

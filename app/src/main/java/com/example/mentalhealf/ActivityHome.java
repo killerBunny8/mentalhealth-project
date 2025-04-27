@@ -1,6 +1,7 @@
 package com.example.mentalhealf;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ public class ActivityHome extends AppCompatActivity {
     private EditText explanation;
     private Spinner activitySpinner;
     private ImageView iconMindfullness, iconMessages;
+    private String email;
 
 
     @Override
@@ -41,7 +43,11 @@ public class ActivityHome extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         getWindow().setNavigationBarColor(ContextCompat.getColor(this, android.R.color.black));
         //get user to display name on layout
-        String email = getIntent().getStringExtra("user");
+        email = getIntent().getStringExtra("user");
+        if (email == null) {
+            SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+            email = prefs.getString("userEmail", null);
+        }
         getUser(email);
         // define layout componants
         logmood = findViewById(R.id.logMoodButton);

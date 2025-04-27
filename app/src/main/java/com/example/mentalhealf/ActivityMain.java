@@ -98,6 +98,7 @@ public class ActivityMain extends AppCompatActivity {
                             Intent intent = new Intent(ActivityMain.this, ActivityHome.class);
                             intent.putExtra("user", email);
                             startActivity(intent);
+                            finish();
                         }
 
                         @Override
