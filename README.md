@@ -77,7 +77,7 @@ This project is a mental health tracking application developed for Android using
 2. Import the project into Android Studio.
 3. Build and run the app on an Android emulator or device.
 
-For more in-depth setup instructions, [click here to view the setup instructions]().
+For more in-depth setup instructions, [click here to view the setup instructions](Setup_instructions.docx).
 
 ### Firebase Configuration
 - Firebase is used for storing mood entries, journals, and feedback.
@@ -97,7 +97,7 @@ For more in-depth setup instructions, [click here to view the setup instructions
 
 ## Testing
 Download the wordfile `/testing.docx` located in the main directory, or
-> [By clicking here testing.docx]()
+> [By clicking here testing.docx](Testing_document.docx)
 
 
 
