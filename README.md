@@ -96,7 +96,7 @@ For more in-depth setup instructions, [click here to view the setup instructions
  
 
 ## Testing
-Download the wordfile `/testing.docx` located in the main directory, or
+Download the wordfile `/Testing_document.docx` located in the main directory, or
 > [By clicking here testing.docx](Testing_document.docx)
 
 
