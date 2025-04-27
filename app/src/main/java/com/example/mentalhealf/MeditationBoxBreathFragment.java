@@ -98,10 +98,11 @@ public class MeditationBoxBreathFragment extends Fragment {
             startTime = Timestamp.now();
             txtSteps.setText(txtStep);
             UiAnimations.fadeInAnimation(txtSteps);//animation
+            txtTimer.setVisibility(View.INVISIBLE);
             txtStep1 = ("Start Box Breathing");
         } else if (step == 2) {
             txtStep1 = ("Finish Box Breathing");
-            //txtTimer.setVisibility(View.VISIBLE);
+            txtTimer.setVisibility(View.VISIBLE);
             txtTimer.setText(" ");
             txtClockSecond.setVisibility(View.VISIBLE);
             txtSteps.setTextSize(20);
@@ -128,7 +129,7 @@ public class MeditationBoxBreathFragment extends Fragment {
     private void startTimer() {
         btnNext.setEnabled(false);
         isTimerRunning = true;
-        txtTimer.setVisibility(View.VISIBLE);
+        //txtTimer.setVisibility(View.VISIBLE);
         countDownTimer = new CountDownTimer(5000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {

@@ -281,7 +281,8 @@ public class ActivitySettings extends AppCompatActivity {
                             .addOnSuccessListener(unused1 -> {
                                 Toast.makeText(this, "Account deleted", Toast.LENGTH_SHORT).show();
                                 FirebaseAuth.getInstance().signOut();
-                                startActivity(new Intent(this, ActivityMain.class));
+                                //startActivity(new Intent(this, ActivityMain.class));
+                                logout();
                                 finish();
                             })
                             .addOnFailureListener(e ->

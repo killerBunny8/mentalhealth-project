@@ -120,6 +120,11 @@ public class MeditationExerciseFragment extends Fragment {
 
     private void goNextPage() {
         String meditationType = spinner.getSelectedItem().toString();
+        if (meditationType.equals("Freestyle")) {
+            meditationType = "Freestyle Walk";
+        } else {
+            meditationType = "Walk for: " + meditationType;
+        }
 
         long elapsedTimeInMillis = System.currentTimeMillis() - startTimeInMillis;
         int elapsedTimeInSeconds = (int) (elapsedTimeInMillis / 1000);
@@ -130,7 +135,7 @@ public class MeditationExerciseFragment extends Fragment {
         Timestamp startTime = Timestamp.now();
 
         Intent intent = new Intent(requireContext(), ActivityPostMeditation.class);
-        intent.putExtra("MEDITATION_TYPE", "Walk for: "+ meditationType);
+        intent.putExtra("MEDITATION_TYPE", meditationType);
         intent.putExtra("DURATION", duration);
         intent.putExtra("START_TIME", startTime);
 

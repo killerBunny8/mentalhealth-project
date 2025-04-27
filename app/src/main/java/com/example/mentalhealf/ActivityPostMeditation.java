@@ -24,7 +24,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class ActivityPostMeditation extends AppCompatActivity {
-    private TextView txtSumamryH, txtSummaryD,imgSad, imgAbitSad, imgOkay, imgGood, imgGreat;
+    private TextView txtSumamryH, txtSummaryD,imgSad, imgAbitSad, imgOkay, imgGood, imgGreat, txtGreet;
     private Button btnFinish;
     private EditText descriptionm;
     private int selectMood = 0;
@@ -45,13 +45,16 @@ public class ActivityPostMeditation extends AppCompatActivity {
         txtSumamryH = findViewById(R.id.textView17);
         txtSummaryD = findViewById(R.id.txtSummaryInfo);
         descriptionm = findViewById(R.id.inputMoodExplanation2);
-        getSummary(meditationType, duration, startTime);
+
         imgSad = findViewById(R.id.imgSad);
         imgAbitSad = findViewById(R.id.imgAbitSad);
         imgOkay = findViewById(R.id.imgOkay);
         imgGood = findViewById(R.id.imgGood);
         imgGreat = findViewById(R.id.imgGreat);
         btnFinish = findViewById(R.id.btnFinishWalk);
+        txtGreet = findViewById(R.id.textView15);
+
+        getSummary(meditationType, duration, startTime);
         //set onclick listener for mood, same as homepage
         imgSad.setOnClickListener(v -> selectEmoji(imgSad, 1));
         imgAbitSad.setOnClickListener(v -> selectEmoji(imgAbitSad, 2));
@@ -77,8 +80,7 @@ public class ActivityPostMeditation extends AppCompatActivity {
         String summaryText = "While "+ meditationType + "\n"
                 + "Duration: " + duration + "\n"
                 + "Start Time: " + formattedTime;
-
-
+        txtGreet.setText("You have successfully completed "+meditationType);
         txtSummaryD.setText(summaryText);
         txtSummaryD.setVisibility(View.VISIBLE);
         txtSumamryH.setVisibility(View.VISIBLE);
