@@ -117,11 +117,11 @@
 
     <Button
         android:id="@+id/txtAddfakeLogs"
-        style="@style/SaveButtonJournal"
+        style="@style/GreenButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/ic_launcher_foreground"
-        android:text="fake"
+        android:text="fake\nData"
+        android:textColor="#FAF5F5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
