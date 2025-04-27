@@ -14,7 +14,6 @@
         android:layout_height="wrap_content"
         android:padding="1dp">
 
-        <!-- Home -->
         <LinearLayout
             android:id="@+id/nav_home"
             android:layout_width="wrap_content"
@@ -38,7 +37,6 @@
                 android:textSize="12sp" />
         </LinearLayout>
 
-        <!-- Journal -->
         <LinearLayout
             android:id="@+id/nav_log"
             android:layout_width="wrap_content"
@@ -63,7 +61,6 @@
                 android:textSize="12sp" />
         </LinearLayout>
 
-        <!-- Stats -->
         <LinearLayout
             android:id="@+id/nav_stats"
             android:layout_width="wrap_content"
@@ -88,7 +85,6 @@
                 android:textSize="12sp" />
         </LinearLayout>
 
-        <!-- Profile -->
         <LinearLayout
             android:id="@+id/nav_profile"
             android:layout_width="wrap_content"

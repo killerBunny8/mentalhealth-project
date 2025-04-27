@@ -14,7 +14,6 @@
         android:layout_height="wrap_content"
         android:padding="16dp">
 
-        <!-- Time -->
         <TextView
             android:id="@+id/txtTimeLog"
             android:layout_width="wrap_content"
@@ -26,7 +25,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Mood emoji -->
         <TextView
             android:id="@+id/txtMoodd"
             android:layout_width="48dp"
@@ -40,7 +38,6 @@
             app:layout_constraintEnd_toStartOf="@+id/btnUpdate"
             app:layout_constraintTop_toTopOf="@+id/txtTimeLog" />
 
-        <!-- Save Button -->
         <Button
             android:id="@+id/btnUpdate"
             android:layout_width="wrap_content"
@@ -53,7 +50,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/txtMoodd" />
 
-        <!-- Description -->
         <EditText
             android:id="@+id/textView11"
             android:layout_width="0dp"
@@ -68,7 +64,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtTimeLog" />
 
-        <!-- Activity -->
         <TextView
             android:id="@+id/txtActivity"
             android:layout_width="wrap_content"

@@ -23,7 +23,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <!-- Profile Title -->
             <TextView
                 android:id="@+id/profileTitle"
                 android:layout_width="wrap_content"
@@ -34,9 +33,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <!-- First Name -->
-            <!-- Name Label -->
             <TextView
                 android:id="@+id/nameLabel"
                 android:layout_width="wrap_content"
@@ -48,7 +44,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="16dp" />
 
-            <!-- Horizontal name row -->
             <LinearLayout
                 android:id="@+id/nameRow"
                 android:layout_width="0dp"
@@ -78,8 +73,6 @@
                     android:padding="12dp"
                     android:background="@drawable/rounded_inputbox" />
             </LinearLayout>
-
-            <!-- Update Name Button -->
             <Button
                 android:id="@+id/btnUpdateName"
                 android:layout_width="0dp"
@@ -91,8 +84,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="12dp" />
-
-            <!-- Email -->
             <TextView
                 android:id="@+id/email"
                 android:layout_width="wrap_content"
@@ -101,8 +92,6 @@
                 app:layout_constraintTop_toBottomOf="@id/btnUpdateName"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="8dp" />
-
-            <!-- Password -->
             <TextView
                 android:id="@+id/password"
                 android:layout_width="wrap_content"
@@ -111,8 +100,6 @@
                 app:layout_constraintTop_toBottomOf="@id/email"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="8dp" />
-
-            <!-- Change Password -->
             <TextView
                 android:id="@+id/changePassword"
                 android:layout_width="wrap_content"
@@ -123,8 +110,6 @@
                 app:layout_constraintBottom_toBottomOf="@+id/password"
                 app:layout_constraintStart_toEndOf="@+id/password"
                 app:layout_constraintTop_toTopOf="@+id/password" />
-
-            <!-- Reminders Title -->
             <TextView
                 android:id="@+id/remindersTitle"
                 android:layout_width="wrap_content"
@@ -135,8 +120,6 @@
                 app:layout_constraintTop_toBottomOf="@id/changePassword"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="24dp" />
-
-            <!-- Log Mood Buttons -->
             <TextView
                 android:id="@+id/logMoodLabel"
                 android:layout_width="wrap_content"
@@ -172,9 +155,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/btnOnce" />
 
-            <!-- Affirmations Toggle -->
-
-            <!-- Privacy Policy Title -->
             <TextView
                 android:id="@+id/privacyPolicyTitle"
                 android:layout_width="wrap_content"
@@ -186,7 +166,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btnOnce" />
 
-            <!-- Privacy Description -->
             <TextView
                 android:id="@+id/privacyPolicyDescription"
                 android:layout_width="0dp"
@@ -198,7 +177,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="8dp" />
 
-            <!-- View Policy Link -->
             <TextView
                 android:id="@+id/privacyPolicyLink"
                 android:layout_width="wrap_content"
@@ -211,7 +189,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="8dp" />
 
-            <!-- Delete & Download Title -->
             <TextView
                 android:id="@+id/deleteSectionTitle"
                 android:layout_width="wrap_content"
@@ -223,7 +200,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="24dp" />
 
-            <!-- Confirm Password Input -->
+
             <EditText
                 android:id="@+id/deletePasswordInput"
                 android:inputType="textPassword"
@@ -237,7 +214,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="8dp" />
 
-            <!-- Buttons: Delete & Download -->
             <Button
                 android:id="@+id/deleteAccountButton"
                 android:layout_width="0dp"
@@ -263,7 +239,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginStart="8dp" />
 
-            <!-- Logout Button -->
             <Button
                 android:id="@+id/logoutButton"
                 android:layout_width="0dp"

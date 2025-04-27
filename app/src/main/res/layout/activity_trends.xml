@@ -1,165 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_colour"
     tools:context=".ActivityTrends">
-
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/chart"
+    <ScrollView
+        android:id="@+id/scrollViewTrends"
         android:layout_width="0dp"
-        android:layout_height="340dp"
-        android:layout_marginTop="8dp"
-        android:minWidth="380dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/fragmentContainerView3"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switchShowAverage" />
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="400dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Trends"
-        android:textAlignment="center"
-        android:textSize="34sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Trends"
+                android:textAlignment="center"
+                android:textSize="34sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="16dp"/>
+
+            <Spinner
+                android:id="@+id/timeLinespinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/rounded_inputbox"
+                android:entries="@array/trends_spinner"
+                android:minWidth="141dp"
+                android:minHeight="48dp"
+                android:padding="8dp"
+                app:layout_constraintStart_toStartOf="@+id/textView8"
+                app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+            <TextView
+                android:id="@+id/datePicktxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@drawable/rounded_inputbox"
+                android:minWidth="141dp"
+                android:minHeight="48dp"
+                android:padding="8dp"
+                android:text="Select Date"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="@+id/timeLinespinner"
+                app:layout_constraintStart_toEndOf="@+id/timeLinespinner"
+                app:layout_constraintTop_toTopOf="@+id/timeLinespinner" />
+
+            <Button
+                android:id="@+id/btnUpdateChart"
+                style="@style/GreenButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="Update"
+                app:layout_constraintBottom_toBottomOf="@+id/datePicktxt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/timeLinespinner" />
+
+            <Switch
+                android:id="@+id/switchAverageLine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Average Mood:"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@id/datePicktxt"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_margin="8dp"/>
+
+            <Switch
+                android:id="@+id/switchShowAverage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Show Averages:"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@id/datePicktxt"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_margin="8dp"/>
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chart"
+                android:layout_width="0dp"
+                android:layout_height="340dp"
+                android:minWidth="380dp"
+                app:layout_constraintTop_toBottomOf="@id/switchShowAverage"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:id="@+id/txtTrendTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Trend Time"
+                android:textSize="20sp"
+                app:layout_constraintTop_toBottomOf="@id/chart"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:id="@+id/txtTrendInfo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="There are no trends available."
+                app:layout_constraintTop_toBottomOf="@id/txtTrendTime"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_margin="8dp"/>
+
+            <TextView
+                android:id="@+id/txtMostCommon"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Most Common Activity"
+                app:layout_constraintTop_toBottomOf="@id/txtTrendInfo"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_margin="8dp"/>
+
+            <TextView
+                android:id="@+id/txtBestAct"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Best Activity"
+                app:layout_constraintTop_toTopOf="@id/txtMostCommon"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_margin="8dp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView3"
         android:name="com.example.mentalhealf.NavigationBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         tools:layout="@layout/fragment_navigation_bar" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_end="88dp" />
-
-    <Spinner
-        android:id="@+id/timeLinespinner"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/rounded_inputbox"
-        android:entries="@array/trends_spinner"
-        android:minWidth="141dp"
-        android:minHeight="48dp"
-        android:padding="8dp"
-        android:visibility="visible"
-        app:layout_constraintStart_toStartOf="@+id/textView8"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
-
-    <Button
-        android:id="@+id/btnUpdateChart"
-        style="@style/GreenButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        android:text="Update"
-        app:layout_constraintBottom_toBottomOf="@+id/timeLinespinner"
-        app:layout_constraintEnd_toEndOf="@+id/textView8"
-        app:layout_constraintTop_toTopOf="@+id/timeLinespinner" />
-
-    <TextView
-        android:id="@+id/datePicktxt"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:background="@drawable/rounded_inputbox"
-        android:minWidth="141dp"
-        android:minHeight="48dp"
-        android:padding="8dp"
-        android:text="TextView"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/timeLinespinner"
-        app:layout_constraintEnd_toStartOf="@+id/btnUpdateChart"
-        app:layout_constraintStart_toEndOf="@+id/timeLinespinner"
-        app:layout_constraintTop_toTopOf="@+id/timeLinespinner" />
-
-    <TextView
-        android:id="@+id/txtTrendTime"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="-8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="-8dp"
-        android:text="Trends"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/switchShowAverage"
-        app:layout_constraintStart_toStartOf="@+id/switchAverageLine"
-        app:layout_constraintTop_toBottomOf="@+id/chart" />
-
-    <TextView
-        android:id="@+id/txtTrendInfo"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="There are no trends available."
-        app:layout_constraintEnd_toEndOf="@+id/chart"
-        app:layout_constraintStart_toStartOf="@+id/txtTrendTime"
-        app:layout_constraintTop_toBottomOf="@+id/txtTrendTime" />
-
-    <Switch
-        android:id="@+id/switchShowAverage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:minHeight="48dp"
-        android:text="Show Averages:"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/btnUpdateChart"
-        app:layout_constraintTop_toBottomOf="@+id/btnUpdateChart" />
-
-    <Switch
-        android:id="@+id/switchAverageLine"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        android:text="Average Mood: "
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/switchShowAverage"
-        app:layout_constraintStart_toStartOf="@+id/timeLinespinner"
-        app:layout_constraintTop_toTopOf="@+id/switchShowAverage" />
-
-    <TextView
-        android:id="@+id/txtMostCommon"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="txt"
-        app:layout_constraintEnd_toStartOf="@+id/guideline3"
-        app:layout_constraintStart_toStartOf="@+id/txtTrendInfo"
-        app:layout_constraintTop_toBottomOf="@+id/txtTrendInfo" />
-
-    <TextView
-        android:id="@+id/txtBestAct"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="@+id/txtTrendInfo"
-        app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toTopOf="@+id/txtMostCommon" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
