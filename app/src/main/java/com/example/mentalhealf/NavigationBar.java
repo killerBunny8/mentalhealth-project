@@ -93,7 +93,6 @@ public class NavigationBar extends Fragment {
     public void onViewCreated(@NonNull View view, @NonNull Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Initialize each ImageView and set the OnClickListener
 
         Class currentActivity = getActivity().getClass();
 
@@ -108,7 +107,7 @@ public class NavigationBar extends Fragment {
 
             }
         });
-
+        //selects the linear layout so both the image and the text view are clickable
         LinearLayout navHome = view.findViewById(R.id.nav_home);
         navHome.setOnClickListener(v -> {
             if (!currentActivity.equals(ActivityHome.class)) {
@@ -126,7 +125,7 @@ public class NavigationBar extends Fragment {
                 Intent journalIntent = new Intent(getActivity(), ActivityJournal.class);
                 journalIntent.putExtra("user", userEmail);
                 startActivity(journalIntent);
-                getActivity().finish();
+                getActivity().finish();//removees from pop stack to simplify navigation
             } else {
                 Toast.makeText(getActivity(), "You are already on this page", Toast.LENGTH_SHORT).show();
             }
@@ -156,9 +155,8 @@ public class NavigationBar extends Fragment {
         });
 
     }
-
+    //get user function to pass email through intent
     private void getUser(UserCallback callback) {
-
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             String userEmail = currentUser.getEmail();

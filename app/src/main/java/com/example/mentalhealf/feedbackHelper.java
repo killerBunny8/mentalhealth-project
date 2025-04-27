@@ -10,10 +10,11 @@ import java.util.Map;
 public class feedbackHelper {
     private final FirebaseFirestore db;
 
-
+    // Init firebase
     public feedbackHelper() {
         db = FirebaseFirestore.getInstance();
     }
+    // submits feedback to feedback collection in firebase
     public void submitFeedback(Feedback feedback, FeedbackCallback callback) {
         if (feedback.getMessage() == null || feedback.getMessage().isEmpty()) {
             callback.onFailure(new Exception("Message cannot be empty."));
@@ -30,6 +31,7 @@ public class feedbackHelper {
                     callback.onFailure(e);
                 });
     }
+    //interface for result of function
     public interface FeedbackCallback {
         void onSuccess();
         void onFailure(Exception e);

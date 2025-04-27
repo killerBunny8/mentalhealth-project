@@ -92,13 +92,13 @@ public class MeditationExerciseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_meditation_exercise, container, false);
-
+        //layout components
         txtTime = view.findViewById(R.id.txtTime);
         btnWalkingMeditation = view.findViewById(R.id.btnWalkingMeditation);
         btnFinishWalk = view.findViewById(R.id.btnFinishWalk);
         spinner = view.findViewById(R.id.spinner);
         selectedDate = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
-
+        //onclick listner for button
         btnWalkingMeditation.setOnClickListener(v -> {
             if (!isTimerRunning){
                 startTimer();
@@ -137,7 +137,7 @@ public class MeditationExerciseFragment extends Fragment {
         startActivity(intent);
         requireActivity().finish();
     }
-
+    //countdowntimer
     private void startTimer() {
         String selectedTime = spinner.getSelectedItem().toString();
 
@@ -171,6 +171,7 @@ public class MeditationExerciseFragment extends Fragment {
 
         isTimerRunning = true;
     }
+    //countup timer
     private void startFreestyleTimer() {
         startTimeInMillis = System.currentTimeMillis();
         freestyleTime = new Timer();
@@ -193,7 +194,7 @@ public class MeditationExerciseFragment extends Fragment {
 
         //int progress = (int) (timeLeftInMillis / 1000);
     }
-
+    //stop timer (or automatically end when it hits 0)
     private void stopTimer() {
         if (countDownTimer != null) {
             countDownTimer.cancel();
@@ -210,18 +211,21 @@ public class MeditationExerciseFragment extends Fragment {
         Toast.makeText(requireContext(), "Walk Ended", Toast.LENGTH_SHORT).show();
         isTimerRunning = false;
     }
+    //convert time to seconds
     private int convertTimeToSeconds(String time) {
         return Integer.parseInt(time.replaceAll("\\D+", "")) * 60;
     }
+    //convert time to milisecs
     private long convertTimeToMillis(String time) {
         return convertTimeToSeconds(time) * 1000L;
     }
+    //calculate remaaining time
     private long calculateRemainingTime(String selectedTime) {
         long selectedTimeMillis = convertTimeToMillis(selectedTime);
         long elapsedTimeMillis = System.currentTimeMillis() - startTimeInMillis;
         return selectedTimeMillis - elapsedTimeMillis;
     }
-
+    //end timer completely
     @Override
     public void onDestroy() {
         super.onDestroy();

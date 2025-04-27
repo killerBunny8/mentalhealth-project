@@ -58,13 +58,14 @@ public class MoodLogAdapter extends RecyclerView.Adapter<MoodLogAdapter.MoodLogV
     }
 
     public static class MoodLogViewHolder extends RecyclerView.ViewHolder {
-        TextView txtTimeLog, txtMood, txtActivity;
-        EditText editDescription;
-        Button btnUpdate;
+        private TextView txtTimeLog, txtMood, txtActivity;
+        private EditText editDescription;
+        private Button btnUpdate;
 
 
         public MoodLogViewHolder(@NonNull View itemView) {
             super(itemView);
+            //layout components for item
             txtTimeLog = itemView.findViewById(R.id.txtTimeLog);
             txtMood = itemView.findViewById(R.id.txtMoodd);
             editDescription = itemView.findViewById(R.id.textView11);
@@ -72,8 +73,9 @@ public class MoodLogAdapter extends RecyclerView.Adapter<MoodLogAdapter.MoodLogV
             txtActivity = itemView.findViewById(R.id.txtActivity);
 
         }
-
+        //binds moodlog things to the layout.
         public void bind(Moodlog moodlog) {
+            //binds moodlog features to item
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
 
             String formatTime = simpleDateFormat.format(moodlog.getTime().toDate());

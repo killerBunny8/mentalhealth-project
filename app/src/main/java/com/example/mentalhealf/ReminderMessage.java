@@ -16,23 +16,24 @@ public class ReminderMessage extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        //get title and message from intent
         String title = intent.getStringExtra("title");
         String message = intent.getStringExtra("message");
 
         createNotificationChannel(context);
-
+        //Build notification
         Notification notification = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.mipmap.mindfullness)
                 .setContentTitle(title != null ? title : "Mental Health Reminder")
                 .setContentText(message != null ? message : "Time to check in with yourself!")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setAutoCancel(true)
+                .setAutoCancel(true)//Remove when clicked
                 .build();
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(++notificationId, notification); // Unique ID for each notification
+        notificationManager.notify(++notificationId, notification); // Unique ID for each notif
     }
-
+    //creates the notificaction channel for newer android versions
     private void createNotificationChannel(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "Mental Health Reminders";

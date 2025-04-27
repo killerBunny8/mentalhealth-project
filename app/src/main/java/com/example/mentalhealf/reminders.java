@@ -20,8 +20,9 @@ public class reminders {
         this.context = context;
         this.alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
     }
+    //function which defines times for notif and title
     public void setReminders(int frequency, String reminderTitle, String reminderMessage) {
-        cancelReminder();
+        cancelReminder();//cancel existing remidners
         switch (frequency) {
             case ONCE_DAILY:
                 setSingleReminder(12, 00, reminderTitle, reminderMessage, 1);
@@ -40,7 +41,7 @@ public class reminders {
         String frequencyText = frequency + " time" + (frequency > 1 ? "s" : "") + " daily";
         Toast.makeText(context, "Reminders set for " + frequencyText, Toast.LENGTH_SHORT).show();
     }
-
+    //function which trigers notification
     private void setSingleReminder(int hour, int minute, String title, String message, int requestCode) {
         Intent intent = new Intent(context, ReminderMessage.class);
         intent.putExtra("title", title);
@@ -61,7 +62,7 @@ public class reminders {
 
         setAlarm(calendar.getTimeInMillis(), pendingIntent);
     }
-
+    //sets alarm  to trigger notif
     private void setAlarm(long triggerAtMillis, PendingIntent pendingIntent) {
         alarmManager.set(
             AlarmManager.RTC_WAKEUP,
@@ -69,13 +70,12 @@ public class reminders {
             pendingIntent);
 
     }
+    //cancel any reminders with the request codes
     public void cancelReminder() {
-        for (int i = 101; i <= 106; i++) {
+        for (int i = 1; i <= 3; i++) {
             Intent intent = new Intent(context, ReminderMessage.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                    context,
-                    i,
-                    intent,
+                    context, i, intent,
                     PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
             );
             alarmManager.cancel(pendingIntent);

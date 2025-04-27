@@ -42,8 +42,6 @@ public class ActivityJournal extends AppCompatActivity implements MoodLogAdapter
         setContentView(R.layout.activity_journal);
         getWindow().setNavigationBarColor(ContextCompat.getColor(this, android.R.color.black));
 
-
-
         // Initialise moodlogHelper
         moodLogHelper = new moodLogHelper();
 
@@ -73,12 +71,12 @@ public class ActivityJournal extends AppCompatActivity implements MoodLogAdapter
             Toast.makeText(ActivityJournal.this, "Showing logs for day: " + selectedDate, Toast.LENGTH_SHORT).show();
             loadMoodLogs(selectedDate);
         });
-
-        addmass.setOnClickListener(v-> moodLogHelper.addMassMoodLogs(30, new moodLogHelper.MoodLogCallback() {
+        //
+        addmass.setOnClickListener(v-> moodLogHelper.addMassMoodLogs(360, new moodLogHelper.MoodLogCallback() {
             @Override
             public void onSuccess(String message) {
                 Toast.makeText(ActivityJournal.this, message, Toast.LENGTH_SHORT).show();
-                loadMoodLogs(selectedDate); // Refresh RecyclerView
+                loadMoodLogs(selectedDate); // Refresh recyclerView
             }
 
             @Override

@@ -55,14 +55,13 @@ public class ActivityTrends extends AppCompatActivity {
 
 
         // Initialise moodlogHelper
-
         moodLogHelper = new moodLogHelper();
         moodLogsList = new ArrayList<>();
+        //variables for linear regression
         movingLineLimit = 4;
         windowSize = 3;
-
+        // init layout componants into variables
         timeRangeSpinner = findViewById(R.id.timeLinespinner);
-
         txtTrendInfo = findViewById(R.id.txtTrendInfo);
         txtTrendTime = findViewById(R.id.txtTrendTime);
         txtMostCommon = findViewById(R.id.txtMostCommon);
@@ -71,27 +70,29 @@ public class ActivityTrends extends AppCompatActivity {
 
         txtMostCommon.setVisibility(TextView.GONE);
         txtBestAct.setVisibility(TextView.GONE);
+        avgData = findViewById(R.id.switchShowAverage);
+        avgLine = findViewById(R.id.switchAverageLine);
+        updateBtn = findViewById(R.id.btnUpdateChart);
+        LineChart lineChart = findViewById(R.id.chart);
 
         datePick = findViewById(R.id.datePicktxt);
+        //show current date
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         selectedDate = simpleDateFormat.format(Calendar.getInstance().getTime());
         datePick.setText(selectedDate);
 
+        //onclick listeneer to show calander dialogue
         datePick.setOnClickListener(v -> showDatePicker());
-
-        avgData = findViewById(R.id.switchShowAverage);
-        avgLine = findViewById(R.id.switchAverageLine);
-        updateBtn = findViewById(R.id.btnUpdateChart);
-
-        LineChart lineChart = findViewById(R.id.chart);
+        // init new chart
         trendsChart = new trendsChart(lineChart);
-
+        //get mood data from todays date
         getMoodData(selectedDate, "Day");
+        //function which runs when you change the date or range
         updateBtn.setOnClickListener(v -> {
             timeRange = timeRangeSpinner.getSelectedItem().toString();
             getMoodData(selectedDate, timeRange);
         });
-
+        //onclick listener to activate or deactivate moving average mood line
         avgData.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 if (moodLogsList.size() < windowSize || moodLogsList.size() == movingLineLimit) {
@@ -104,7 +105,7 @@ public class ActivityTrends extends AppCompatActivity {
                 trendsChart.clearMovingAverageData(); // Hide moving average
             }
         });
-
+        //onclick listener to activate or deactivate average mood
         avgLine.setOnCheckedChangeListener(((buttonView, isChecked) -> {
             if (isChecked) {
                 trendsChart.addAverageLine(averageMood);
@@ -114,9 +115,8 @@ public class ActivityTrends extends AppCompatActivity {
             }
         }));
     }
-
+    // Function to show the calander
     private void showDatePicker() {
-
         final Calendar c = Calendar.getInstance();
         int mYear = c.get(Calendar.YEAR); // current year
         int mMonth = c.get(Calendar.MONTH); // current month
@@ -133,7 +133,7 @@ public class ActivityTrends extends AppCompatActivity {
                 }, mYear, mMonth, mDay);
         datePickerDialog.show();
     }
-
+    // Gets the data for the day or the time range
     private void getMoodData(String selectedDate, String timeRange) {
         List<Entry> moodEntries = new ArrayList<>();
         Log.d("getmood_start", "Querying logs for date: " + selectedDate + ", Range: " + timeRange);
@@ -149,6 +149,7 @@ public class ActivityTrends extends AppCompatActivity {
                 moodLogsList.addAll(moodLogs);
                 Log.d("getmood6", "Filtered logs count: " + moodLogs.size());
                 long firstTimestamp = moodLogs.get(0).getTime().toDate().getTime();
+                //converts logs intop chart entries
                 for (Moodlog moodlog : moodLogs) {
                     long timeInMillis = moodlog.getTime().toDate().getTime();
                     float timeInDays = (timeInMillis - firstTimestamp) / (24f * 60 * 60 * 1000f);
@@ -163,6 +164,7 @@ public class ActivityTrends extends AppCompatActivity {
                     //trendsChart.addAverageLine(averageMood);
                     Log.d("AVGMODO", "onSuccess: "+ averageMood);
                 }
+                //checks if switches are clicked
                 if (avgData.isChecked() && moodLogsList.size() != movingLineLimit) {
                     linearRegression(moodLogs);
                 }
@@ -178,7 +180,7 @@ public class ActivityTrends extends AppCompatActivity {
             }
         });
     }
-
+    //calculates the mean of the mood entries
     private float getAvgMood(List<Moodlog> moodLogsList) {
         if (moodLogsList.isEmpty()) return 0;
 
@@ -188,7 +190,7 @@ public class ActivityTrends extends AppCompatActivity {
         }
         return sum / moodLogsList.size();
     }
-
+    // simple linear regression and calculates the moving average
     private void linearRegression(List<Moodlog> moodLogsList) {
         if (moodLogsList.isEmpty()) return;
         averageMood = getAvgMood(moodLogsList);
@@ -214,7 +216,7 @@ public class ActivityTrends extends AppCompatActivity {
                 movingAverages.add(sum / windowSize);
             }
         }
-        // Convert moving averages to Entry objects for the chart
+        // Convert moving averages to entries for the chart
         List<Entry> movingAverageEntries = new ArrayList<>();
         for (int i = 0; i < movingAverages.size(); i++) {
             if (movingAverages.get(i) != null) {
@@ -223,16 +225,15 @@ public class ActivityTrends extends AppCompatActivity {
                 movingAverageEntries.add(new Entry(timeInDays, movingAverages.get(i)));
             }
         }
-        // Add moving averages to the chart
+        // Add to the chart
         if (avgData.isChecked() && moodLogsList.size() != movingLineLimit) {
             trendsChart.addMovingAverageData(movingAverageEntries, moodLogsList.size(), windowSize);
         }
-        // Update UI with regression and moving average results
+        // Update UI
         updateUI(selectedDate, timeRange, averageMood, slope, intercept, movingAverages);
     }
-
+    //updates the layout textviews with the analysis
     private void updateUI(String selectedDate, String timeRange, Float averageMood, Double slope, Double intercept, List<Float> movingAverages) {
-
         String trendInfoText;
         String trendTimeText = "Trends for " + selectedDate + " (" + timeRange + ")";
         String mostCommon= "Most common activities:";
@@ -240,7 +241,7 @@ public class ActivityTrends extends AppCompatActivity {
 
         if (moodLogsList.isEmpty()) {
             trendInfoText = "There are no logs available for the selected range. Please choose another day, increase the range, or add some logs from the Journal activity.";
-        } else if (moodLogsList.size() < 3) { // Adjust the threshold as needed
+        } else if (moodLogsList.size() < 3) {
             trendInfoText = "You have very few logs. Try logging your mood more often to see better trends. Please choose another day, increase the range, or add some logs from the Journal activity.";
         } else {
             if (averageMood < 2.5) {
@@ -258,7 +259,6 @@ public class ActivityTrends extends AppCompatActivity {
             } else {
                 trendInfoText = "Your average mood is high. Great job!";
             }
-
             // Add regression and moving average
             if (slope > 0) {
                 trendInfoText += "\n\nYour mood is improving over time. Keep it up!";
@@ -267,7 +267,7 @@ public class ActivityTrends extends AppCompatActivity {
             } else {
                 trendInfoText += "\n\nYour mood is stable.";
             }
-
+            //gets most common activities
             if (!timeRange.equals("Day")) {
                 txtMostCommon.setVisibility(TextView.VISIBLE);
                 txtBestAct.setVisibility(TextView.VISIBLE);
@@ -284,7 +284,7 @@ public class ActivityTrends extends AppCompatActivity {
                 } else {
                     mostCommon += "\n\nNo activities logged in this range.";
                 }
-
+                //gets activities which have the best average mood
                 if (!bestActivities.isEmpty()) {
                     for (int i = 0; i < bestActivities.size(); i++) {
                         Map.Entry<String, Double> bestActivityEntry = bestActivities.get(i);
@@ -298,30 +298,28 @@ public class ActivityTrends extends AppCompatActivity {
                 txtBestAct.setVisibility(TextView.GONE);
             }
         }
-
-
-
         txtTrendTime.setText(trendTimeText);
         txtTrendInfo.setText(trendInfoText);
         txtMostCommon.setText((mostCommon));
         txtBestAct.setText(bestActivity);
     }
-
+    //function for the most common activities
     private List<Map.Entry<String, Integer>> getTopActivities(List<Moodlog> logs, int top) {
         Map<String, Integer> activityAmount = new HashMap<>();
-
+        //cycles through the moodlog list and appends it to a hashmap, increasing the value each instance
         for (Moodlog log : logs) {
             String activity = log.getActivity();
             if (activity != null && !activity.isEmpty()) {
                 activityAmount.put(activity, activityAmount.getOrDefault(activity, 0) + 1);
             }
         }
-
+        //sorts it similar to in journalactivity
         List<Map.Entry<String, Integer>> sortedActivities = new ArrayList<>(activityAmount.entrySet());
         sortedActivities.sort((a, b) -> b.getValue().compareTo(a.getValue()));
-        
+
         return sortedActivities.subList(0, Math.min(top, sortedActivities.size()));
     }
+    //similar to previous function, instead gets the feeling value
     private List<Map.Entry<String, Double>> getBestActivity(List<Moodlog> moodLogs, int top) {
         Map<String, List<Integer>> activityMoodMap = new HashMap<>();
         for (Moodlog moodlog : moodLogs) {
@@ -335,12 +333,14 @@ public class ActivityTrends extends AppCompatActivity {
         }
         List<Map.Entry<String, Double>> activityAverages = new ArrayList<>();
         for (Map.Entry<String, List<Integer>> entry : activityMoodMap.entrySet()) {
+            //calculates average and appends to list
             String activity = entry.getKey();
             List<Integer> moods = entry.getValue();
 
             double average = moods.stream().mapToInt(Integer::intValue).average().orElse(0.0);
             activityAverages.add(new AbstractMap.SimpleEntry<>(activity, average));
         }
+        //sorts out largest to smallest
         activityAverages.sort((a, b) -> Double.compare(b.getValue(), a.getValue()));
         return activityAverages.subList(0, Math.min(top, activityAverages.size()));
     }

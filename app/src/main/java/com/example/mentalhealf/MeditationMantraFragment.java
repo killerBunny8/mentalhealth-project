@@ -87,7 +87,7 @@ public class MeditationMantraFragment extends Fragment {
         // Inflate the layout for this fragment
         return view;
     }
-
+    //main function which controls the flow and transition
     private void mantraSteps(int step) {
         if (step == 1){
             txtStep = "Sit comfortably with your back straight. Relax and take a few deep breaths.";
@@ -129,9 +129,10 @@ public class MeditationMantraFragment extends Fragment {
             UiAnimations.fadeInAnimation(btnMantraNext);
 
         }else if (step == 8) {
-            step = 0;
+            step = 0; //reset step counter
             Intent intent = new Intent(requireContext(), ActivityPostMeditation.class);
             Timestamp endTime = Timestamp.now();
+            //pass through intent
             long durationInMillis = endTime.toDate().getTime() - startTime.toDate().getTime();
             int durationInSeconds = (int) (durationInMillis / 1000);
             int minutes = durationInSeconds / 60;
@@ -146,23 +147,26 @@ public class MeditationMantraFragment extends Fragment {
             requireActivity().finish();
         }
     }
+    //start countdown timer for button
     private void startTimer() {
         btnMantraNext.setEnabled(false);
         isTimerRunning = true;
 
-        countDownTimer = new CountDownTimer(5000, 1000) {
+        countDownTimer = new CountDownTimer(4000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 btnMantraNext.setText("Next (" + millisUntilFinished / 1000 + "s)");
             }
             @Override
             public void onFinish() {
+                //update to UI
                 btnMantraNext.setEnabled(true);
                 btnMantraNext.setText("Next");
                 isTimerRunning = false;
             }
         }.start();
     }
+    //Stop timer
     @Override
     public void onDestroy() {
         super.onDestroy();

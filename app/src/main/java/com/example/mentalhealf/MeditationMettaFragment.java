@@ -84,11 +84,10 @@ public class MeditationMettaFragment extends Fragment {
             startTimer();
 
         });
-        startTimer();
-
+        //startTimer();
         return view;
     }
-
+    //main function which controls the flow and transition
     private void mettaSteps(int step){
         if (step == 1){
             txtStep = " Bring awareness to your breath for a few moments, paying attention to each inhalation and exhalation.";
@@ -143,11 +142,11 @@ public class MeditationMettaFragment extends Fragment {
             requireActivity().finish();
         }
     }
+    //start countdown timer for button
     private void startTimer() {
         btnMettaNext.setEnabled(false);
         isTimerRunning = true;
-
-        countDownTimer = new CountDownTimer(100, 1000) {
+        countDownTimer = new CountDownTimer(4000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 btnMettaNext.setText("Next (" + millisUntilFinished / 1000 + "s)");

@@ -80,6 +80,7 @@ public class loginHelper {
         void onSuccess(FirebaseUser user);
         void onFailure(Exception e);
     }
+    //function which gets email from username, used during login
     public void getUserEmail(String username, EmailCallback callback) {
         db.collection("users").whereEqualTo("username", username).get()
                 .addOnCompleteListener(task -> {
@@ -113,18 +114,6 @@ public class loginHelper {
     }
 
     // Check if username exists
-//    public void dupeUsername(String username, UsernameCheckCallback callback) {
-//        db.collection("users").whereEqualTo("username", username).get()
-//                .addOnCompleteListener(task -> {
-//            if (task.isSuccessful() && task.getResult() != null) {
-//                boolean isTaken = !task.getResult().isEmpty(); //No resilt, user doesnt exist
-//                callback.onResult(isTaken);
-//            } else {
-//                callback.onFailure(task.getException()); //error means user is dound
-//            }
-//        }).addOnFailureListener(callback::onFailure);
-//    }
-
     public void dupeUsername(String username, UsernameCheckCallback callback) {
         db.collection("users").whereEqualTo("username", username).get()
                 .addOnCompleteListener(task -> {

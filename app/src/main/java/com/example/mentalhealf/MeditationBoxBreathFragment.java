@@ -22,6 +22,7 @@ import java.util.Locale;
  * create an instance of this fragment.
  */
 public class MeditationBoxBreathFragment extends Fragment {
+    // declare variables
     private int step = 0;
     private String txtStep,txtStep1;
     private TextView txtSteps,txtClockSecond, txtTimer;
@@ -74,13 +75,14 @@ public class MeditationBoxBreathFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_meditation_box_breath, container, false);
+        //layout componants
         txtSteps = view.findViewById(R.id.txtSteps);
         txtClockSecond = view.findViewById(R.id.txtClockSecond);
         txtTimer = view.findViewById(R.id.txtTimer);
-
         btnNext = view.findViewById(R.id.btnNext);
         btnNext.setText("Ready?");
         txtSteps.setText("To get started, click the button below.");
+        //set onclick listener to incrememnt
         btnNext.setOnClickListener(v -> {
             step += 1;
             breathSteps(step);
@@ -89,12 +91,13 @@ public class MeditationBoxBreathFragment extends Fragment {
         // Inflate the layout for this fragment
         return view;
     }
+    //each click increments and shows visual change on activity
     private void breathSteps(int step) {
         if (step == 1){
             txtStep = "Sit comfortably with your back straight. Relax and prepare yourself to begin.";
             startTime = Timestamp.now();
             txtSteps.setText(txtStep);
-            UiAnimations.fadeInAnimation(txtSteps);
+            UiAnimations.fadeInAnimation(txtSteps);//animation
             txtStep1 = ("Start Box Breathing");
         } else if (step == 2) {
             txtStep1 = ("Finish Box Breathing");
@@ -121,6 +124,7 @@ public class MeditationBoxBreathFragment extends Fragment {
             requireActivity().finish();
         }
     }
+    //start timer
     private void startTimer() {
         btnNext.setEnabled(false);
         isTimerRunning = true;
@@ -138,6 +142,7 @@ public class MeditationBoxBreathFragment extends Fragment {
             }
         }.start();
     }
+    //start timer while doing meditation
     private void startBoxTimer(){
         countDownTimer = new CountDownTimer(4000, 1000) {
             @Override
@@ -150,7 +155,6 @@ public class MeditationBoxBreathFragment extends Fragment {
                     case 0:
                         txtSteps.setText("Breathe In");
                         UiAnimations.increaseTextSize(txtSteps,1000);
-
                         break;
                     case 1:
                         txtSteps.setText("Hold");
@@ -167,10 +171,8 @@ public class MeditationBoxBreathFragment extends Fragment {
 
             @Override
             public void onFinish() {
-
                 //updateTotalTime();
                 breathingPhase = (breathingPhase + 1) % 4;
-
                 startBoxTimer();
             }
         }.start();
@@ -181,6 +183,7 @@ public class MeditationBoxBreathFragment extends Fragment {
         int seconds = totalSeconds % 60;
         txtTimer.setText(String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds));
     }
+    //end timer
     @Override
     public void onDestroy() {
         super.onDestroy();

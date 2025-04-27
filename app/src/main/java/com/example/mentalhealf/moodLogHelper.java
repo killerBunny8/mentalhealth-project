@@ -21,16 +21,14 @@ import java.util.Locale;
 
 
 public class moodLogHelper {
-
     private FirebaseAuth mAuth;
     private final FirebaseFirestore db;
-    // auth
+    // initialise firebase auth and database
     public moodLogHelper() {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-
     }
-
+    // Logs a new mood for the user
     public void logMood(int feeling, String description, String activity, @NonNull MoodLogCallback callback){
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
@@ -46,15 +44,13 @@ public class moodLogHelper {
                 .set(moodLogging)
                 .addOnSuccessListener(aVoid -> callback.onSuccess("Mood logged successfully!"))
                 .addOnFailureListener(e -> callback.onFailure("Error logging mood: " + e.getMessage()));
-
     }
-
 
     public interface MoodLogCallback {
         void onSuccess(String message);
         void onFailure(String error);
     }
-
+    // Gets all the moodlogs for a specific date
     public void getAllMoodLogs(String selectedDate, @NonNull MoodLogListCallback callback) {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         String userId = currentUser.getUid();
@@ -68,6 +64,7 @@ public class moodLogHelper {
                         //Log.d("date", "getAllMoodLogs: "+ moodlog.getTime().toDate());
 
                         String currentDate = selectedDate1.format(moodlog.getTime().toDate());
+                        //If moodlog date is the same as selected date.
                         if (currentDate.equals(selectedDate) || selectedDate.isEmpty()){
                             moodLogs.add(moodlog);
                         }
@@ -82,11 +79,10 @@ public class moodLogHelper {
         void onSuccess(List<Moodlog> moodLogs);
         void onFailure(String error);
     }
-
+    //Updates mooodlog description
     public void updateMoodLog(String logId, String newDescription, int position, MoodLogUpdateCallback callback) {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         String userId = currentUser.getUid();
-
         db.collection("users").document(userId).collection("moodLogs").document(logId)
                 .update("description", newDescription)
                 .addOnSuccessListener(aVoid -> callback.onSuccess("Mood updated successfully!", position))
@@ -98,7 +94,7 @@ public class moodLogHelper {
         void onFailure(String error);
     }
 
-
+    // Gets moodlogs from a time range, from a day, week, month and three month
     public void getMoodLogsByRange(String selectedDate, String timeRange, @NonNull MoodLogListCallback callback) {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser == null) {
@@ -123,7 +119,7 @@ public class moodLogHelper {
 
             switch (timeRange) {
                 case "Day":
-                    // No change needed, start date is the same as selected date
+                    // No change needed, getAllMoodLogs()
                     break;
                 case "Week":
                     startCalendar.add(Calendar.DAY_OF_YEAR, -6); // 7 days including the selected date
@@ -145,7 +141,7 @@ public class moodLogHelper {
             startCalendar.set(Calendar.SECOND, 0);
             startCalendar.set(Calendar.MILLISECOND, 0);
 
-            // Set end time to 23:59:59 on the selected date
+            // Set end time to 23:59:59
             Calendar endCalendar = Calendar.getInstance();
             endCalendar.setTime(selectedDateObj);
             endCalendar.set(Calendar.HOUR_OF_DAY, 23);
@@ -153,13 +149,13 @@ public class moodLogHelper {
             endCalendar.set(Calendar.SECOND, 59);
             endCalendar.set(Calendar.MILLISECOND, 999);
 
-            // Convert to Timestamps for Firestore query
+            // Convert to timestamps for Firestore
             Timestamp startTimestamp = new Timestamp(startCalendar.getTime());
             Timestamp endTimestamp = new Timestamp(endCalendar.getTime());
 
-            Log.d("FirestoreQuery", "Fetching logs from " + dateFormat.format(startCalendar.getTime()) + " to " + selectedDate);
+            Log.d("Firestore", "logs from " + dateFormat.format(startCalendar.getTime()) + " to " + selectedDate);
 
-            // Query Firestore for logs within the date range
+            // Firestore for logs within the date range
             db.collection("users").document(userId).collection("moodLogs")
                     .whereGreaterThanOrEqualTo("time", startTimestamp)
                     .whereLessThanOrEqualTo("time", endTimestamp)
@@ -171,7 +167,7 @@ public class moodLogHelper {
                             Moodlog moodlog = document.toObject(Moodlog.class);
                             moodLogs.add(moodlog);
                         }
-                        Log.d("FirestoreQuery", "Filtered mood logs count: " + moodLogs.size());
+                        Log.d("Firestore2", "Filtered mood logs count: " + moodLogs.size());
                         callback.onSuccess(moodLogs);
                     })
                     .addOnFailureListener(e -> callback.onFailure("Error retrieving mood logs: " + e.getMessage()));
@@ -179,47 +175,33 @@ public class moodLogHelper {
             callback.onFailure("Error processing selected date: " + e.getMessage());
         }
     }
-
-
-
+    //Add Fake logs for testing purposes
     public void addMassMoodLogs(int count, MoodLogCallback callback) {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (currentUser == null) {
-            callback.onFailure("User not authenticated.");
-            return;
-        }
-
         String userId = currentUser.getUid();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        WriteBatch batch = db.batch();
-
+        WriteBatch batch = db.batch(); //batch xecute
         long currentTimeMillis = System.currentTimeMillis();
+        long maxDays = count * 8 * 60 * 60 * 1000L;// calculate how much days to go back
+
+        long startTimeMillis = currentTimeMillis - maxDays; // start date/time
+        List<String> activities = List.of("working", "exercising", "reading"); //ccycles between these activities
 
         for (int i = 0; i < count; i++) {
             String logId = db.collection("users").document(userId).collection("moodLogs").document().getId();
             int randomMood = (int) (Math.random() * 5) + 1;
             String description = "Demo Log " + (i + 1);
-            String activity = i % 2 == 0 ? "working" : "exercising";
-
-            // String activity = "Jumping";
-
-            long offsetMillis = i * 12 * 60 * 60 * 1000; // Spread logs 3 hours apart
-            Timestamp moodTimestamp = new Timestamp(new Date(currentTimeMillis - offsetMillis));
+            String activity = activities.get(i % activities.size());
+            long logTimeMillis = startTimeMillis + (i * 8 * 60 * 60 * 1000L); // Spread logs 8 hours apart going forward
+            Timestamp moodTimestamp = new Timestamp(new Date(logTimeMillis));
 
             Moodlog newMoodLog = new Moodlog(logId, randomMood, description, activity, moodTimestamp);
             DocumentReference docRef = db.collection("users").document(userId)
                     .collection("moodLogs").document(logId);
             batch.set(docRef, newMoodLog);
         }
-
-        // Commit batch operation
         batch.commit()
                 .addOnSuccessListener(aVoid -> callback.onSuccess(count + " demo logs added successfully!"))
                 .addOnFailureListener(e -> callback.onFailure("Error adding logs: " + e.getMessage()));
     }
-
-
-
-
-
 }

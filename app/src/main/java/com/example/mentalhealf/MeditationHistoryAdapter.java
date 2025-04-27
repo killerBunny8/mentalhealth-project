@@ -43,11 +43,12 @@ public class MeditationHistoryAdapter extends RecyclerView.Adapter<MeditationHis
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            //list item layout components
             txtTime = itemView.findViewById(R.id.txtMeditationTime);
             txtMood = itemView.findViewById(R.id.txtMood);
             txtDescription = itemView.findViewById(R.id.txtMeditationDesc);
         }
-
+        //bind moodlog values to the components
         public void bind(Moodlog log) {
             String time = new SimpleDateFormat("dd MMM yyyy - HH:mm", Locale.getDefault())
                     .format(log.getTime().toDate());

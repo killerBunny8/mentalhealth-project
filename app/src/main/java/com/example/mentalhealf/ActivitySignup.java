@@ -58,7 +58,9 @@ public class ActivitySignup extends AppCompatActivity {
         });
     }
 
+    //fucntion to signup
     private void signUp() {
+        //remoce empty spaces from variables
         String email = emailInput.getText().toString().trim();
         String password = passwordInput.getText().toString().trim();
         String confirmPassword = confirmPasswordInput.getText().toString().trim();
@@ -83,7 +85,7 @@ public class ActivitySignup extends AppCompatActivity {
         // check if username is available
         dupeCheck(user, password);
     }
-
+    //function which checks if username is avauilable
     public void dupeCheck(User user, String password){
         String username = user.getUsername();
         firebaselogin.dupeUsername(username, new loginHelper.UsernameCheckCallback() {
@@ -93,7 +95,6 @@ public class ActivitySignup extends AppCompatActivity {
                     Toast.makeText(ActivitySignup.this, "Username already taken!", Toast.LENGTH_SHORT).show();
                     return; // Stops if username exists
                 }
-
                 // Only runs if username is available
                 registerUser(user, password);
             }
@@ -104,7 +105,7 @@ public class ActivitySignup extends AppCompatActivity {
             }
         });
     }
-
+    //regiser user with firebase once previous checks have passed
     public void registerUser(User user, String password) {
         firebaselogin.registerUser(user.getEmail(), password, user, ActivitySignup.this, new loginHelper.AuthCallback() {
             @Override

@@ -1,3 +1,5 @@
+//Class for moodlog object
+
 package com.example.mentalhealf;
 
 import com.google.firebase.Timestamp;
@@ -8,7 +10,7 @@ public class Moodlog {
     private String id, description, activity;
     private int feeling;
     private Timestamp time;
-
+    //empty constructor
     private Moodlog() {}
 
     public Moodlog(String id, int feeling, String description, String activity, Timestamp time){

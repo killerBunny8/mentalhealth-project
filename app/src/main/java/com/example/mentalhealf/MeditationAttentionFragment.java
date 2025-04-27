@@ -83,7 +83,7 @@ public class MeditationAttentionFragment extends Fragment {
         });
         return view;
     }
-    //fucntiom responsible for updating page when button is clicked 
+    //fucntion responsible for updating page when button is clicked
     private void attentionSteps(int step) {
         if (step == 1) {
             txtSteps.setText("Sit in an upright, dignified posture. Let your hands rest on your thighs or knees.");
