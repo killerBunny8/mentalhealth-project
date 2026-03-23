@@ -2,7 +2,40 @@
 ## Overview
 This project is a mental health tracking application developed for Android using Java and Firebase. The app aims to support users in tracking their moods, identifying patterns, and accessing mindfulness tools. It includes features such as journaling, trend visualization, and personalized feedback based on user logs.
 
-## Features
+## Key Features
+- Mood tracking with daily logs
+- Journaling system for reflection
+- Data visualisation using charts (MPAndroidChart)
+- Mindfulness tools (guided techniques and exercises)
+- Personalised insights using conditional logic
+- Secure authentication and user-specific data storage
+
+## Tech Stack
+- Java
+- Firebase Authentication & Firestore
+- MPAndroidChart
+- Android Studio
+
+## Architecture Highlights
+- Modular activity-based structure
+- Firebase integration for real-time data handling
+- Input validation and secure user data handling
+- Separation of concerns using helper classes
+
+## Testing
+- Unit testing (JUnit)
+- UI testing (Espresso)
+
+## Purpose
+Developed as a final year Computer Science project, focusing on real-world application development, usability, and scalable design.
+
+## Future Improvements
+- AI-driven recommendations
+- Cross-device syncing
+- Expanded analytics dashboard
+
+## Acreenshots
+adding soon
 
 
 ### Directories 
